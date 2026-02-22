@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yuki Sugawara | 菅原裕輝</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0c0c0c;
+      --bg2: #141414;
+      --line: #272727;
+      --text: #d8d8d0;
+      --muted: #6a6a62;
+      --accent: #c8a96e;
+      --white: #f0f0ea;
+      --font-sans: 'Inter', 'Noto Sans JP', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-weight: 300;
+      line-height: 1.8;
+      font-size: 15px;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── LANGUAGE TOGGLE ── */
+    .lang-bar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: flex-end;
+      padding: 18px 48px;
+      background: linear-gradient(to bottom, rgba(12,12,12,0.95), transparent);
+    }
+    .lang-toggle {
+      display: flex;
+      gap: 0;
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .lang-toggle button {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      font-family: var(--font-sans);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 7px 16px;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .lang-toggle button.active {
+      background: var(--accent);
+      color: var(--bg);
+      font-weight: 500;
+    }
+    .lang-toggle button:hover:not(.active) { color: var(--text); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 48px 80px;
+      position: relative;
+      border-bottom: 1px solid var(--line);
+    }
+    .hero-photo-wrap {
+      position: absolute;
+      top: 0; right: 0;
+      width: 44vw;
+      max-width: 580px;
+      height: 100%;
+      overflow: hidden;
+    }
+    .hero-photo-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(100deg, var(--bg) 28%, transparent 68%),
+                  linear-gradient(to top, var(--bg) 0%, transparent 40%);
+    }
+    .hero-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: left top;
+      opacity: 0.55;
+      filter: grayscale(30%) contrast(1.05);
+      display: block;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 640px;
+    }
+    .hero-label {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 28px;
+    }
+    .hero-name {
+      font-size: clamp(42px, 6vw, 72px);
+      font-weight: 200;
+      letter-spacing: -0.01em;
+      line-height: 1.05;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+    .hero-name-sub {
+      font-size: clamp(20px, 2.5vw, 30px);
+      font-weight: 200;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      margin-bottom: 36px;
+    }
+    .hero-affil {
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.7;
+      border-left: 2px solid var(--accent);
+      padding-left: 16px;
+      margin-bottom: 40px;
+    }
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .hero-tag {
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      border: 1px solid var(--line);
+      padding: 5px 12px;
+      border-radius: 1px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .hero-tag:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── SECTIONS ── */
+    section {
+      padding: 90px 48px;
+      border-bottom: 1px solid var(--line);
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .section-full {
+      max-width: none;
+      padding-left: 0; padding-right: 0;
+    }
+    .section-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 48px;
+    }
+
+    .sec-label {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 48px;
+    }
+    .sec-title {
+      font-size: clamp(26px, 3vw, 38px);
+      font-weight: 200;
+      color: var(--white);
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+    .sec-title-jp {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 48px;
+    }
+
+    /* ── MVV ── */
+    .mvv-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+      align-items: start;
+    }
+    .mvv-card {
+      background: var(--bg);
+      padding: 48px 40px;
+      transition: background 0.3s;
+    }
+    .mvv-card:hover { background: var(--bg2); }
+    .mvv-card-label {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .mvv-card-title {
+      font-size: 22px;
+      font-weight: 300;
+      color: var(--white);
+      margin-bottom: 24px;
+      line-height: 1.3;
+    }
+    .mvv-card-body {
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.9;
+    }
+
+    /* ── VALUES LIST ── */
+    .values-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border: 1px solid var(--line);
+    }
+    .values-item {
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      align-items: start;
+      border-bottom: 1px solid var(--line);
+      padding: 36px 40px;
+      gap: 32px;
+      transition: background 0.25s;
+    }
+    .values-item:last-child { border-bottom: none; }
+    .values-item:hover { background: var(--bg2); }
+    .values-num {
+      font-size: 32px;
+      font-weight: 200;
+      color: var(--line);
+      line-height: 1;
+      padding-top: 4px;
+    }
+    .values-item:hover .values-num { color: var(--accent); }
+    .values-text-title {
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+    .values-text-body {
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.9;
+    }
+
+    /* ── VALUES HOVER DETAIL ── */
+    .values-hover-detail {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.5s ease, opacity 0.35s ease, margin-top 0.3s ease;
+      margin-top: 0;
+    }
+    .mvv-card:hover .values-hover-detail {
+      max-height: 700px;
+      opacity: 1;
+      margin-top: 28px;
+    }
+    .vhd-ja, .vhd-en { display: none; }
+    body.lang-ja .vhd-ja { display: block; }
+    body.lang-en .vhd-en { display: block; }
+    .vhd-item {
+      display: grid;
+      grid-template-columns: 36px 1fr;
+      gap: 16px;
+      padding: 16px 0;
+      border-top: 1px solid var(--line);
+      align-items: start;
+    }
+    .vhd-num {
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      padding-top: 3px;
+    }
+    .vhd-title {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--white);
+      margin-bottom: 6px;
+      line-height: 1.5;
+    }
+    .vhd-body {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.85;
+    }
+
+    /* ── STRENGTHS ── */
+    .strengths-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+    }
+    .strengths-card {
+      background: var(--bg);
+      padding: 52px 48px;
+      transition: background 0.3s;
+    }
+    .strengths-card:hover { background: var(--bg2); }
+    .strengths-card-icon {
+      width: 32px;
+      height: 1px;
+      background: var(--accent);
+      margin-bottom: 32px;
+    }
+    .strengths-card-title {
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--white);
+      margin-bottom: 20px;
+      line-height: 1.4;
+    }
+    .strengths-card-body {
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.95;
+    }
+
+    /* ── RESEARCH ── */
+    .research-two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+    }
+    .research-block-label {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 28px;
+    }
+    .research-block-body {
+      font-size: 14px;
+      color: var(--text);
+      line-height: 2;
+    }
+    .kw-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    .kw {
+      font-size: 12px;
+      border: 1px solid var(--line);
+      padding: 6px 14px;
+      color: var(--muted);
+      transition: all 0.2s;
+    }
+    .kw:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── PUBLICATIONS ── */
+    .pub-list {
+      display: flex;
+      flex-direction: column;
+    }
+    .pub-item {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 32px;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--line);
+      align-items: start;
+    }
+    .pub-item:last-child { border-bottom: none; }
+    .pub-year {
+      font-size: 12px;
+      color: var(--muted);
+      padding-top: 2px;
+      letter-spacing: 0.06em;
+    }
+    .pub-title {
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* ── CAREER ── */
+    .career-list {
+      display: flex;
+      flex-direction: column;
+    }
+    .career-item {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 32px;
+      padding: 22px 0;
+      border-bottom: 1px solid var(--line);
+      align-items: start;
+    }
+    .career-item:last-child { border-bottom: none; }
+    .career-period {
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      padding-top: 2px;
+    }
+    .career-body { font-size: 14px; color: var(--text); line-height: 1.7; }
+    .career-role { color: var(--accent); font-size: 12px; margin-top: 4px; }
+
+    /* ── CONTACT ── */
+    .contact-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .contact-item {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 24px;
+      font-size: 13px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .contact-item:last-child { border-bottom: none; }
+    .contact-label { color: var(--muted); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; padding-top: 2px; }
+    .contact-val { color: var(--text); }
+    .contact-val a { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 1px; transition: border-color 0.2s, color 0.2s; }
+    .contact-val a:hover { color: var(--accent); border-color: var(--accent); }
+
+    /* ── INSTAGRAM ── */
+    .ig-card {
+      display: grid;
+      grid-template-columns: 72px 1fr 48px;
+      align-items: center;
+      gap: 32px;
+      border: 1px solid var(--line);
+      padding: 40px 48px;
+      text-decoration: none;
+      transition: border-color 0.25s, background 0.25s;
+      max-width: 760px;
+    }
+    .ig-card:hover {
+      border-color: #c05b8a;
+      background: var(--bg2);
+    }
+    .ig-account-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(20%);
+      transition: filter 0.25s, transform 0.25s;
+    }
+    .ig-card:hover .ig-account-icon {
+      filter: grayscale(0%);
+      transform: scale(1.05);
+    }
+    .ig-handle {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .ig-name {
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--white);
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+    .ig-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.85;
+    }
+    .ig-arrow {
+      font-size: 20px;
+      color: var(--line);
+      transition: color 0.25s, transform 0.25s;
+      display: block;
+      text-align: center;
+    }
+    .ig-card:hover .ig-arrow { color: #c05b8a; transform: translateX(4px); }
+    /* ig-name / ig-desc lang handling */
+    .ig-name[data-lang], .ig-desc[data-lang] { display: none; }
+    body.lang-ja .ig-name[data-lang="ja"],
+    body.lang-ja .ig-desc[data-lang="ja"] { display: block; }
+    body.lang-en .ig-name[data-lang="en"],
+    body.lang-en .ig-desc[data-lang="en"] { display: block; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 860px) {
+      .hero { padding: 0 24px 64px; }
+      .hero-photo-wrap { width: 60vw; }
+      section { padding: 64px 24px; }
+      .mvv-grid { grid-template-columns: 1fr; }
+      .strengths-grid { grid-template-columns: 1fr; }
+      .research-two-col { grid-template-columns: 1fr; gap: 48px; }
+      .career-item { grid-template-columns: 1fr; gap: 6px; }
+      .contact-item { grid-template-columns: 1fr; gap: 6px; }
+      footer { padding: 32px 24px; flex-direction: column; gap: 12px; text-align: center; }
+      .lang-bar { padding: 16px 24px; }
+    }
+    @media (max-width: 560px) {
+      .hero-photo-wrap { display: none; }
+      .values-item { grid-template-columns: 48px 1fr; gap: 16px; padding: 28px 20px; }
+    }
+
+    /* ── LANGUAGE SWITCH ── */
+    [data-lang] { display: none; }
+    body.lang-ja [data-lang="ja"] { display: block; }
+    body.lang-en [data-lang="en"] { display: block; }
+    body.lang-ja .lang-toggle [data-target="ja"],
+    body.lang-en .lang-toggle [data-target="en"] { }
+    /* inline elements */
+    span[data-lang], li[data-lang], div[data-lang] { }
+    body.lang-ja span[data-lang="ja"],
+    body.lang-ja li[data-lang="ja"],
+    body.lang-ja div[data-lang="ja"] { display: inline; }
+    body.lang-en span[data-lang="en"],
+    body.lang-en li[data-lang="en"],
+    body.lang-en div[data-lang="en"] { display: inline; }
+
+    /* block-level overrides */
+    .mvv-card-body[data-lang],
+    .strengths-card-body[data-lang],
+    .mvv-card-title[data-lang],
+    .hero-affil[data-lang],
+    .hero-name-sub[data-lang],
+    .sec-title[data-lang],
+    .sec-title-jp[data-lang],
+    .research-block-body[data-lang],
+    .values-text-title[data-lang],
+    .values-text-body[data-lang],
+    .strengths-card-title[data-lang],
+    p[data-lang] {
+      display: none;
+    }
+    body.lang-ja .mvv-card-body[data-lang="ja"],
+    body.lang-ja .strengths-card-body[data-lang="ja"],
+    body.lang-ja .mvv-card-title[data-lang="ja"],
+    body.lang-ja .hero-affil[data-lang="ja"],
+    body.lang-ja .hero-name-sub[data-lang="ja"],
+    body.lang-ja .sec-title[data-lang="ja"],
+    body.lang-ja .sec-title-jp[data-lang="ja"],
+    body.lang-ja .research-block-body[data-lang="ja"],
+    body.lang-ja .values-text-title[data-lang="ja"],
+    body.lang-ja .values-text-body[data-lang="ja"],
+    body.lang-ja .strengths-card-title[data-lang="ja"],
+    body.lang-ja p[data-lang="ja"] { display: block; }
+    body.lang-en .mvv-card-body[data-lang="en"],
+    body.lang-en .strengths-card-body[data-lang="en"],
+    body.lang-en .mvv-card-title[data-lang="en"],
+    body.lang-en .hero-affil[data-lang="en"],
+    body.lang-en .hero-name-sub[data-lang="en"],
+    body.lang-en .sec-title[data-lang="en"],
+    body.lang-en .sec-title-jp[data-lang="en"],
+    body.lang-en .research-block-body[data-lang="en"],
+    body.lang-en .values-text-title[data-lang="en"],
+    body.lang-en .values-text-body[data-lang="en"],
+    body.lang-en .strengths-card-title[data-lang="en"],
+    body.lang-en p[data-lang="en"] { display: block; }
+
+    /* fade transition */
+    .lang-fade {
+      transition: opacity 0.3s ease;
+    }
+
+    /* scroll indicator */
+    .scroll-hint {
+      position: absolute;
+      bottom: 40px;
+      left: 48px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      z-index: 1;
+    }
+    .scroll-hint-line {
+      width: 40px;
+      height: 1px;
+      background: var(--muted);
+    }
+  </style>
+</head>
+<body class="lang-ja">
+
+  <!-- LANGUAGE BAR -->
+  <div class="lang-bar">
+    <div class="lang-toggle">
+      <button data-target="ja" class="active" onclick="setLang('ja')">JA</button>
+      <button data-target="en" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-photo-wrap">
+      <img class="hero-photo" src="https://researchmap.jp/yukisugawara/avatar.jpg" alt="Yuki Sugawara" />
+    </div>
+    <div class="hero-content">
+      <p class="hero-label">Researcher &amp; Educator</p>
+      <h1 class="hero-name">菅原 裕輝<br><span style="font-size:0.52em;letter-spacing:0.08em;color:var(--muted)">Yuki Sugawara</span></h1>
+
+      <div class="hero-affil" data-lang="ja">
+        大阪大学 大学院人文学研究科<br>
+        <span style="color:var(--accent)">講師</span>
+      </div>
+      <div class="hero-affil" data-lang="en">
+        Graduate School of Humanities<br>Osaka University<br>
+        <span style="color:var(--accent)">Lecturer</span>
+      </div>
+
+      <div class="hero-tags">
+        <span class="hero-tag">Digital STS</span>
+        <span class="hero-tag">Digital Philosophy of Science</span>
+        <span class="hero-tag">Digital Ethnography</span>
+        <span class="hero-tag">AI × Humanities</span>
+      </div>
+    </div>
+    <div class="scroll-hint">
+      <span class="scroll-hint-line"></span>
+      <span>Scroll</span>
+    </div>
+  </div>
+
+  <!-- MISSION / VISION / VALUES -->
+  <div style="padding: 90px 0; border-bottom: 1px solid var(--line);">
+    <div style="max-width:1100px; margin:0 auto; padding:0 48px;">
+      <p class="sec-label">Philosophy</p>
+      <h2 class="sec-title" data-lang="ja">ミッション・ビジョン・バリュー</h2>
+      <h2 class="sec-title" data-lang="en">Mission · Vision · Values</h2>
+    </div>
+
+    <div style="max-width:1100px; margin:0 auto; padding: 0 48px;">
+      <div class="mvv-grid">
+        <!-- MISSION -->
+        <div class="mvv-card">
+          <p class="mvv-card-label">Mission</p>
+          <div class="mvv-card-title" data-lang="ja">日々果たすべき使命</div>
+          <div class="mvv-card-title" data-lang="en">Daily Mission</div>
+          <div class="mvv-card-body" data-lang="ja">
+            人文学の伝統的・アナログな知見と、最先端のデジタル技術（AI、データ分析、Web・デザイン等）を「実装」レベルで掛け合わせる。理論にとどまらず自ら手を動かすことで、次世代に向けた新たな研究手法と視座を社会に提示し、実践的なモデルを示す。
+          </div>
+          <div class="mvv-card-body" data-lang="en">
+            To fuse the profound, analog insights of the humanities with cutting-edge digital technologies (such as AI, data analysis, and web design) at an implementation level. Moving beyond theory by actively building tools and platforms, my mission is to present society with innovative research methodologies and practical new perspectives.
+          </div>
+        </div>
+        <!-- VISION -->
+        <div class="mvv-card">
+          <p class="mvv-card-label">Vision</p>
+          <div class="mvv-card-title" data-lang="ja">実現したい未来</div>
+          <div class="mvv-card-title" data-lang="en">Future Envisioned</div>
+          <div class="mvv-card-body" data-lang="ja">
+            先端技術の急速な発展と、人文学的な価値観が対立・乖離するのではなく、相互に共創し、より豊かな人間社会を形作る未来。誰もが自らの内なる「熱」を原動力に、テクノロジーを自在に操りながら本質的な思索を深められる社会の構築。
+          </div>
+          <div class="mvv-card-body" data-lang="en">
+            A future where the rapid advancement of advanced technology and humanistic values do not conflict, but mutually co-create to shape a richer human society. I envision a world where everyone, driven by their own inner "passion," can freely leverage technology to deepen their essential contemplation.
+          </div>
+        </div>
+        <!-- VALUES -->
+        <div class="mvv-card">
+          <p class="mvv-card-label">Values</p>
+          <div class="mvv-card-title" data-lang="ja">大切にしている価値観</div>
+          <div class="mvv-card-title" data-lang="en">Core Values</div>
+          <div class="mvv-card-body" data-lang="ja">
+            <ol style="list-style:none; display:flex; flex-direction:column; gap:16px;">
+              <li><span style="color:var(--accent)">01 &mdash;</span> 対話を重んじ、熱を連鎖させる</li>
+              <li><span style="color:var(--accent)">02 &mdash;</span> 越境し、自ら形にする</li>
+              <li><span style="color:var(--accent)">03 &mdash;</span> デジタルとアナログの往復</li>
+            </ol>
+          </div>
+          <div class="mvv-card-body" data-lang="en">
+            <ol style="list-style:none; display:flex; flex-direction:column; gap:16px;">
+              <li><span style="color:var(--accent)">01 &mdash;</span> Prioritizing Dialogue &amp; Chaining Passions</li>
+              <li><span style="color:var(--accent)">02 &mdash;</span> Crossing Borders &amp; Hands-on Implementation</li>
+              <li><span style="color:var(--accent)">03 &mdash;</span> Traversing Analog and Digital</li>
+            </ol>
+          </div>
+          <!-- HOVER DETAIL -->
+          <div class="values-hover-detail">
+            <div class="vhd-ja">
+              <div class="vhd-item">
+                <span class="vhd-num">01</span>
+                <div>
+                  <div class="vhd-title">対話を重んじ、熱を連鎖させる</div>
+                  <div class="vhd-body">常に「対話」を中心に据え、純粋な探求心と「熱量」を共有できる人々と共に本質的な課題に取り組む。</div>
+                </div>
+              </div>
+              <div class="vhd-item">
+                <span class="vhd-num">02</span>
+                <div>
+                  <div class="vhd-title">越境し、自ら形にする</div>
+                  <div class="vhd-body">分野の垣根を越えた協働を心から楽しみ、アイディアを単なる構想で終わらせず、プログラミングやデザインを通じて自らの手で形にする。</div>
+                </div>
+              </div>
+              <div class="vhd-item">
+                <span class="vhd-num">03</span>
+                <div>
+                  <div class="vhd-title">デジタルとアナログの往復</div>
+                  <div class="vhd-body">テクノロジーの利便性をフル活用しながらも、人文学が培ってきた深くアナログな思考法を決して手放さない。</div>
+                </div>
+              </div>
+            </div>
+            <div class="vhd-en">
+              <div class="vhd-item">
+                <span class="vhd-num">01</span>
+                <div>
+                  <div class="vhd-title">Prioritizing Dialogue &amp; Chaining Passions</div>
+                  <div class="vhd-body">Always placing "dialogue" at the core, I tackle essential challenges alongside those who share a pure sense of curiosity and deep "passion."</div>
+                </div>
+              </div>
+              <div class="vhd-item">
+                <span class="vhd-num">02</span>
+                <div>
+                  <div class="vhd-title">Crossing Borders &amp; Hands-on Implementation</div>
+                  <div class="vhd-body">Genuinely enjoying collaboration across disciplinary boundaries, I do not let ideas end as mere concepts; I shape them with my own hands through code and design.</div>
+                </div>
+              </div>
+              <div class="vhd-item">
+                <span class="vhd-num">03</span>
+                <div>
+                  <div class="vhd-title">Traversing Analog and Digital</div>
+                  <div class="vhd-body">While fully utilizing the convenience of digital tools, I firmly hold onto the deep, analog analytical thinking cultivated by the humanities.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- STRENGTHS -->
+  <div style="padding: 90px 0; border-bottom: 1px solid var(--line);">
+    <div style="max-width:1100px; margin:0 auto; padding:0 48px 56px;">
+      <p class="sec-label">Profile</p>
+      <h2 class="sec-title" data-lang="ja">強み・仕事のスタイル</h2>
+      <h2 class="sec-title" data-lang="en">Strengths &amp; Working Style</h2>
+    </div>
+    <div style="max-width:1100px; margin:0 auto; padding:0 48px;">
+      <div class="strengths-grid">
+        <div class="strengths-card">
+          <div class="strengths-card-icon"></div>
+          <div class="strengths-card-title" data-lang="ja">強み：デジタルと人文学を架橋する「実践力」</div>
+          <div class="strengths-card-title" data-lang="en">Core Strengths: Bridging Digital Technology and the Humanities</div>
+          <div class="strengths-card-body" data-lang="ja">
+            最先端のデジタル技術と、人文社会科学が大切にしてきたアナログな思考法を融合させるアプローチを得意としています。理論的な研究・教育にとどまらず、デザイン、プログラミング、ソーシャルメディアの運営、ウェブサイト構築、AIの活用、データ分析などを、実務レベルで実装・運用できるハンズオンなスキルが強みです。アイディアを形にし、社会に発信するまでのプロセスをワンストップで伴走・実行することができます。
+          </div>
+          <div class="strengths-card-body" data-lang="en">
+            My primary strength lies in harmonizing cutting-edge digital tools with the deeply analytical, "analog" thinking that is foundational to the humanities and social sciences. Beyond academic research and education, I possess highly practical, hands-on skills. I am capable of seamlessly executing tasks across design, programming, social media management, web development, AI implementation, and data analysis in real-world applications.
+          </div>
+        </div>
+        <div class="strengths-card">
+          <div class="strengths-card-icon"></div>
+          <div class="strengths-card-title" data-lang="ja">仕事のスタイルと課題：「欲」ではなく「熱」で駆動する</div>
+          <div class="strengths-card-title" data-lang="en">Working Style &amp; Areas for Growth: Driven by Passion, Not Profit</div>
+          <div class="strengths-card-body" data-lang="ja">
+            地位や利益といった「欲」ではなく、純粋な「熱（情熱）」を原動力として動く人間です。自分の心が動くテーマや好きなことに対しては爆発的なエネルギーを注ぎ、どこまでも頑張ることができますが、そうでないものに対してはモチベーションの維持に苦労しがちです。
+            <br><br>
+            プロジェクトにおいては「熱量」を共有できる方との協働では大きな相乗効果を生みますが、熱意を感じられない環境や、熱を失ってしまった人との仕事は、正直なところ少し不器用になってしまう面があります。
+          </div>
+          <div class="strengths-card-body" data-lang="en">
+            I am fundamentally driven by "passion" rather than external desires or status. Consequently, I can pour boundless energy into projects that spark my curiosity and deeply resonate with me. Conversely, I struggle to maintain motivation for tasks that lack that internal spark.
+            <br><br>
+            While I thrive and create strong synergy in collaborative environments with passionate individuals, I find it quite challenging to work effectively with those who lack enthusiasm or have lost their drive.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESEARCH -->
+  <section>
+    <p class="sec-label">Research</p>
+    <h2 class="sec-title" data-lang="ja">研究について</h2>
+    <h2 class="sec-title" data-lang="en">Research Overview</h2>
+
+    <div class="research-two-col" style="margin-top: 56px;">
+      <div>
+        <p class="research-block-label" data-lang="ja" style="display:block">研究概要</p>
+        <p class="research-block-label" data-lang="en" style="display:block">Overview</p>
+        <div class="research-block-body" data-lang="ja">
+          <strong style="display:block; color:var(--white); font-weight:400; margin-bottom:14px;">機械学習時代の「知の再編成」と実装</strong>
+          高度に専門化・タコツボ化した現代の科学技術と知識構造を連携させ、AI・機械学習時代における新たな「百学連環（西周）」の再構築に挑んでいます。「デジタルSTS」「デジタル科学哲学」「デジタルエスノグラフィ」の3領域を柱とし、テクノロジーと人間社会の望ましい関係性を探求しています。最大の特徴は、人文学的な深い思索にとどまらず、自らプログラミングやデータ分析を行い、デザインやウェブ構築を通じて「実装」する点にあります。アナログな思考と最先端のデジタル技術を実践的に融合させ、異なる分野の知を繋ぐ対話のプラットフォームを構築しています。
+        </div>
+        <div class="research-block-body" data-lang="en">
+          <strong style="display:block; color:var(--white); font-weight:400; margin-bottom:14px;">Reorganizing and Implementing Knowledge in the Age of Machine Learning</strong>
+          My research takes on the challenge of reconstructing a modern "Hyakugaku Renkan" (Amane Nishi's Encyclopedia of the Sciences) for the age of AI and machine learning. I aim to connect the highly specialized and siloed structures of contemporary science, technology, and knowledge. Anchored by three core pillars—Digital STS (Science and Technology Studies), Digital Philosophy of Science, and Digital Ethnography—I explore the ideal relationship between technology and human society. My greatest defining characteristic is that I do not stop at deep humanistic contemplation; I actively "implement" these ideas by personally engaging in programming, data analysis, design, and web development. By practically fusing analog analytical thinking with cutting-edge digital technologies, I am building interactive platforms that bridge knowledge across diverse disciplines.
+        </div>
+        <div class="kw-list">
+          <span class="kw">Digital STS</span>
+          <span class="kw">Digital Philosophy of Science</span>
+          <span class="kw">Digital Ethnography</span>
+          <span class="kw">AI × Humanities</span>
+          <span class="kw">Machine Learning</span>
+          <span class="kw">Corpus Linguistics</span>
+        </div>
+      </div>
+      <div>
+        <p class="research-block-label" style="display:block" data-lang="ja">所属学協会</p>
+        <p class="research-block-label" style="display:block" data-lang="en">Academic Affiliations</p>
+        <div class="research-block-body">
+          <ul style="list-style:none; display:flex; flex-direction:column; gap:0;">
+            <li style="padding: 14px 0; border-bottom: 1px solid var(--line);">
+              <span data-lang="ja">日本災害復興学会</span>
+              <span data-lang="en">Japan Society for Disaster Resilience</span>
+              <span style="color:var(--muted); font-size:11px; margin-left:10px;">2023—</span>
+            </li>
+            <li style="padding: 14px 0; border-bottom: 1px solid var(--line);">
+              <span data-lang="ja">科学基礎論学会</span>
+              <span data-lang="en">Philosophy of Science Society Japan</span>
+              <span style="color:var(--muted); font-size:11px; margin-left:10px;">2023—</span>
+            </li>
+            <li style="padding: 14px 0; border-bottom: 1px solid var(--line);">
+              <span data-lang="ja">英語コーパス学会</span>
+              <span data-lang="en">Japan Association for English Corpus Studies</span>
+              <span style="color:var(--muted); font-size:11px; margin-left:10px;">2022—</span>
+            </li>
+            <li style="padding: 14px 0;">
+              <span data-lang="ja">科学技術社会論学会</span>
+              <span data-lang="en">Japanese Society for Science and Technology Studies</span>
+              <span style="color:var(--muted); font-size:11px; margin-left:10px;">2021—</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PUBLICATIONS -->
+  <section>
+    <p class="sec-label">Publications</p>
+    <h2 class="sec-title" data-lang="ja">主要業績（抜粋）</h2>
+    <h2 class="sec-title" data-lang="en">Selected Publications</h2>
+
+    <div class="pub-list" style="margin-top: 56px;">
+      <div class="pub-item">
+        <span class="pub-year">2025.04</span>
+        <span class="pub-title">
+          <span data-lang="ja">デジタル空間の多重性：被災地移住のデジタル人類学</span>
+          <span data-lang="en">The Multiplicity of Digital Space: A Digital Anthropology of Disaster-Area Migration</span>
+        </span>
+      </div>
+      <div class="pub-item">
+        <span class="pub-year">2025.02</span>
+        <span class="pub-title">
+          <span data-lang="ja">津波被災地域における期待の調整</span>
+          <span data-lang="en">Adjusting Expectations in Tsunami-Affected Areas</span>
+        </span>
+      </div>
+      <div class="pub-item">
+        <span class="pub-year">2024.03</span>
+        <span class="pub-title">Revisiting Semantic Prosody of Cause</span>
+      </div>
+    </div>
+
+    <div style="margin-top: 40px;">
+      <a href="https://researchmap.jp/yukisugawara" target="_blank" rel="noopener noreferrer" style="font-size: 12px; letter-spacing: 0.12em; color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent); padding-bottom: 2px; text-transform: uppercase;">
+        <span data-lang="ja">researchmap で全業績を見る →</span>
+        <span data-lang="en">View full list on researchmap →</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- INSTAGRAM -->
+  <section>
+    <p class="sec-label">Social</p>
+    <h2 class="sec-title" data-lang="ja">Instagram</h2>
+    <h2 class="sec-title" data-lang="en">Instagram</h2>
+
+    <div style="margin-top: 56px;">
+      <a href="https://www.instagram.com/jinbungakurin_uosaka/" target="_blank" rel="noopener noreferrer" class="ig-card">
+        <div class="ig-card-left">
+          <img src="image/jinbungakurin-instagram.jpg" alt="人文学林 Instagram" class="ig-account-icon" />
+        </div>
+        <div class="ig-card-body">
+          <div class="ig-handle">@jinbungakurin_uosaka</div>
+          <div class="ig-name" data-lang="ja">大阪大学大学院人文学研究科 人文学林</div>
+          <div class="ig-name" data-lang="en">Graduate School of Humanities, Osaka University — Jinbungakurin</div>
+          <div class="ig-desc" data-lang="ja">大阪大学大学院人文学研究科の公式Instagramアカウント。研究・教育活動の発信、イベント情報、キャンパスの日常をお届けしています。</div>
+          <div class="ig-desc" data-lang="en">Official Instagram account of the Graduate School of Humanities, Osaka University. Sharing research and educational activities, event updates, and everyday campus life.</div>
+        </div>
+        <div class="ig-card-right">
+          <span class="ig-arrow">→</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- CAREER -->
+  <section>
+    <p class="sec-label">Career</p>
+    <h2 class="sec-title" data-lang="ja">経歴</h2>
+    <h2 class="sec-title" data-lang="en">Academic Career</h2>
+
+    <div class="career-list" style="margin-top: 56px;">
+      <div class="career-item">
+        <span class="career-period">2025.04 — <span data-lang="ja">現在</span><span data-lang="en">Present</span></span>
+        <div>
+          <div class="career-body">
+            <span data-lang="ja">大阪大学 大学院人文学研究科</span>
+            <span data-lang="en">Graduate School of Humanities, Osaka University</span>
+          </div>
+          <div class="career-role">
+            <span data-lang="ja">講師</span><span data-lang="en">Lecturer</span>
+          </div>
+        </div>
+      </div>
+      <div class="career-item">
+        <span class="career-period">2022.04 — 2025.03</span>
+        <div>
+          <div class="career-body">
+            <span data-lang="ja">大阪大学</span>
+            <span data-lang="en">Osaka University</span>
+          </div>
+          <div class="career-role">
+            <span data-lang="ja">特任助教（常勤）</span><span data-lang="en">Specially Appointed Assistant Professor</span>
+          </div>
+        </div>
+      </div>
+      <div class="career-item">
+        <span class="career-period">2021.07 — 2022.03</span>
+        <div>
+          <div class="career-body">
+            <span data-lang="ja">慶應義塾大学</span>
+            <span data-lang="en">Keio University</span>
+          </div>
+          <div class="career-role">
+            <span data-lang="ja">研究員</span><span data-lang="en">Research Fellow</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 64px;">
+      <p class="sec-label" style="margin-bottom: 32px;">
+        <span data-lang="ja">学位</span>
+        <span data-lang="en">Degrees</span>
+      </p>
+      <div class="career-list">
+        <div class="career-item">
+          <span class="career-period">2022.03</span>
+          <div class="career-body">
+            <span data-lang="ja">博士（人間科学）— 大阪大学</span>
+            <span data-lang="en">Ph.D. in Human Sciences — Osaka University</span>
+          </div>
+        </div>
+        <div class="career-item">
+          <span class="career-period">2012.03</span>
+          <div class="career-body">
+            <span data-lang="ja">修士（情報科学）— 名古屋大学</span>
+            <span data-lang="en">M.S. in Information Science — Nagoya University</span>
+          </div>
+        </div>
+        <div class="career-item">
+          <span class="career-period">2010.03</span>
+          <div class="career-body">
+            <span data-lang="ja">学士（学術）— 岩手大学</span>
+            <span data-lang="en">B.A. — Iwate University</span>
+          </div>
+        </div>
+        <div class="career-item">
+          <span class="career-period">2008.03</span>
+          <div class="career-body">
+            <span data-lang="ja">準学士（工学）— 国立秋田高専</span>
+            <span data-lang="en">Associate Degree in Engineering — Akita National College of Technology</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section>
+    <p class="sec-label">Contact</p>
+    <h2 class="sec-title" data-lang="ja">連絡先</h2>
+    <h2 class="sec-title" data-lang="en">Get in Touch</h2>
+
+    <div class="contact-grid" style="margin-top: 56px; max-width: 600px;">
+      <div class="contact-item">
+        <span class="contact-label">Email</span>
+        <span class="contact-val">ysugawara.hmt [at] osaka-u.ac.jp</span>
+      </div>
+      <div class="contact-item">
+        <span class="contact-label">researchmap</span>
+        <span class="contact-val"><a href="https://researchmap.jp/yukisugawara" target="_blank" rel="noopener noreferrer">researchmap.jp/yukisugawara</a></span>
+      </div>
+      <div class="contact-item">
+        <span class="contact-label">
+          <span data-lang="ja">所属</span>
+          <span data-lang="en">Affiliation</span>
+        </span>
+        <span class="contact-val">
+          <span data-lang="ja">大阪大学 大学院人文学研究科</span>
+          <span data-lang="en">Graduate School of Humanities, Osaka University</span>
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>© 2025 Yuki Sugawara</span>
+    <span style="letter-spacing:0.06em; color: var(--muted)">
+      <span data-lang="ja">大阪大学 大学院人文学研究科</span>
+      <span data-lang="en">Graduate School of Humanities, Osaka University</span>
+    </span>
+  </footer>
+
+  <script>
+    function setLang(lang) {
+      document.body.className = 'lang-' + lang;
+      document.documentElement.lang = lang === 'ja' ? 'ja' : 'en';
+      document.querySelectorAll('.lang-toggle button').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.target === lang);
+      });
+      localStorage.setItem('lang', lang);
+    }
+
+    // Restore language preference
+    const saved = localStorage.getItem('lang');
+    if (saved === 'en') setLang('en');
+  </script>
+</body>
+</html>
