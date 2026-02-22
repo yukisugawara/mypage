@@ -203,28 +203,90 @@
     .mvv-card {
       background: var(--bg);
       padding: 48px 40px;
-      transition: background 0.3s;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.4s ease, opacity 0.4s ease;
     }
+    /* top accent line trace */
+    .mvv-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 0; height: 1px;
+      background: var(--accent);
+      transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .mvv-card:hover::before { width: 100%; }
+    /* corner radial glow */
+    .mvv-card::after {
+      content: '';
+      position: absolute;
+      bottom: -60px; right: -60px;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(200,169,110,0.10) 0%, transparent 70%);
+      transform: scale(0);
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .mvv-card:hover::after { transform: scale(1); }
+    .mvv-card > * { position: relative; z-index: 1; }
     .mvv-card:hover { background: var(--bg2); }
+    /* sibling dimming — nearly invisible */
+    .mvv-grid:has(.mvv-card:hover) .mvv-card:not(:hover) { opacity: 0.06; }
+    .mvv-card { cursor: default; }
     .mvv-card-label {
       font-size: 10px;
       letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--accent);
       margin-bottom: 12px;
+      transition: letter-spacing 0.4s ease;
     }
+    .mvv-card:hover .mvv-card-label { letter-spacing: 0.28em; }
     .mvv-card-title {
       font-size: 22px;
       font-weight: 300;
       color: var(--white);
-      margin-bottom: 24px;
+      margin-bottom: 0;
       line-height: 1.3;
     }
     .mvv-card-body {
       font-size: 14px;
       color: var(--text);
       line-height: 1.9;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(18px);
+      transition: max-height 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+                  opacity 0.9s ease 0.15s,
+                  transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s;
     }
+    .mvv-card:hover .mvv-card-body {
+      max-height: 600px;
+      opacity: 1;
+      transform: translateY(0);
+      margin-top: 24px;
+    }
+    /* values list items slide on hover */
+    .mvv-card-body li {
+      transition: transform 0.25s ease;
+      cursor: default;
+    }
+    .mvv-card-body li:hover { transform: translateX(6px); }
+    /* hint line below title — fades out on hover as content reveals */
+    .mvv-card-title::after {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 1px;
+      background: var(--accent);
+      margin-top: 20px;
+      opacity: 0.45;
+      transition: opacity 0.35s ease, width 0.35s ease;
+    }
+    .mvv-card:hover .mvv-card-title::after { opacity: 0; width: 0; }
 
     /* ── VALUES LIST ── */
     .values-list {
@@ -270,14 +332,29 @@
       max-height: 0;
       overflow: hidden;
       opacity: 0;
-      transition: max-height 0.5s ease, opacity 0.35s ease, margin-top 0.3s ease;
+      transform: translateY(10px);
+      transition: max-height 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                  opacity 0.45s ease,
+                  margin-top 0.35s ease,
+                  transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
       margin-top: 0;
     }
     .mvv-card:hover .values-hover-detail {
       max-height: 700px;
       opacity: 1;
       margin-top: 28px;
+      transform: translateY(0);
+      transition-delay: 0.45s;
     }
+    /* stagger vhd items */
+    .vhd-item {
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .mvv-card:hover .vhd-item:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0.55s; }
+    .mvv-card:hover .vhd-item:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.70s; }
+    .mvv-card:hover .vhd-item:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.85s; }
     .vhd-ja, .vhd-en { display: none; }
     body.lang-ja .vhd-ja { display: block; }
     body.lang-en .vhd-en { display: block; }
@@ -319,26 +396,83 @@
     .strengths-card {
       background: var(--bg);
       padding: 52px 48px;
-      transition: background 0.3s;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.4s ease, opacity 0.4s ease;
     }
+    /* top accent line trace */
+    .strengths-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 0; height: 1px;
+      background: var(--accent);
+      transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .strengths-card:hover::before { width: 100%; }
+    /* corner radial glow */
+    .strengths-card::after {
+      content: '';
+      position: absolute;
+      bottom: -60px; right: -60px;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(200,169,110,0.10) 0%, transparent 70%);
+      transform: scale(0);
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .strengths-card:hover::after { transform: scale(1); }
     .strengths-card:hover { background: var(--bg2); }
+    .strengths-card > * { position: relative; z-index: 1; }
+    /* sibling dimming */
+    .strengths-grid:has(.strengths-card:hover) .strengths-card:not(:hover) { opacity: 0.06; }
     .strengths-card-icon {
       width: 32px;
       height: 1px;
       background: var(--accent);
       margin-bottom: 32px;
+      transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
+    .strengths-card:hover .strengths-card-icon { width: 56px; }
     .strengths-card-title {
       font-size: 18px;
       font-weight: 400;
       color: var(--white);
-      margin-bottom: 20px;
+      margin-bottom: 0;
       line-height: 1.4;
+      transition: letter-spacing 0.4s ease;
     }
+    .strengths-card:hover .strengths-card-title { letter-spacing: 0.01em; }
+    /* hint line */
+    .strengths-card-title::after {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 1px;
+      background: var(--accent);
+      margin-top: 18px;
+      opacity: 0.45;
+      transition: opacity 0.35s ease, width 0.35s ease;
+    }
+    .strengths-card:hover .strengths-card-title::after { opacity: 0; width: 0; }
     .strengths-card-body {
       font-size: 14px;
       color: var(--text);
       line-height: 1.95;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(18px);
+      transition: max-height 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+                  opacity 0.9s ease 0.15s,
+                  transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s;
+    }
+    .strengths-card:hover .strengths-card-body {
+      max-height: 600px;
+      opacity: 1;
+      transform: translateY(0);
+      margin-top: 24px;
     }
 
     /* ── RESEARCH ── */
@@ -442,6 +576,147 @@
     .contact-val { color: var(--text); }
     .contact-val a { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 1px; transition: border-color 0.2s, color 0.2s; }
     .contact-val a:hover { color: var(--accent); border-color: var(--accent); }
+
+    /* ── PUB TYPE BADGES ── */
+    .pub-type-badge {
+      display: inline-block;
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 1px;
+      margin-bottom: 8px;
+    }
+    .pub-type-paper { background: rgba(126,184,201,0.12); color: #7eb8c9; border: 1px solid rgba(126,184,201,0.3); }
+    .pub-type-book  { background: rgba(200,169,110,0.12); color: var(--accent); border: 1px solid rgba(200,169,110,0.3); }
+    .pub-type-trans { background: rgba(106,106,98,0.12); color: var(--muted); border: 1px solid rgba(106,106,98,0.3); }
+    .pub-type-talk  { background: rgba(160,140,180,0.12); color: #b09ac8; border: 1px solid rgba(160,140,180,0.3); }
+    .pub-title-link {
+      text-decoration: none;
+      display: block;
+    }
+    .pub-title-link .pub-title {
+      transition: color 0.2s;
+    }
+    .pub-title-link:hover .pub-title {
+      color: var(--accent);
+    }
+    .pub-detail {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 5px;
+      line-height: 1.7;
+    }
+    /* book entry with cover */
+    .pub-item-book {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 32px;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--line);
+      align-items: start;
+    }
+    .pub-book-cover {
+      width: 80px;
+      display: block;
+      border: 1px solid var(--line);
+      transition: opacity 0.2s;
+    }
+    .pub-item-book:hover .pub-book-cover { opacity: 0.85; }
+    /* lang for badges */
+    .pub-type-badge[data-lang] { display: none; }
+    body.lang-ja .pub-type-badge[data-lang="ja"] { display: inline-block; }
+    body.lang-en .pub-type-badge[data-lang="en"] { display: inline-block; }
+
+    /* ── GRANT GROUP LABEL LANG SWITCH ── */
+    .grant-group-label[data-lang] { display: none; }
+    body.lang-ja .grant-group-label[data-lang="ja"] { display: block; }
+    body.lang-en .grant-group-label[data-lang="en"] { display: block; }
+
+    /* ── HOVER REVEAL ── */
+    .pub-item .pub-detail,
+    .pub-item .grant-info,
+    .pub-item .member-info {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      margin-top: 0;
+      transition: max-height 0.45s cubic-bezier(0.16,1,0.3,1),
+                  opacity 0.35s ease,
+                  margin-top 0.3s ease;
+    }
+    .pub-item:hover .pub-detail,
+    .pub-item:hover .grant-info,
+    .pub-item:hover .member-info {
+      max-height: 200px;
+      opacity: 1;
+      margin-top: 8px;
+    }
+    .pub-item { cursor: default; }
+    /* hint: small dot on right edge when hoverable content exists */
+    .pub-item > div { position: relative; }
+    .pub-item > div::after {
+      content: '···';
+      position: absolute;
+      right: 0; top: 0;
+      font-size: 14px;
+      letter-spacing: 0.1em;
+      color: var(--line);
+      transition: color 0.25s;
+    }
+    .pub-item:hover > div::after { color: var(--accent); }
+
+    /* ── GRANTS & TEACHING ── */
+    .grant-group-label {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border-left: 2px solid var(--accent);
+      padding-left: 12px;
+      margin-top: 48px;
+    }
+    .grant-tag {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+    .grant-role {
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 1px;
+    }
+    .grant-role-pi {
+      background: rgba(200, 169, 110, 0.12);
+      color: var(--accent);
+      border: 1px solid rgba(200, 169, 110, 0.3);
+    }
+    .grant-role-co {
+      background: rgba(106, 106, 98, 0.12);
+      color: var(--muted);
+      border: 1px solid rgba(106, 106, 98, 0.3);
+    }
+    .teaching-inst {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 5px;
+      letter-spacing: 0.04em;
+    }
+    /* lang handling for new elements */
+    .pub-title[data-lang], .grant-tag[data-lang], .grant-role[data-lang], .teaching-inst[data-lang] { display: none; }
+    body.lang-ja .pub-title[data-lang="ja"],
+    body.lang-ja .grant-tag[data-lang="ja"],
+    body.lang-ja .grant-role[data-lang="ja"],
+    body.lang-ja .teaching-inst[data-lang="ja"] { display: block; }
+    body.lang-en .pub-title[data-lang="en"],
+    body.lang-en .grant-tag[data-lang="en"],
+    body.lang-en .grant-role[data-lang="en"],
+    body.lang-en .teaching-inst[data-lang="en"] { display: block; }
+    /* grant-role is inline */
+    body.lang-ja .grant-role[data-lang="ja"],
+    body.lang-en .grant-role[data-lang="en"] { display: inline-block; }
 
     /* ── INSTAGRAM ── */
     .ig-grid {
@@ -612,6 +887,157 @@
       transition: opacity 0.3s ease;
     }
 
+    /* ── LOADING SCREEN ── */
+    #loader {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    #loader.hidden { opacity: 0; visibility: hidden; }
+    .loader-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+    .loader-name {
+      font-size: 13px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--muted);
+      overflow: hidden;
+    }
+    .loader-name span {
+      display: inline-block;
+      animation: loaderChar 0.8s cubic-bezier(0.16,1,0.3,1) both;
+    }
+    .loader-bar {
+      width: 120px;
+      height: 1px;
+      background: var(--line);
+      position: relative;
+      overflow: hidden;
+    }
+    .loader-bar::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%;
+      height: 100%;
+      background: var(--accent);
+      animation: loaderBarFill 1.2s cubic-bezier(0.4,0,0.2,1) 0.2s forwards;
+    }
+    @keyframes loaderBarFill { to { left: 100%; } }
+    @keyframes loaderChar {
+      from { transform: translateY(120%); opacity: 0; }
+      to   { transform: translateY(0);    opacity: 1; }
+    }
+
+    /* ── SCROLL PROGRESS ── */
+    #scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      width: 0%;
+      background: var(--accent);
+      z-index: 200;
+      transition: width 0.1s linear;
+    }
+
+    /* ── CUSTOM CURSOR ── */
+    #cursor {
+      position: fixed;
+      width: 8px; height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s ease, width 0.25s ease, height 0.25s ease, opacity 0.25s ease;
+      mix-blend-mode: difference;
+    }
+    #cursor-ring {
+      position: fixed;
+      width: 36px; height: 36px;
+      border: 1px solid rgba(200,169,110,0.4);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9997;
+      transform: translate(-50%, -50%);
+      transition: transform 0.18s ease, width 0.3s ease, height 0.3s ease, opacity 0.3s ease;
+    }
+    body.cursor-hover #cursor { width: 4px; height: 4px; }
+    body.cursor-hover #cursor-ring { width: 56px; height: 56px; border-color: rgba(200,169,110,0.7); }
+    @media (pointer: coarse) { #cursor, #cursor-ring { display: none; } }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1),
+                  transform 0.7s cubic-bezier(0.16,1,0.3,1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-24px);
+      transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1),
+                  transform 0.7s cubic-bezier(0.16,1,0.3,1);
+    }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
+
+    /* stagger delays */
+    .stagger-1 { transition-delay: 0.05s; }
+    .stagger-2 { transition-delay: 0.12s; }
+    .stagger-3 { transition-delay: 0.19s; }
+    .stagger-4 { transition-delay: 0.26s; }
+    .stagger-5 { transition-delay: 0.33s; }
+    .stagger-6 { transition-delay: 0.40s; }
+
+    /* ── HERO ENTRANCE ── */
+    .hero-label    { opacity: 0; transform: translateY(12px); animation: heroFadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 1.4s forwards; }
+    .hero-name     { opacity: 0; transform: translateY(16px); animation: heroFadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 1.55s forwards; }
+    .hero-affil    { opacity: 0; transform: translateY(12px); animation: heroFadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 1.7s forwards; }
+    .hero-tags     { opacity: 0; transform: translateY(10px); animation: heroFadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 1.85s forwards; }
+    .scroll-hint   { opacity: 0; animation: heroFadeUp 0.6s ease 2.1s forwards; }
+    .hero-photo    { opacity: 0; animation: heroPic 1.2s ease 0.8s forwards; }
+    @keyframes heroFadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes heroPic {
+      to { opacity: 0.55; }
+    }
+
+    /* ── SECTION TITLE LINE ── */
+    .sec-label::before {
+      content: '';
+      display: inline-block;
+      width: 0;
+      height: 1px;
+      background: var(--accent);
+      vertical-align: middle;
+      margin-right: 0;
+      transition: width 0.5s ease, margin-right 0.5s ease;
+    }
+    .sec-label.visible::before { width: 24px; margin-right: 10px; }
+
+    /* ── HOVER LIFT on cards ── */
+    .mvv-card, .strengths-card {
+      transition: background 0.3s, transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s;
+    }
+    .mvv-card:hover, .strengths-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+    }
+
     /* scroll indicator */
     .scroll-hint {
       position: absolute;
@@ -634,6 +1060,23 @@
   </style>
 </head>
 <body class="lang-ja">
+
+  <!-- LOADER -->
+  <div id="loader">
+    <div class="loader-inner">
+      <div class="loader-name">
+        <span style="animation-delay:0.0s">Y</span><span style="animation-delay:0.05s">u</span><span style="animation-delay:0.10s">k</span><span style="animation-delay:0.15s">i</span><span style="animation-delay:0.22s">&nbsp;</span><span style="animation-delay:0.27s">S</span><span style="animation-delay:0.32s">u</span><span style="animation-delay:0.37s">g</span><span style="animation-delay:0.42s">a</span><span style="animation-delay:0.47s">w</span><span style="animation-delay:0.52s">a</span><span style="animation-delay:0.57s">r</span><span style="animation-delay:0.62s">a</span>
+      </div>
+      <div class="loader-bar"></div>
+    </div>
+  </div>
+
+  <!-- SCROLL PROGRESS -->
+  <div id="scroll-progress"></div>
+
+  <!-- CUSTOM CURSOR -->
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
 
   <!-- LANGUAGE BAR -->
   <div class="lang-bar">
@@ -690,10 +1133,10 @@
           <div class="mvv-card-title" data-lang="ja">日々果たすべき使命</div>
           <div class="mvv-card-title" data-lang="en">Daily Mission</div>
           <div class="mvv-card-body" data-lang="ja">
-            人文学の伝統的・アナログな知見と、最先端のデジタル技術（AI、データ分析、Web・デザイン等）を「実装」レベルで掛け合わせる。理論にとどまらず自ら手を動かすことで、次世代に向けた新たな研究手法と視座を社会に提示し、実践的なモデルを示す。
+            人文学の伝統的・アナログな知見と、最先端のデジタル技術（AI、データ分析、Web・デザイン、動画編集等）を「実装」レベルで掛け合わせる。理論にとどまらず自ら手を動かすことで、次世代に向けた新たな研究手法と視座を社会に提示し、実践的なモデルを示す。
           </div>
           <div class="mvv-card-body" data-lang="en">
-            To fuse the profound, analog insights of the humanities with cutting-edge digital technologies (such as AI, data analysis, and web design) at an implementation level. Moving beyond theory by actively building tools and platforms, my mission is to present society with innovative research methodologies and practical new perspectives.
+            To fuse the profound, analog insights of the humanities with cutting-edge digital technologies (such as AI, data analysis, web design, and video editing) at an implementation level. Moving beyond theory by actively building tools and platforms, my mission is to present society with innovative research methodologies and practical new perspectives.
           </div>
         </div>
         <!-- VISION -->
@@ -855,31 +1298,403 @@
     <h2 class="sec-title" data-lang="ja">主要業績（抜粋）</h2>
     <h2 class="sec-title" data-lang="en">Selected Publications</h2>
 
-    <div class="pub-list" style="margin-top: 56px;">
+    <!-- 論文 -->
+    <p class="grant-group-label" data-lang="ja" style="margin-top: 56px;">論文</p>
+    <p class="grant-group-label" data-lang="en" style="margin-top: 56px;">Papers</p>
+    <div class="pub-list" style="margin-top: 16px;">
+
       <div class="pub-item">
         <span class="pub-year">2025.04</span>
-        <span class="pub-title">
-          <span data-lang="ja">デジタル空間の多重性：被災地移住のデジタル人類学</span>
-          <span data-lang="en">The Multiplicity of Digital Space: A Digital Anthropology of Disaster-Area Migration</span>
-        </span>
+        <div>
+          <a href="https://www.jstage.jst.go.jp/article/jjcanth/89/4/89_581/_article/-char/ja" target="_blank" rel="noopener noreferrer" class="pub-title-link">
+            <div class="pub-title" data-lang="ja">デジタル空間の多重性：被災地移住のデジタル人類学</div>
+            <div class="pub-title" data-lang="en">The Multiplicity of Digital Space: A Digital Anthropology of Disaster-Area Migration</div>
+          </a>
+          <div class="pub-detail">
+            <span data-lang="ja">菅原裕輝 / 『文化人類学』89(4)</span>
+            <span data-lang="en">Yuki Sugawara / <i>Japanese Journal of Cultural Anthropology</i> 89(4)</span>
+          </div>
+        </div>
       </div>
+
       <div class="pub-item">
         <span class="pub-year">2025.02</span>
-        <span class="pub-title">
-          <span data-lang="ja">津波被災地域における期待の調整</span>
-          <span data-lang="en">Adjusting Expectations in Tsunami-Affected Areas</span>
-        </span>
+        <div>
+          <a href="https://f-gakkai.net/wp-content/uploads/2025/02/25-06.pdf" target="_blank" rel="noopener noreferrer" class="pub-title-link">
+            <div class="pub-title" data-lang="ja">津波被災地域における期待の調整：南三陸町の資源循環型復興ビジョンと移住者のビジョン</div>
+            <div class="pub-title" data-lang="en">Adjusting Expectations in Tsunami-Affected Areas: Recovery Vision and Migrants' Vision in Minamisanriku</div>
+          </a>
+          <div class="pub-detail">
+            <span data-lang="ja">菅原裕輝, 山﨑真帆 / 『日本災害復興学会論文集』25, pp.36–47</span>
+            <span data-lang="en">Yuki Sugawara, Maho Yamazaki / <i>Journal of Japan Society for Disaster Resilience</i> 25, pp.36–47</span>
+          </div>
+        </div>
       </div>
+
       <div class="pub-item">
         <span class="pub-year">2024.03</span>
-        <span class="pub-title">Revisiting Semantic Prosody of Cause</span>
+        <div>
+          <a href="https://www.jstage.jst.go.jp/article/jaecslex/6/0/6_71/_article" target="_blank" rel="noopener noreferrer" class="pub-title-link">
+            <div class="pub-title">Revisiting Semantic Prosody of Cause: A Sentiment Analysis</div>
+          </a>
+          <div class="pub-detail">Yuki Sugawara, Kazuho Kambara / <i>Journal of Corpus-based Lexicology Studies</i> 6, pp.71–92</div>
+        </div>
       </div>
+
+      <div class="pub-item">
+        <span class="pub-year">2023.10</span>
+        <div>
+          <a href="https://www.jstage.jst.go.jp/article/jafpos/32/0/32_23/_article/-char/ja" target="_blank" rel="noopener noreferrer" class="pub-title-link">
+            <div class="pub-title">The Many Uses of Explain: Quantitative Corpus Method and Philosophy of Science</div>
+          </a>
+          <div class="pub-detail">Yuki Sugawara, Kazuho Kambara / <i>Annals of the Japan Association for Philosophy of Science</i> 32(2), pp.23–46</div>
+        </div>
+      </div>
+
+      <div class="pub-item">
+        <span class="pub-year">2023.10</span>
+        <div>
+          <a href="https://www.jstage.jst.go.jp/article/jafpos/32/0/32_17/_article/-char/ja" target="_blank" rel="noopener noreferrer" class="pub-title-link">
+            <div class="pub-title">Philosophy with and for Data Science: Setting the Scene</div>
+          </a>
+          <div class="pub-detail">Yuki Sugawara / <i>Annals of the Japan Association for Philosophy of Science</i> 32(2), pp.17–22</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 著書・翻訳 -->
+    <p class="grant-group-label" data-lang="ja" style="margin-top: 56px;">著書・翻訳</p>
+    <p class="grant-group-label" data-lang="en" style="margin-top: 56px;">Books &amp; Translations</p>
+    <div style="display:flex; flex-direction:column; gap:0; border: 1px solid var(--line); margin-top: 16px;">
+
+      <div class="pub-item-book" style="border-bottom: 1px solid var(--line); padding: 32px 0;">
+        <a href="https://www.nakanishiya.co.jp/book/b10081169.html" target="_blank" rel="noopener noreferrer">
+          <img src="image/book_kagaku.jpg" alt="入門 科学技術と社会" class="pub-book-cover" />
+        </a>
+        <div>
+          <div class="pub-type-badge pub-type-book" data-lang="ja">著書（分担執筆）</div>
+          <div class="pub-type-badge pub-type-book" data-lang="en">Book (Contributing Author)</div>
+          <a href="https://www.nakanishiya.co.jp/book/b10081169.html" target="_blank" rel="noopener noreferrer" class="pub-title-link">
+            <div class="pub-title" data-lang="ja">入門 科学技術と社会</div>
+            <div class="pub-title" data-lang="en">Introduction to Science, Technology and Society</div>
+          </a>
+          <div class="pub-detail">
+            <span data-lang="ja">標葉隆馬・見上公一（編） / ナカニシヤ出版 / 2024年5月10日 / ISBN: 978-4-7795-1779-2</span>
+            <span data-lang="en">Eds. Takuma Shineha, Koichi Mikami / Nakanishiya Shuppan / 10 May 2024 / ISBN: 978-4-7795-1779-2</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-item-book" style="border-bottom: 1px solid var(--line); padding: 32px 0;">
+        <a href="https://www.unp.or.jp/ISBN/ISBN978-4-8158-0807-5.html" target="_blank" rel="noopener noreferrer">
+          <img src="image/book_seishin.jpg" alt="精神医学の科学哲学" class="pub-book-cover" />
+        </a>
+        <div>
+          <div class="pub-type-badge pub-type-trans" data-lang="ja">翻訳（共訳）</div>
+          <div class="pub-type-badge pub-type-trans" data-lang="en">Translation (co-trans.)</div>
+          <a href="https://www.unp.or.jp/ISBN/ISBN978-4-8158-0807-5.html" target="_blank" rel="noopener noreferrer" class="pub-title-link">
+            <div class="pub-title" data-lang="ja">精神医学の科学哲学</div>
+            <div class="pub-title" data-lang="en">Psychiatry and Philosophy of Science</div>
+          </a>
+          <div class="pub-detail">
+            <span data-lang="ja">レイチェル・クーパー 著 / 伊勢田哲治・村井俊哉・植野仙経・中尾央・川島啓嗣・菅原裕輝 訳 / 名古屋大学出版会 / 2015年6月19日 / ISBN: 978-4-8158-0807-4</span>
+            <span data-lang="en">Rachel Cooper (auth.) / trans. Tetsuji Iseda, Toshiya Murai, Sennyo Ueno, Hisashi Nakao, Keiji Kawashima, Yuki Sugawara / Nagoya University Press / 19 Jun 2015 / ISBN: 978-4-8158-0807-4</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-item-book" style="padding: 32px 0;">
+        <a href="https://www.keisoshobo.co.jp/book/b146467.html" target="_blank" rel="noopener noreferrer">
+          <img src="image/book_shinka.jpg" alt="進化の弟子" class="pub-book-cover" />
+        </a>
+        <div>
+          <div class="pub-type-badge pub-type-trans" data-lang="ja">翻訳（共訳）</div>
+          <div class="pub-type-badge pub-type-trans" data-lang="en">Translation (co-trans.)</div>
+          <a href="https://www.keisoshobo.co.jp/book/b146467.html" target="_blank" rel="noopener noreferrer" class="pub-title-link">
+            <div class="pub-title" data-lang="ja">進化の弟子：ヒトは学んで人になった</div>
+            <div class="pub-title" data-lang="en">Apprenticed to Evolution: Schooling and the Origins of Mind</div>
+          </a>
+          <div class="pub-detail">
+            <span data-lang="ja">キム・ステレルニー 著 / 田中泉吏・中尾央・源河亨・菅原裕輝 訳 / 勁草書房 / 2013年12月26日 / ISBN: 978-4-326-19964-9</span>
+            <span data-lang="en">Kim Sterelny (auth.) / trans. Izuri Tanaka, Hisashi Nakao, Toru Genka, Yuki Sugawara / Keiso Shobo / 26 Dec 2013 / ISBN: 978-4-326-19964-9</span>
+          </div>
+        </div>
+      </div>
+
     </div>
 
     <div style="margin-top: 40px;">
       <a href="https://researchmap.jp/yukisugawara" target="_blank" rel="noopener noreferrer" style="font-size: 12px; letter-spacing: 0.12em; color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent); padding-bottom: 2px; text-transform: uppercase;">
         <span data-lang="ja">researchmap で全業績を見る →</span>
         <span data-lang="en">View full list on researchmap →</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- RESEARCH PROJECTS -->
+  <section>
+    <p class="sec-label">Grants &amp; Projects</p>
+    <h2 class="sec-title" data-lang="ja">研究課題・競争的資金</h2>
+    <h2 class="sec-title" data-lang="en">Research Projects &amp; Grants</h2>
+
+    <!-- 代表者 -->
+    <p class="grant-group-label" data-lang="ja">代表者</p>
+    <p class="grant-group-label" data-lang="en">Principal Investigator</p>
+    <div class="pub-list" style="margin-top: 16px;">
+
+      <div class="pub-item">
+        <span class="pub-year">2025—2028</span>
+        <div>
+          <a href="https://www.gjs.osaka-u.ac.jp/project/2025b/" target="_blank" rel="noopener noreferrer" class="pub-title-link">
+            <div class="pub-title" data-lang="ja">デジタル人類学で拓く「デジタル日本学」教育のグローバル展開</div>
+            <div class="pub-title" data-lang="en">Global Development of "Digital Japanese Studies" Education through Digital Anthropology</div>
+          </a>
+          <div class="grant-info" style="margin-top:6px; display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
+            <span class="grant-tag" data-lang="ja">大阪大学グローバル日本学教育研究拠点 拠点形成プロジェクト</span>
+            <span class="grant-tag" data-lang="en">Osaka University Global Japanese Studies Education and Research Hub Project</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-item">
+        <span class="pub-year">2025—2027</span>
+        <div>
+          <div class="pub-title" data-lang="ja">深層学習を用いた社会技術的現象の分析</div>
+          <div class="pub-title" data-lang="en">Analysis of Sociotechnical Phenomena Using Deep Learning</div>
+          <div class="grant-info" style="margin-top:6px; display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
+            <span class="grant-tag" data-lang="ja">栢森情報科学振興財団 2024年度研究助成</span>
+            <span class="grant-tag" data-lang="en">Kayamori Foundation of Informational Science Advancement, Research Grant 2024</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-item">
+        <span class="pub-year">2025—2026</span>
+        <div>
+          <div class="pub-title" data-lang="ja">機械学習を用いた知識構造と社会技術的現象の俯瞰的分析</div>
+          <div class="pub-title" data-lang="en">Panoramic Analysis of Knowledge Structures and Sociotechnical Phenomena Using Machine Learning</div>
+          <div class="grant-info" style="margin-top:6px; display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
+            <span class="grant-tag" data-lang="ja">大阪大学D3センター 学際共創プロジェクト</span>
+            <span class="grant-tag" data-lang="en">Osaka University D3 Center Interdisciplinary Co-Creation Project</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-item">
+        <span class="pub-year">2024—2026</span>
+        <div>
+          <div class="pub-title" data-lang="ja">津波被災地域の持続可能なまちづくりへ向けたグローカルな未来像の分析</div>
+          <div class="pub-title" data-lang="en">Analysis of Glocal Visions for Sustainable Community Development in Tsunami-Affected Areas</div>
+          <div class="grant-info" style="margin-top:6px; display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
+            <span class="grant-tag" data-lang="ja">鹿島学術振興財団 2024年度一般研究助成</span>
+            <span class="grant-tag" data-lang="en">Kajima Foundation, General Research Grant 2024</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-item">
+        <span class="pub-year">2024—2026</span>
+        <div>
+          <div class="pub-title" data-lang="ja">津波被災自治体移住者の語りの記録と分析を基にした共生型地域社会のモデル構築</div>
+          <div class="pub-title" data-lang="en">Building a Model of Inclusive Local Communities Based on Documentation and Analysis of Narratives from Migrants in Tsunami-Affected Municipalities</div>
+          <div class="grant-info" style="margin-top:6px; display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
+            <span class="grant-tag" data-lang="ja">上廣倫理財団 研究助成</span>
+            <span class="grant-tag" data-lang="en">Uehiro Foundation on Ethics and Education, Research Grant</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-item">
+        <span class="pub-year">2024—2025</span>
+        <div>
+          <div class="pub-title" data-lang="ja">ゲノム合成分野におけるバイオベンチャーの動向に関する調査研究</div>
+          <div class="pub-title" data-lang="en">Research on Trends in Bio-ventures in the Field of Genome Synthesis</div>
+          <div class="grant-info" style="margin-top:6px; display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
+            <span class="grant-tag" data-lang="ja">新技術振興渡辺記念会 科学技術調査研究助成</span>
+            <span class="grant-tag" data-lang="en">Watanabe Memorial Foundation for the Advancement of Technology, Research Grant</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-item">
+        <span class="pub-year">2024—2025</span>
+        <div>
+          <div class="pub-title" data-lang="ja">機械学習を用いた学際分野の俯瞰的分析</div>
+          <div class="pub-title" data-lang="en">Panoramic Analysis of Interdisciplinary Fields Using Machine Learning</div>
+          <div class="grant-info" style="margin-top:6px; display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
+            <span class="grant-tag" data-lang="ja">大阪大学 IDS 学際共創プロジェクト</span>
+            <span class="grant-tag" data-lang="en">Osaka University IDS Interdisciplinary Co-Creation Project</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-item">
+        <span class="pub-year">2023—2024</span>
+        <div>
+          <div class="pub-title" data-lang="ja">機械学習を用いた学術分野の俯瞰的分析</div>
+          <div class="pub-title" data-lang="en">Panoramic Analysis of Academic Fields Using Machine Learning</div>
+          <div class="grant-info" style="margin-top:6px; display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
+            <span class="grant-tag" data-lang="ja">中部科学技術センター 人工知能研究助成</span>
+            <span class="grant-tag" data-lang="en">Chubu Science and Technology Center, AI Research Grant</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-item">
+        <span class="pub-year">2014—2015</span>
+        <div>
+          <div class="pub-title" data-lang="ja">神経科学の哲学の基盤構築</div>
+          <div class="pub-title" data-lang="en">Foundations of the Philosophy of Neuroscience</div>
+          <div class="grant-info" style="margin-top:6px; display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
+            <span class="grant-tag" data-lang="ja">日本学術振興会 特別研究員奨励費（DC2）</span>
+            <span class="grant-tag" data-lang="en">JSPS Research Fellowship for Young Scientists (DC2)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-item">
+        <span class="pub-year">2013—2014</span>
+        <div>
+          <div class="pub-title" data-lang="ja">神経科学の哲学の基盤構築</div>
+          <div class="pub-title" data-lang="en">Foundations of the Philosophy of Neuroscience</div>
+          <div class="grant-info" style="margin-top:6px; display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
+            <span class="grant-tag" data-lang="ja">サントリー文化財団 チャレンジ研究助成</span>
+            <span class="grant-tag" data-lang="en">Suntory Foundation, Challenge Research Grant</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 分担者 -->
+    <p class="grant-group-label" data-lang="ja" style="margin-top: 56px;">分担者</p>
+    <p class="grant-group-label" data-lang="en" style="margin-top: 56px;">Co-Investigator</p>
+    <div class="pub-list" style="margin-top: 16px;">
+
+      <div class="pub-item">
+        <span class="pub-year">2025—2030</span>
+        <div>
+          <div class="pub-title" data-lang="ja">文化的言語的に多様な子どもの複数言語アセスメントの実証研究</div>
+          <div class="pub-title" data-lang="en">Empirical Research on Multilingual Assessment of Culturally and Linguistically Diverse Children</div>
+          <div class="grant-info" style="margin-top:6px; display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
+            <span class="grant-tag" data-lang="ja">日本学術振興会 科学研究費助成事業 基盤研究(B)</span>
+            <span class="grant-tag" data-lang="en">JSPS Grant-in-Aid for Scientific Research (B)</span>
+          </div>
+          <div class="member-info" style="margin-top:6px;">
+            <span class="grant-tag" style="font-size:11px; color:var(--muted);">
+              <span data-lang="ja">代表者：櫻井 千穂　/ 分担者：小島 祥美, 佐野 愛子, 近藤 美佳, 矢元 貴美, 江口 清子, 菅原 裕輝</span>
+              <span data-lang="en">PI: Chiho Sakurai / Co-I: Yoshimi Kojima, Aiko Sano, Mika Kondo, Takami Yamoto, Kiyoko Eguchi, Yuki Sugawara</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-item">
+        <span class="pub-year">2021—2024</span>
+        <div>
+          <div class="pub-title">Future Organisms: Synthetic Genomics and Responsible Innovation in the UK, the USA and Japan</div>
+          <div class="grant-info" style="margin-top:6px; display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
+            <span class="grant-tag">UKRI / Economic and Social Research Council (ESRC) — International Research Grant</span>
+          </div>
+          <div class="member-info" style="margin-top:6px;">
+            <span class="grant-tag" style="font-size:11px; color:var(--muted);">Jane Calvert, Erika Szymanski, Koichi Mikami, Robert Smith, Yuki Sugawara, Maya Hey, Tomohiro Inokuchi, Cookie Egre</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="margin-top: 40px;">
+      <a href="https://researchmap.jp/yukisugawara" target="_blank" rel="noopener noreferrer" style="font-size: 12px; letter-spacing: 0.12em; color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent); padding-bottom: 2px; text-transform: uppercase;">
+        <span data-lang="ja">researchmap で全研究課題を見る →</span>
+        <span data-lang="en">View all projects on researchmap →</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- TEACHING -->
+  <section>
+    <p class="sec-label">Teaching</p>
+    <h2 class="sec-title" data-lang="ja">担当授業</h2>
+    <h2 class="sec-title" data-lang="en">Courses Taught</h2>
+
+    <div class="pub-list" style="margin-top: 56px;">
+
+      <div class="pub-item">
+        <span class="pub-year">2025—</span>
+        <div>
+          <a href="https://koan.osaka-u.ac.jp/campusweb/campussquare.do?_flowExecutionKey=_cA8C83EE2-4C26-D521-36AB-1BF35A27782C_kF1B42C46-A6B9-AB83-EE63-D2FF11171DE5" target="_blank" rel="noopener noreferrer" class="pub-title-link" data-lang="ja">
+            <div class="pub-title">デジタルヒューマニティーズ基礎演習</div>
+          </a>
+          <a href="https://koan.osaka-u.ac.jp/campusweb/campussquare.do?_flowExecutionKey=_cA8C83EE2-4C26-D521-36AB-1BF35A27782C_k629A5FDD-FD95-3B10-19CF-8431DA65E562" target="_blank" rel="noopener noreferrer" class="pub-title-link" data-lang="en">
+            <div class="pub-title">Introductory Seminar in Digital Humanities</div>
+          </a>
+          <div class="teaching-inst" data-lang="ja">大阪大学 文学部</div>
+          <div class="teaching-inst" data-lang="en">School of Letters, Osaka University</div>
+        </div>
+      </div>
+
+      <div class="pub-item">
+        <span class="pub-year">2025—</span>
+        <div>
+          <a href="https://koan.osaka-u.ac.jp/campusweb/campussquare.do?_flowExecutionKey=_cA8C83EE2-4C26-D521-36AB-1BF35A27782C_kBC63EC31-A621-B02B-841B-E99689A97030" target="_blank" rel="noopener noreferrer" class="pub-title-link" data-lang="ja">
+            <div class="pub-title">外国語学部生のためのデジタルツール</div>
+          </a>
+          <a href="https://koan.osaka-u.ac.jp/campusweb/campussquare.do?_flowExecutionKey=_cA8C83EE2-4C26-D521-36AB-1BF35A27782C_k04AA83A5-0587-B280-A763-214C44B3BBE3" target="_blank" rel="noopener noreferrer" class="pub-title-link" data-lang="en">
+            <div class="pub-title">Digital Tools for Students of Foreign Languages</div>
+          </a>
+          <div class="teaching-inst" data-lang="ja">大阪大学 外国語学部</div>
+          <div class="teaching-inst" data-lang="en">School of Foreign Studies, Osaka University</div>
+        </div>
+      </div>
+
+      <div class="pub-item">
+        <span class="pub-year">2025—</span>
+        <div>
+          <a href="https://koan.osaka-u.ac.jp/campusweb/campussquare.do?_flowExecutionKey=_cA8C83EE2-4C26-D521-36AB-1BF35A27782C_k81682114-8412-9C19-27FF-E6F2756E16C6" target="_blank" rel="noopener noreferrer" class="pub-title-link" data-lang="ja">
+            <div class="pub-title">人文学とデジタル技術</div>
+          </a>
+          <a href="https://koan.osaka-u.ac.jp/campusweb/campussquare.do?_flowExecutionKey=_cA8C83EE2-4C26-D521-36AB-1BF35A27782C_k8C2F658B-D52A-BAFE-8519-6D5B14DF259F" target="_blank" rel="noopener noreferrer" class="pub-title-link" data-lang="en">
+            <div class="pub-title">Humanities and Digital Technologies</div>
+          </a>
+          <div class="teaching-inst" data-lang="ja">大阪大学 大学院人文学研究科</div>
+          <div class="teaching-inst" data-lang="en">Graduate School of Humanities, Osaka University</div>
+        </div>
+      </div>
+
+      <div class="pub-item">
+        <span class="pub-year">2022—</span>
+        <div>
+          <a href="https://koan.osaka-u.ac.jp/campusweb/campussquare.do?_flowExecutionKey=_cA8C83EE2-4C26-D521-36AB-1BF35A27782C_k03434786-F766-3A4F-2226-7DA31D7AD480" target="_blank" rel="noopener noreferrer" class="pub-title-link" data-lang="ja">
+            <div class="pub-title">人文学基礎（人文学と対話）</div>
+          </a>
+          <a href="https://koan.osaka-u.ac.jp/campusweb/campussquare.do?_flowExecutionKey=_cA8C83EE2-4C26-D521-36AB-1BF35A27782C_k349654A3-EE37-6E3F-A3ED-E2F0E2B6FEA6" target="_blank" rel="noopener noreferrer" class="pub-title-link" data-lang="en">
+            <div class="pub-title">Foundations of the Humanities (Humanities and Dialogue)</div>
+          </a>
+          <div class="teaching-inst" data-lang="ja">大阪大学 大学院人文学研究科</div>
+          <div class="teaching-inst" data-lang="en">Graduate School of Humanities, Osaka University</div>
+        </div>
+      </div>
+
+      <div class="pub-item">
+        <span class="pub-year">2021—</span>
+        <div>
+          <a href="https://www.dwc.doshisha.ac.jp/current/classes/course_registration/syllabus" target="_blank" rel="noopener noreferrer" class="pub-title-link">
+            <div class="pub-title" data-lang="ja">コーパス演習</div>
+            <div class="pub-title" data-lang="en">Corpus Studies Practicum</div>
+          </a>
+          <div class="teaching-inst" data-lang="ja">同志社女子大学 学芸学部</div>
+          <div class="teaching-inst" data-lang="en">Faculty of Liberal Arts, Doshisha Women's College of Liberal Arts</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="margin-top: 40px;">
+      <a href="https://researchmap.jp/yukisugawara" target="_blank" rel="noopener noreferrer" style="font-size: 12px; letter-spacing: 0.12em; color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent); padding-bottom: 2px; text-transform: uppercase;">
+        <span data-lang="ja">researchmap で全授業を見る →</span>
+        <span data-lang="en">View all courses on researchmap →</span>
       </a>
     </div>
   </section>
@@ -1050,18 +1865,146 @@
   </footer>
 
   <script>
+    /* ── LANGUAGE ── */
     function setLang(lang) {
-      document.body.className = 'lang-' + lang;
+      document.body.className = document.body.className.replace(/lang-\w+/, '') + ' lang-' + lang;
       document.documentElement.lang = lang === 'ja' ? 'ja' : 'en';
       document.querySelectorAll('.lang-toggle button').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.target === lang);
       });
       localStorage.setItem('lang', lang);
     }
-
-    // Restore language preference
     const saved = localStorage.getItem('lang');
     if (saved === 'en') setLang('en');
+
+    /* ── LOADER ── */
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('loader').classList.add('hidden');
+      }, 1600);
+    });
+
+    /* ── SCROLL PROGRESS ── */
+    const progressBar = document.getElementById('scroll-progress');
+    window.addEventListener('scroll', () => {
+      const scrolled = window.scrollY;
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      progressBar.style.width = (scrolled / maxScroll * 100) + '%';
+    }, { passive: true });
+
+    /* ── CUSTOM CURSOR ── */
+    const cursor     = document.getElementById('cursor');
+    const cursorRing = document.getElementById('cursor-ring');
+    let mouseX = 0, mouseY = 0;
+    let ringX  = 0, ringY  = 0;
+
+    document.addEventListener('mousemove', e => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      cursor.style.left = mouseX + 'px';
+      cursor.style.top  = mouseY + 'px';
+    });
+
+    function animateRing() {
+      ringX += (mouseX - ringX) * 0.12;
+      ringY += (mouseY - ringY) * 0.12;
+      cursorRing.style.left = ringX + 'px';
+      cursorRing.style.top  = ringY + 'px';
+      requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    document.querySelectorAll('a, button, .mvv-card, .strengths-card, .ig-card').forEach(el => {
+      el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+      el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+    });
+
+    /* ── HERO PARALLAX ── */
+    const heroPhoto = document.querySelector('.hero-photo-wrap');
+    window.addEventListener('scroll', () => {
+      if (heroPhoto) {
+        heroPhoto.style.transform = `translateY(${window.scrollY * 0.18}px)`;
+      }
+    }, { passive: true });
+
+    /* ── SCROLL REVEAL ── */
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -48px 0px' });
+
+    // Observe section labels
+    document.querySelectorAll('.sec-label').forEach(el => {
+      el.classList.add('reveal');
+      revealObserver.observe(el);
+    });
+
+    // Observe section titles
+    document.querySelectorAll('.sec-title, .sec-title-jp').forEach(el => {
+      el.classList.add('reveal');
+      revealObserver.observe(el);
+    });
+
+    // Observe MVV cards with stagger
+    document.querySelectorAll('.mvv-card').forEach((el, i) => {
+      el.classList.add('reveal', `stagger-${i + 1}`);
+      revealObserver.observe(el);
+    });
+
+    // Observe strengths cards with stagger
+    document.querySelectorAll('.strengths-card').forEach((el, i) => {
+      el.classList.add('reveal', `stagger-${i + 1}`);
+      revealObserver.observe(el);
+    });
+
+    // Observe pub-items with stagger
+    document.querySelectorAll('.pub-item, .pub-item-book').forEach((el, i) => {
+      el.classList.add('reveal-left', `stagger-${Math.min(i % 6 + 1, 6)}`);
+      revealObserver.observe(el);
+    });
+
+    // Observe career items
+    document.querySelectorAll('.career-item').forEach((el, i) => {
+      el.classList.add('reveal', `stagger-${Math.min(i + 1, 6)}`);
+      revealObserver.observe(el);
+    });
+
+    // Observe grant group items
+    document.querySelectorAll('.grant-group-label').forEach(el => {
+      el.classList.add('reveal');
+      revealObserver.observe(el);
+    });
+
+    // Observe Instagram cards
+    document.querySelectorAll('.ig-card').forEach((el, i) => {
+      el.classList.add('reveal', `stagger-${i + 1}`);
+      revealObserver.observe(el);
+    });
+
+    // Observe research block
+    document.querySelectorAll('.research-block-body, .kw-list').forEach(el => {
+      el.classList.add('reveal');
+      revealObserver.observe(el);
+    });
+
+    // Observe contact items
+    document.querySelectorAll('.contact-item').forEach((el, i) => {
+      el.classList.add('reveal', `stagger-${i + 1}`);
+      revealObserver.observe(el);
+    });
+
+    /* ── SCROLL HINT BOUNCE ── */
+    const scrollHint = document.querySelector('.scroll-hint-line');
+    if (scrollHint) {
+      setInterval(() => {
+        scrollHint.style.transform = 'scaleX(1.4)';
+        setTimeout(() => { scrollHint.style.transform = 'scaleX(1)'; }, 300);
+      }, 2500);
+    }
   </script>
 </body>
 </html>
