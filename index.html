@@ -566,6 +566,303 @@
       border-color: rgba(104, 144, 192, 0.35);
     }
 
+    /* ── RESEARCH NETWORK GRAPH ── */
+    .network-wrap {
+      position: relative;
+      margin-bottom: 48px;
+    }
+    .network-label {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+    .network-hint {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 10px;
+      opacity: 0.7;
+    }
+    #network-container {
+      width: 100%;
+      height: 420px;
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      overflow: hidden;
+      position: relative;
+    }
+    #network-svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .node-tag {
+      cursor: pointer;
+    }
+    .node-project {
+      cursor: pointer;
+    }
+    .network-edge {
+      stroke: var(--muted);
+      stroke-opacity: 0.18;
+      stroke-width: 1;
+      transition: stroke-opacity 0.2s;
+    }
+    /* hover dimming */
+    #network-svg.has-hover .network-edge { stroke-opacity: 0.04; }
+    #network-svg.has-hover .node-tag,
+    #network-svg.has-hover .node-project { opacity: 0.15; }
+    #network-svg.has-hover .network-edge.edge-active { stroke-opacity: 0.5; stroke-width: 1.5; }
+    #network-svg.has-hover .node-tag.node-active,
+    #network-svg.has-hover .node-project.node-active { opacity: 1; }
+    /* filter mode */
+    #network-svg.has-filter .network-edge { stroke-opacity: 0.04; }
+    #network-svg.has-filter .node-tag,
+    #network-svg.has-filter .node-project { opacity: 0.15; }
+    #network-svg.has-filter .network-edge.edge-active { stroke-opacity: 0.5; stroke-width: 1.5; }
+    #network-svg.has-filter .node-tag.node-active,
+    #network-svg.has-filter .node-project.node-active { opacity: 1; }
+    /* tooltip */
+    #network-tooltip {
+      position: absolute;
+      pointer-events: none;
+      background: rgba(16, 16, 16, 0.94);
+      border: 1px solid var(--line);
+      color: var(--text);
+      font-size: 12px;
+      padding: 12px 16px;
+      border-radius: 3px;
+      white-space: normal;
+      opacity: 0;
+      transition: opacity 0.18s;
+      z-index: 10;
+      max-width: 420px;
+      line-height: 1.55;
+      backdrop-filter: blur(6px);
+    }
+    #network-tooltip.visible { opacity: 1; }
+    /* legend */
+    #network-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 18px;
+      margin-top: 12px;
+      align-items: center;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--muted);
+      cursor: pointer;
+      transition: opacity 0.2s;
+      letter-spacing: 0.04em;
+    }
+    .legend-item:hover { color: var(--text); }
+    .legend-item.legend-active { color: var(--text); }
+    .legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    /* project list filter dimming */
+    /* project number badge in list */
+    .proj-num-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      font-size: 10px;
+      font-weight: 500;
+      line-height: 1;
+      letter-spacing: 0;
+      color: var(--bg);
+      margin-right: 8px;
+      flex-shrink: 0;
+      vertical-align: middle;
+    }
+    .pub-item.net-dimmed {
+      opacity: 0.15;
+      transition: opacity 0.3s;
+    }
+    .pub-item.net-highlight {
+      transition: opacity 0.3s;
+    }
+    .pub-item.net-flash {
+      background: rgba(200, 169, 110, 0.08);
+      transition: background 0.6s;
+    }
+
+    /* ── PROJECT TIMELINE (GANTT) ── */
+    #grant-static-list { display: none; }
+    #project-timeline {
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      overflow-x: auto;
+      background: var(--bg);
+    }
+    #timeline-svg {
+      display: block;
+      min-width: 600px;
+    }
+    #timeline-tooltip {
+      position: absolute;
+      pointer-events: none;
+      background: rgba(16, 16, 16, 0.94);
+      border: 1px solid var(--line);
+      color: var(--text);
+      font-size: 12px;
+      padding: 12px 16px;
+      border-radius: 3px;
+      white-space: normal;
+      opacity: 0;
+      transition: opacity 0.18s;
+      z-index: 10;
+      max-width: 380px;
+      line-height: 1.55;
+      backdrop-filter: blur(6px);
+    }
+    #timeline-tooltip.visible { opacity: 1; }
+    /* rich tooltip card inner */
+    .tip-head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+    .tip-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--bg);
+      flex-shrink: 0;
+    }
+    .tip-year {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
+    .tip-title {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+    .tip-tags {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+      margin-bottom: 6px;
+    }
+    .tip-tag {
+      font-size: 9px;
+      letter-spacing: 0.06em;
+      padding: 2px 7px;
+      border-radius: 1px;
+      border: 1px solid;
+      opacity: 0.85;
+    }
+    .tip-grant {
+      font-size: 11px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      padding-top: 5px;
+      margin-top: 2px;
+    }
+    .tip-members {
+      font-size: 10px;
+      color: var(--muted);
+      opacity: 0.7;
+      margin-top: 3px;
+    }
+    /* tag description tooltip */
+    .tip-tag-head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .tip-tag-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .tip-tag-name {
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+    }
+    .tip-tag-name-ja {
+      font-size: 12px;
+      color: var(--muted);
+      margin-left: 6px;
+    }
+    .tip-desc {
+      font-size: 11.5px;
+      color: var(--text);
+      line-height: 1.7;
+      opacity: 0.85;
+    }
+    .tl-bar {
+      cursor: pointer;
+      transition: filter 0.2s, opacity 0.3s;
+    }
+    .tl-bar:hover { filter: brightness(1.35); }
+    .tl-bar.tl-dimmed { opacity: 0.12; }
+    .tl-bar.tl-highlight { opacity: 1; }
+    .tl-bar.tl-flash {
+      animation: tl-flash-anim 0.9s ease-out;
+    }
+    @keyframes tl-flash-anim {
+      0%   { filter: brightness(2.2); }
+      100% { filter: brightness(1); }
+    }
+    .tl-today-line {
+      stroke: var(--accent);
+      stroke-width: 1.5;
+      stroke-dasharray: 5 4;
+      opacity: 0.6;
+    }
+    .tl-group-label {
+      fill: var(--muted);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .tl-bar-num {
+      fill: var(--bg);
+      font-size: 10px;
+      font-weight: 500;
+      pointer-events: none;
+    }
+    .tl-axis text {
+      fill: var(--muted);
+      font-size: 11px;
+    }
+    .tl-axis line, .tl-axis path {
+      stroke: var(--line);
+    }
+    .tl-grid line {
+      stroke: var(--line);
+      stroke-opacity: 0.45;
+    }
+    @media (max-width: 860px) {
+      #timeline-svg { min-width: 500px; }
+    }
+    @media (max-width: 560px) {
+      #timeline-svg { min-width: 450px; }
+    }
+
     /* ── RESEARCH CARD ── */
     .research-card {
       position: relative;
@@ -986,6 +1283,7 @@
       .lang-bar { padding: 16px 24px; }
       .pub-item { gap: 20px; }
       .pub-item-book { gap: 20px; }
+      #network-container { height: 350px; }
     }
     @media (max-width: 560px) {
       .hero { padding: 0 20px 56px; }
@@ -1002,6 +1300,8 @@
       .topic-tag { font-size: 9px; padding: 2px 8px; }
       .hero-tag { font-size: 9px; padding: 4px 10px; }
       .grant-group-label { margin-top: 36px !important; }
+      #network-container { height: 280px; }
+      .network-wrap { margin-bottom: 32px; }
     }
     /* タッチデバイスではホバー非表示コンテンツを常時表示 */
     @media (pointer: coarse) {
@@ -1774,6 +2074,32 @@
     <h2 class="sec-title" data-lang="ja">研究課題・競争的資金</h2>
     <h2 class="sec-title" data-lang="en">Research Projects &amp; Grants</h2>
 
+    <div id="research-network" class="network-wrap reveal">
+      <p class="network-label">
+        <span data-lang="ja">研究トピックネットワーク</span>
+        <span data-lang="en">Research Topic Network</span>
+      </p>
+      <p class="network-hint">
+        <span data-lang="ja">ドラッグで移動 / ホイールでズーム / クリックでフィルタ</span>
+        <span data-lang="en">Drag to move / Scroll to zoom / Click to filter</span>
+      </p>
+      <div id="network-container"><svg id="network-svg"></svg></div>
+      <div id="network-tooltip"></div>
+      <div id="network-legend"></div>
+    </div>
+
+    <div id="project-timeline-wrap" class="reveal" style="margin-top: 48px;">
+      <p class="network-label">
+        <span data-lang="ja">プロジェクトタイムライン</span>
+        <span data-lang="en">Project Timeline</span>
+      </p>
+      <div id="project-timeline" style="position: relative;">
+        <svg id="timeline-svg"></svg>
+        <div id="timeline-tooltip"></div>
+      </div>
+    </div>
+
+    <div id="grant-static-list">
     <!-- 代表者 -->
     <p class="grant-group-label" data-lang="ja">代表者</p>
     <p class="grant-group-label" data-lang="en">Principal Investigator</p>
@@ -1961,6 +2287,14 @@
       </div>
 
     </div>
+
+    <div style="margin-top: 40px;">
+      <a href="https://researchmap.jp/yukisugawara" target="_blank" rel="noopener noreferrer" style="font-size: 12px; letter-spacing: 0.12em; color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent); padding-bottom: 2px; text-transform: uppercase;">
+        <span data-lang="ja">researchmap で全研究課題を見る →</span>
+        <span data-lang="en">View all projects on researchmap →</span>
+      </a>
+    </div>
+    </div><!-- /grant-static-list -->
 
     <div style="margin-top: 40px;">
       <a href="https://researchmap.jp/yukisugawara" target="_blank" rel="noopener noreferrer" style="font-size: 12px; letter-spacing: 0.12em; color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent); padding-bottom: 2px; text-transform: uppercase;">
@@ -2315,6 +2649,7 @@
     <span>© 2026 Yuki Sugawara</span>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
   <script>
     /* ── LANGUAGE ── */
     function setLang(lang) {
@@ -2518,6 +2853,860 @@
       }
       tick();
       setTimeout(() => canvas.classList.add('active'), 100);
+    })();
+
+    /* ── RESEARCH TOPIC NETWORK ── */
+    (function() {
+      const svgEl = document.getElementById('network-svg');
+      const container = document.getElementById('network-container');
+      const tooltip = document.getElementById('network-tooltip');
+      const legendEl = document.getElementById('network-legend');
+      if (!svgEl || !container) return;
+
+      /* ── colour map (matches .topic-tag CSS) ── */
+      const TAG_COLORS = {
+        'Anthropology':                 '#c87a5e',
+        'Digital Anthropology':         '#c8a96e',
+        'STS':                          '#6ab08a',
+        'Digital STS':                  '#4dc4a8',
+        'Philosophy of Science':        '#a87cb0',
+        'Digital Philosophy of Science':'#8e7fd4',
+        'Humanities':                   '#4868a8',
+        'Digital Humanities':           '#38b0e8',
+        'Digital Technology':           '#78a8e0',
+        'Technology':                   '#6890c0'
+      };
+
+      /* ── tag descriptions (ja / en) ── */
+      const TAG_DESCS = {
+        'Philosophy of Science': {
+          ja: '科学哲学',
+          descJa: '科学哲学は、科学的知識の性質、科学の基礎、およびその方法論を哲学的な視点から探求する学問分野です。「科学とは何か」「科学的知識はどのようにして正当化されるのか」といった根本的な問いを扱います。科学理論が現実をどのように記述しているのか、因果関係や推論の妥当性、理論と観察の関係、そして科学の発展メカニズム（パラダイムシフトなど）を考察します。科学の客観性や権威の本質を解き明かし、科学が現代社会や倫理に与える影響をメタ的な視点から批判的に分析する役割を担っています。',
+          descEn: 'Philosophy of Science is a branch of philosophy that critically examines the foundations, methods, and implications of scientific inquiry. It addresses fundamental questions such as "What is science?" and "How is scientific knowledge justified?" This field explores how scientific theories describe reality, analyzing concepts like causality, the validity of scientific reasoning, and the mechanisms of scientific development, such as paradigm shifts. By unpacking the essence of scientific objectivity and authority, it plays a crucial role in providing a meta-perspective on how science influences modern society, culture, and ethics.'
+        },
+        'Digital Philosophy of Science': {
+          ja: 'デジタル科学哲学',
+          descJa: 'デジタル科学哲学は、伝統的な科学哲学の問いに対して、情報技術やデータサイエンスの手法を用いてアプローチする新興の学際分野です。テキストマイニング、ネットワーク分析、コンピュータ・シミュレーションなどの計算論的手法を活用し、膨大な科学論文や歴史的データを計量的に分析することで、科学理論の変遷や研究コミュニティの動態を実証的に解明します。さらに、人工知能（AI）やビッグデータを用いたデータ駆動型の研究手法が、科学的知識の客観性や正当性にどのような影響を与えるかといった現代的な課題も考察します。',
+          descEn: 'Digital Philosophy of Science is an emerging interdisciplinary field that addresses traditional philosophical questions about science using computational methods and digital tools. By utilizing techniques such as text mining, network analysis, and computer simulations, researchers quantitatively analyze vast amounts of scientific literature to empirically trace the evolution of scientific theories and community dynamics. Furthermore, it investigates the unique epistemological and ethical challenges of the modern era, questioning how data-driven research methods, artificial intelligence, and algorithmic decision-making impact the objectivity and justification of scientific knowledge.'
+        },
+        'Anthropology': {
+          ja: '人類学',
+          descJa: '人類学は、人間の進化、行動、文化、社会、言語を時間的・空間的に幅広く研究し、「人間とは何か」という根源的な問いに挑む総合的な学問分野です。大きく分けて、生物学的な進化を探求する自然人類学と、社会構造や多様な文化を研究する文化人類学などがあります。特に文化人類学では、研究対象となるコミュニティに長期間滞在する「フィールドワーク（参与観察）」を重視します。多様な人々の生活様式や価値観を内側から深く理解することで、自文化の常識を相対化し、人間社会の多様性と普遍性を探求します。',
+          descEn: 'Anthropology is the comprehensive study of human evolution, behavior, culture, society, and language across time and space, fundamentally seeking to answer what it means to be human. It is primarily divided into physical anthropology, which explores human biological evolution, and cultural anthropology, which investigates diverse social structures and lifestyles. Cultural anthropology, in particular, emphasizes fieldwork and participant observation, where researchers immerse themselves in communities for extended periods. By understanding diverse values from an insider\'s perspective, anthropology relativizes our own cultural assumptions and explores both the vast diversity and underlying universality of human societies.'
+        },
+        'Digital Anthropology': {
+          ja: 'デジタル人類学',
+          descJa: 'デジタル人類学は、インターネット、SNS、スマートフォン、人工知能、メタバースなどのデジタル技術が、人間の日常生活、文化、社会関係、アイデンティティの形成にどのような影響を与えているかを研究する新しい領域です。オンライン空間でのフィールドワーク（デジタル・エスノグラフィ）などの手法を用いて、サイバースペースにおける人間の行動やコミュニケーションの変容を分析します。オンラインとオフラインの境界が曖昧になる現代社会において、テクノロジーがいかに文化実践を再構築しているかを解明する学問です。',
+          descEn: 'Digital Anthropology is a relatively new subfield of anthropology that investigates how digital technologies\u2014such as the internet, social media, smartphones, artificial intelligence, and the metaverse\u2014affect human daily life, culture, social relationships, and identity formation. Utilizing methods like digital ethnography, researchers observe and analyze behavioral patterns and transformations in communication within cyberspace. In a contemporary society where the boundary between online and offline worlds is increasingly blurred, this vital discipline illuminates how the ubiquitous presence of technology continuously reshapes our cultural practices and redefines what it means to be human in the digital age.'
+        },
+        'STS': {
+          ja: '科学技術社会論',
+          descJa: 'STS（Science and Technology Studies）は、科学的知識や技術的イノベーションが、社会、文化、政治、歴史の文脈とどのように相互作用しながら形成されているかを研究する学際的な分野です。科学や技術を単なる客観的な真理や中立的な道具としてではなく、人間の価値観、経済的利益、権力関係が複雑に絡み合った「社会的な構築物」として捉えます。気候変動、生命倫理、新技術の社会的受容など、現代社会が直面する複雑な課題に対し批判的な視点を提供し、専門家と市民の対話のあり方や民主的な科学技術政策の構築を模索します。',
+          descEn: 'STS (Science and Technology Studies) is an interdisciplinary field that investigates how scientific knowledge and technological innovations are shaped by, and in turn shape, society, culture, politics, and history. Instead of viewing science and technology as purely objective truths or neutral tools, STS understands them as "social constructs" intricately entangled with human values, economic interests, and power dynamics. The field provides critical perspectives on complex contemporary challenges such as climate change, bioethics, and the societal acceptance of new technologies, striving to foster better dialogue between experts and citizens and to build more democratic science and technology policies.'
+        },
+        'Digital STS': {
+          ja: 'デジタルSTS',
+          descJa: 'デジタルSTSは、科学技術社会論（STS）の分析枠組みや批判的視点を、アルゴリズム、ビッグデータ、巨大プラットフォームといった現代のデジタル技術に適用する分野です。データ収集やAIによる自動意思決定が、いかにして社会的なバイアスや差別を内包し、既存の権力構造を再生産しているかを解明します。同時に、ネットワーク分析やデータマイニングといった計算論的アプローチを調査手法として活用します。見えにくいデジタルインフラのブラックボックスを解体し、データ駆動型社会における倫理やガバナンスを問い直します。',
+          descEn: 'Digital STS is a specialized branch of Science and Technology Studies that applies STS analytical frameworks specifically to modern digital technologies, including algorithms, big data, and digital platforms. It critically examines how data collection and automated decision-making by AI embed social biases and reproduce existing power structures and inequalities. Simultaneously, it actively incorporates computational approaches\u2014such as data mining and network analysis\u2014into its research methodologies. By unpacking the opaque "black boxes" of digital infrastructures, this advanced research area fundamentally questions the ethics, governance, and societal impacts inherent in our increasingly data-driven society.'
+        },
+        'Humanities': {
+          ja: '人文学',
+          descJa: '人文学（ヒューマニティーズ）は、文学、歴史学、哲学、言語学、宗教学、芸術学などの多様なアプローチを通じて、人間の思想、文化、歴史、精神的所産を深く理解しようとする学問領域の総称です。自然科学が客観的なデータに基づく普遍的な法則の発見を目指すのに対し、人文学は人間の主観的な経験、価値観の多様性、そして意味の解釈に重きを置きます。過去から受け継がれてきたテキストや史料の批判的な読解を通じて人類の営みを詳細に分析し、「私たちは何者なのか」「どう生きるべきか」という根源的な問いに向き合い続けます。',
+          descEn: 'The Humanities encompass a broad group of academic disciplines\u2014including literature, history, philosophy, linguistics, religious studies, and the arts\u2014dedicated to the profound understanding of human thought, culture, history, and spiritual endeavors. While the natural sciences strive to objectively discover universal laws, the humanities emphasize subjective human experiences, the diversity of values, and the critical interpretation of meaning. Through the meticulous analysis of historical texts, primary documents, and artistic works inherited from the past, the humanities continuously address fundamental questions about human existence, exploring "who we are" and "how we ought to live."'
+        },
+        'Digital Technology': {
+          ja: 'デジタルテクノロジー',
+          descJa: 'デジタルテクノロジー（デジタル技術）は、音声や画像、テキストなどの連続的なアナログ情報を「0」と「1」の離散的な二進数データに変換して処理、保存、通信を行う技術体系全般を指します。コンピュータ科学や情報工学を基盤とし、ソフトウェア開発、インターネット、人工知能（AI）、クラウドコンピューティング、IoTなどが含まれます。膨大なデータを高速かつ正確に処理できる点が特徴であり、現代のあらゆる産業やインフラを根底から支え、社会課題の解決とイノベーションを牽引する極めて実践的な分野です。',
+          descEn: 'Digital Technology refers to the comprehensive system of technologies that process, store, and transmit continuous analog information by converting it into discrete binary data (zeros and ones). Rooted in computer science and information engineering, this field encompasses software development, the internet, artificial intelligence (AI), cloud computing, and the Internet of Things (IoT). Characterized by its unprecedented ability to process massive amounts of data rapidly and accurately, digital technology forms the indispensable backbone of all modern industries and societal infrastructures, driving innovation and providing practical solutions to complex contemporary challenges.'
+        },
+        'Technology': {
+          ja: 'テクノロジー / 技術・工学',
+          descJa: 'テクノロジー（技術・工学）は、科学的な知識や実証的な経験則を応用して、人間の生活を向上させ、社会的な課題を解決するための手段、道具、機械、システムを創出する分野です。学術的なタグとしては、機械、電子、材料、土木、バイオテクノロジーなどの工学領域全般を包含します。新しいハードウェアの開発やインフラの構築にとどまらず、製造プロセスの最適化、エネルギー効率の向上、技術革新が環境や社会構造に与える影響の評価なども重要なテーマです。理論を現実世界で安全かつ効果的に機能する形へと変換する実践的な領域です。',
+          descEn: 'Technology, often categorized under engineering and applied sciences, is the broad field dedicated to applying scientific knowledge and empirical principles to create tools, machines, and systems that improve human life and solve practical societal challenges. As an academic tag, it encompasses a vast array of disciplines, including mechanical, electrical, civil, and biotechnology engineering. Important themes extend beyond developing new hardware to include optimizing manufacturing processes, enhancing energy efficiency, and rigorously assessing the environmental and social impacts of innovations. It is a highly practical domain focused on translating theories into functional and effective real-world applications.'
+        },
+        'Digital Humanities': {
+          ja: 'デジタル人文学',
+          descJa: 'デジタルヒューマニティーズ（デジタル人文学）は、歴史学や文学といった伝統的な人文学の研究手法に、最新のデジタル技術や計算論的アプローチを融合させた革新的な学際分野です。歴史的文書や芸術作品などの膨大な文化資源をデジタルデータ化し、テキストマイニング、ネットワーク分析、地理情報システム（GIS）、3Dモデリングなどを用いて解析します。これにより、人間の目視だけでは発見できなかった大規模なパターン（遠読）や新たな知見を抽出し、人文学の知識生産のあり方を革新し、可能性を大きく広げています。',
+          descEn: 'Digital Humanities is an innovative, interdisciplinary field that merges traditional humanistic research\u2014such as history and literature\u2014with cutting-edge digital technologies and computational approaches. Researchers digitize vast collections of cultural resources, including historical manuscripts and artworks, and analyze them using advanced techniques like text mining, network analysis, Geographic Information Systems (GIS), and 3D modeling. This computational power enables scholars to engage in "distant reading," extracting new insights and uncovering large-scale patterns impossible to detect through manual analysis alone. By synergizing technological capabilities with humanistic insight, it revolutionizes knowledge production in the humanities.'
+        }
+      };
+
+      /* ── extract data from DOM ── */
+      const section = container.closest('section');
+      const pubItems = section.querySelectorAll('.pub-item');
+      const projects = [];
+      const tagSet = new Set();
+
+      pubItems.forEach((el, i) => {
+        const titleJa = el.querySelector('.pub-title[data-lang="ja"]');
+        const titleEn = el.querySelector('.pub-title[data-lang="en"]');
+        const titleOnly = el.querySelector('.pub-title:not([data-lang])');
+        const year = el.querySelector('.pub-year');
+        const tags = [];
+        el.querySelectorAll('.topic-tag[data-tag]').forEach(t => {
+          tags.push(t.dataset.tag);
+          tagSet.add(t.dataset.tag);
+        });
+        const yearText = year ? year.textContent.trim() : '';
+        const ym = yearText.match(/(\d{4})/g);
+        const startYear = ym ? parseInt(ym[0]) : 2020;
+        const endYear = ym && ym.length > 1 ? parseInt(ym[1]) : (yearText.includes('—') && !ym?.[1] ? 2030 : startYear + 1);
+        // detect group: pub-lists under section
+        const parentList = el.closest('.pub-list');
+        const allPubLists = section.querySelectorAll('.pub-list');
+        const group = (allPubLists.length >= 2 && parentList === allPubLists[1]) ? 'coi' : 'pi';
+        // grant & member info
+        const grantJaEl = el.querySelector('.grant-info .grant-tag[data-lang="ja"]');
+        const grantEnEl = el.querySelector('.grant-info .grant-tag[data-lang="en"]');
+        const grantOnlyEl = el.querySelector('.grant-info .grant-tag:not([data-lang])');
+        const memberInfoEl = el.querySelector('.member-info');
+        let memberJaStr = '', memberEnStr = '';
+        if (memberInfoEl) {
+          const mJa = memberInfoEl.querySelector('[data-lang="ja"]');
+          const mEn = memberInfoEl.querySelector('[data-lang="en"]');
+          if (mJa) memberJaStr = mJa.textContent.trim();
+          if (mEn) memberEnStr = mEn.textContent.trim();
+          if (!memberJaStr && !memberEnStr) {
+            memberJaStr = memberEnStr = memberInfoEl.textContent.trim();
+          }
+        }
+        const linkEl = el.querySelector('a.pub-title-link');
+        projects.push({
+          id: 'proj-' + i,
+          ja: titleJa ? titleJa.textContent.trim() : (titleOnly ? titleOnly.textContent.trim() : ''),
+          en: titleEn ? titleEn.textContent.trim() : (titleOnly ? titleOnly.textContent.trim() : ''),
+          year: yearText,
+          startYear: startYear,
+          endYear: endYear,
+          group: group,
+          tags: tags,
+          grantJa: grantJaEl ? grantJaEl.textContent.trim() : (grantOnlyEl ? grantOnlyEl.textContent.trim() : ''),
+          grantEn: grantEnEl ? grantEnEl.textContent.trim() : (grantOnlyEl ? grantOnlyEl.textContent.trim() : ''),
+          memberJa: memberJaStr,
+          memberEn: memberEnStr,
+          link: linkEl ? linkEl.href : '',
+          el: el
+        });
+      });
+
+      /* ── assign numbers: oldest first ── */
+      const sorted = [...projects].sort((a, b) => {
+        const ya = parseInt(a.year) || 0;
+        const yb = parseInt(b.year) || 0;
+        return ya - yb;
+      });
+      sorted.forEach((p, i) => { p.num = i + 1; });
+
+      /* inject number badge into DOM list */
+      projects.forEach(p => {
+        const yearSpan = p.el.querySelector('.pub-year');
+        if (yearSpan && p.num != null) {
+          const badge = document.createElement('span');
+          badge.className = 'proj-num-badge';
+          badge.textContent = p.num;
+          badge.style.background = TAG_COLORS[p.tags[0]] || '#888';
+          yearSpan.parentNode.insertBefore(badge, yearSpan);
+        }
+      });
+
+      let tlBars = null;
+      let tlBarLabels = null;
+
+      /* ── build graph ── */
+      const nodes = [];
+      const links = [];
+      const tagNodes = {};
+
+      tagSet.forEach(tag => {
+        const id = 'tag-' + tag;
+        tagNodes[tag] = id;
+        nodes.push({ id: id, type: 'tag', label: tag, color: TAG_COLORS[tag] || '#888' });
+      });
+
+      projects.forEach(p => {
+        nodes.push({ id: p.id, type: 'project', num: p.num, ja: p.ja, en: p.en, year: p.year, tags: p.tags, el: p.el });
+        p.tags.forEach(tag => {
+          links.push({ source: tagNodes[tag], target: p.id });
+        });
+      });
+
+      /* ── Digital ↔ base discipline links ── */
+      const digitalPairs = [
+        ['Digital STS', 'STS'],
+        ['Digital Philosophy of Science', 'Philosophy of Science'],
+        ['Digital Anthropology', 'Anthropology'],
+        ['Digital Humanities', 'Humanities'],
+        ['Digital Technology', 'Technology']
+      ];
+      digitalPairs.forEach(([dTag, bTag]) => {
+        if (tagNodes[dTag] && tagNodes[bTag]) {
+          links.push({ source: tagNodes[dTag], target: tagNodes[bTag], tagLink: true });
+        }
+      });
+
+      /* ── dimensions ── */
+      let W = container.clientWidth;
+      let H = container.clientHeight;
+
+      const svg = d3.select(svgEl)
+        .attr('viewBox', [0, 0, W, H].join(' '))
+        .attr('preserveAspectRatio', 'xMidYMid meet');
+
+      const g = svg.append('g');
+
+      /* ── simulation ── */
+      const simulation = d3.forceSimulation(nodes)
+        .force('link', d3.forceLink(links).id(d => d.id).distance(d => d.tagLink ? 50 : 80))
+        .force('charge', d3.forceManyBody().strength(-220))
+        .force('center', d3.forceCenter(W / 2, H / 2))
+        .force('collision', d3.forceCollide().radius(d => d.type === 'tag' ? 28 : 18))
+        .force('x', d3.forceX(W / 2).strength(0.04))
+        .force('y', d3.forceY(H / 2).strength(0.04))
+        .alphaDecay(0.02)
+        .stop(); // will start on IntersectionObserver
+
+      /* ── draw edges ── */
+      const link = g.append('g')
+        .selectAll('line')
+        .data(links)
+        .join('line')
+        .attr('class', 'network-edge')
+        .attr('stroke-dasharray', d => d.tagLink ? '4 3' : null)
+        .attr('stroke-opacity', d => d.tagLink ? 0.30 : null);
+
+      /* ── draw nodes ── */
+      const node = g.append('g')
+        .selectAll('g')
+        .data(nodes)
+        .join('g')
+        .attr('class', d => d.type === 'tag' ? 'node-tag' : 'node-project');
+
+      // tag nodes: larger circle + label
+      node.filter(d => d.type === 'tag')
+        .append('circle')
+        .attr('r', 14)
+        .attr('fill', d => d.color)
+        .attr('fill-opacity', 0.18)
+        .attr('stroke', d => d.color)
+        .attr('stroke-width', 1.5);
+
+      node.filter(d => d.type === 'tag')
+        .append('text')
+        .attr('dy', '0.35em')
+        .attr('text-anchor', 'middle')
+        .attr('fill', d => d.color)
+        .attr('font-size', '8px')
+        .attr('letter-spacing', '0.04em')
+        .attr('pointer-events', 'none')
+        .text(d => {
+          const abbr = {
+            'Digital STS': 'DSTS',
+            'Digital Philosophy of Science': 'DPS',
+            'Digital Anthropology': 'DA',
+            'Digital Humanities': 'DH',
+            'Digital Technology': 'DT',
+            'Philosophy of Science': 'PoS',
+            'Anthropology': 'Anth',
+            'STS': 'STS',
+            'Humanities': 'Hum',
+            'Technology': 'Tech'
+          };
+          return abbr[d.label] || d.label.substring(0, 4);
+        });
+
+      // project nodes: numbered circle
+      node.filter(d => d.type === 'project')
+        .append('circle')
+        .attr('r', 11)
+        .attr('fill', d => {
+          if (d.tags && d.tags.length > 0) return TAG_COLORS[d.tags[0]] || '#888';
+          return '#888';
+        })
+        .attr('fill-opacity', 0.22)
+        .attr('stroke', d => {
+          if (d.tags && d.tags.length > 0) return TAG_COLORS[d.tags[0]] || '#888';
+          return '#888';
+        })
+        .attr('stroke-width', 1)
+        .attr('stroke-opacity', 0.5);
+
+      node.filter(d => d.type === 'project')
+        .append('text')
+        .attr('dy', '0.35em')
+        .attr('text-anchor', 'middle')
+        .attr('fill', d => {
+          if (d.tags && d.tags.length > 0) return TAG_COLORS[d.tags[0]] || '#888';
+          return '#888';
+        })
+        .attr('font-size', '9px')
+        .attr('font-weight', '500')
+        .attr('pointer-events', 'none')
+        .text(d => d.num);
+
+      /* ── adjacency helpers ── */
+      function getNeighbors(nodeId) {
+        const neighbors = new Set([nodeId]);
+        links.forEach(l => {
+          const sId = typeof l.source === 'object' ? l.source.id : l.source;
+          const tId = typeof l.target === 'object' ? l.target.id : l.target;
+          if (sId === nodeId) neighbors.add(tId);
+          if (tId === nodeId) neighbors.add(sId);
+        });
+        return neighbors;
+      }
+
+      function isLinkConnected(l, nodeId) {
+        const sId = typeof l.source === 'object' ? l.source.id : l.source;
+        const tId = typeof l.target === 'object' ? l.target.id : l.target;
+        return sId === nodeId || tId === nodeId;
+      }
+
+      /* ── language helper ── */
+      function getLang() {
+        return document.body.classList.contains('lang-en') ? 'en' : 'ja';
+      }
+
+      function getProjectLabel(d) {
+        const lang = getLang();
+        return lang === 'en' ? (d.en || d.ja) : (d.ja || d.en);
+      }
+
+      /* ── rich tooltip HTML builder ── */
+      function buildProjectTip(p) {
+        const lang = getLang();
+        const color = TAG_COLORS[p.tags[0]] || '#888';
+        const title = lang === 'en' ? (p.en || p.ja) : (p.ja || p.en);
+        const grant = lang === 'en' ? (p.grantEn || p.grantJa) : (p.grantJa || p.grantEn);
+        const members = lang === 'en' ? (p.memberEn || p.memberJa) : (p.memberJa || p.memberEn);
+
+        let h = '<div class="tip-head">';
+        h += `<span class="tip-num" style="background:${color}">${p.num}</span>`;
+        h += `<span class="tip-year">${p.year}</span>`;
+        h += '</div>';
+        h += `<div class="tip-title">${title}</div>`;
+        if (p.tags.length) {
+          h += '<div class="tip-tags">';
+          p.tags.forEach(t => {
+            const tc = TAG_COLORS[t] || '#888';
+            h += `<span class="tip-tag" style="color:${tc};border-color:${tc}">${t}</span>`;
+          });
+          h += '</div>';
+        }
+        if (grant) h += `<div class="tip-grant">${grant}</div>`;
+        if (members) h += `<div class="tip-members">${members}</div>`;
+        return h;
+      }
+
+      /* ── rich tag tooltip HTML builder ── */
+      function buildTagTip(label) {
+        const lang = getLang();
+        const color = TAG_COLORS[label] || '#888';
+        const info = TAG_DESCS[label];
+        if (!info) return `<span style="color:${color}">${label}</span>`;
+        const jaName = info.ja || '';
+        const desc = lang === 'en' ? (info.descEn || info.descJa) : (info.descJa || info.descEn);
+
+        let h = '<div class="tip-tag-head">';
+        h += `<span class="tip-tag-dot" style="background:${color}"></span>`;
+        h += `<span class="tip-tag-name" style="color:${color}">${label}`;
+        if (jaName) h += `<span class="tip-tag-name-ja">（${jaName}）</span>`;
+        h += '</span></div>';
+        if (desc) h += `<div class="tip-desc">${desc}</div>`;
+        return h;
+      }
+
+      /* find project data by id (for network nodes) */
+      function findProject(id) {
+        return projects.find(p => p.id === id);
+      }
+
+      /* ── hover ── */
+      let activeFilter = null;
+
+      node.on('mouseenter', function(event, d) {
+        if (activeFilter) return;
+        const neighbors = getNeighbors(d.id);
+        svgEl.classList.add('has-hover');
+        node.classed('node-active', n => neighbors.has(n.id));
+        link.classed('edge-active', l => isLinkConnected(l, d.id));
+
+        // tooltip
+        if (d.type === 'tag') {
+          tooltip.textContent = d.label;
+          tooltip.classList.add('tip-tag');
+        } else {
+          const proj = findProject(d.id);
+          if (proj) {
+            tooltip.innerHTML = buildProjectTip(proj);
+            tooltip.classList.remove('tip-tag');
+          }
+        }
+        tooltip.classList.add('visible');
+      })
+      .on('mousemove', function(event) {
+        const rect = container.getBoundingClientRect();
+        const tipW = tooltip.offsetWidth || 200;
+        const tipH = tooltip.offsetHeight || 40;
+        let x = event.clientX - rect.left + 16;
+        let y = event.clientY - rect.top - tipH - 8;
+        if (x + tipW > rect.width) x = event.clientX - rect.left - tipW - 8;
+        if (y < 0) y = event.clientY - rect.top + 16;
+        tooltip.style.left = x + 'px';
+        tooltip.style.top = y + 'px';
+      })
+      .on('mouseleave', function() {
+        if (activeFilter) return;
+        svgEl.classList.remove('has-hover');
+        node.classed('node-active', false);
+        link.classed('edge-active', false);
+        tooltip.classList.remove('visible');
+        tooltip.classList.remove('tip-tag');
+      });
+
+      /* ── click: tag → filter, project → scroll ── */
+      node.on('click', function(event, d) {
+        event.stopPropagation();
+        if (d.type === 'tag') {
+          if (activeFilter === d.id) {
+            clearFilter();
+          } else {
+            activeFilter = d.id;
+            applyFilter(d.id);
+          }
+        } else if (d.type === 'project') {
+          // scroll to timeline bar + flash
+          const tlWrap = document.getElementById('project-timeline-wrap');
+          if (tlWrap) {
+            tlWrap.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            if (tlBars) {
+              tlBars.filter(b => b.id === d.id).each(function() {
+                this.classList.remove('tl-flash');
+                void this.offsetWidth; // reflow
+                this.classList.add('tl-flash');
+                setTimeout(() => this.classList.remove('tl-flash'), 1500);
+              });
+            }
+          }
+        }
+      });
+
+      svg.on('click', function() {
+        if (activeFilter) clearFilter();
+      });
+
+      function applyFilter(tagId) {
+        const neighbors = getNeighbors(tagId);
+        svgEl.classList.remove('has-hover');
+        svgEl.classList.add('has-filter');
+        node.classed('node-active', n => neighbors.has(n.id));
+        link.classed('edge-active', l => isLinkConnected(l, tagId));
+        legendEl.querySelectorAll('.legend-item').forEach(li => {
+          li.classList.toggle('legend-active', ('tag-' + li.dataset.tag) === tagId);
+        });
+        // dim project list
+        const connectedProjects = new Set();
+        links.forEach(l => {
+          const sId = typeof l.source === 'object' ? l.source.id : l.source;
+          const tId = typeof l.target === 'object' ? l.target.id : l.target;
+          if (sId === tagId) connectedProjects.add(tId);
+          if (tId === tagId) connectedProjects.add(sId);
+        });
+        projects.forEach(p => {
+          if (connectedProjects.has(p.id)) {
+            p.el.classList.remove('net-dimmed');
+            p.el.classList.add('net-highlight');
+          } else {
+            p.el.classList.add('net-dimmed');
+            p.el.classList.remove('net-highlight');
+          }
+        });
+        // timeline bars
+        if (tlBars) {
+          tlBars.classed('tl-dimmed', d => !connectedProjects.has(d.id))
+                .classed('tl-highlight', d => connectedProjects.has(d.id));
+        }
+        if (tlBarLabels) {
+          tlBarLabels.attr('opacity', d => connectedProjects.has(d.id) ? 1 : 0.12);
+        }
+      }
+
+      function clearFilter() {
+        activeFilter = null;
+        svgEl.classList.remove('has-filter');
+        node.classed('node-active', false);
+        link.classed('edge-active', false);
+        legendEl.querySelectorAll('.legend-item').forEach(li => li.classList.remove('legend-active'));
+        projects.forEach(p => {
+          p.el.classList.remove('net-dimmed', 'net-highlight');
+        });
+        // timeline bars
+        if (tlBars) {
+          tlBars.classed('tl-dimmed', false).classed('tl-highlight', false);
+        }
+        if (tlBarLabels) {
+          tlBarLabels.attr('opacity', 1);
+        }
+      }
+
+      /* ── zoom ── */
+      const zoom = d3.zoom()
+        .scaleExtent([0.4, 3])
+        .on('zoom', (event) => {
+          g.attr('transform', event.transform);
+        });
+
+      svg.call(zoom);
+      svg.on('dblclick.zoom', () => {
+        svg.transition().duration(500).call(zoom.transform, d3.zoomIdentity);
+      });
+
+      /* ── drag ── */
+      const drag = d3.drag()
+        .on('start', (event, d) => {
+          if (!event.active) simulation.alphaTarget(0.3).restart();
+          d.fx = d.x;
+          d.fy = d.y;
+        })
+        .on('drag', (event, d) => {
+          d.fx = event.x;
+          d.fy = event.y;
+        })
+        .on('end', (event, d) => {
+          if (!event.active) simulation.alphaTarget(0);
+          d.fx = null;
+          d.fy = null;
+        });
+
+      node.call(drag);
+
+      /* ── tick ── */
+      simulation.on('tick', () => {
+        link
+          .attr('x1', d => d.source.x)
+          .attr('y1', d => d.source.y)
+          .attr('x2', d => d.target.x)
+          .attr('y2', d => d.target.y);
+        node.attr('transform', d => `translate(${d.x},${d.y})`);
+      });
+
+      /* ── legend ── */
+      const tagOrder = [
+        'Digital STS', 'Digital Philosophy of Science', 'Digital Anthropology',
+        'STS', 'Philosophy of Science', 'Anthropology',
+        'Digital Humanities', 'Digital Technology',
+        'Humanities', 'Technology'
+      ];
+      tagOrder.forEach(tag => {
+        if (!tagSet.has(tag)) return;
+        const item = document.createElement('span');
+        item.className = 'legend-item';
+        item.dataset.tag = tag;
+        const dot = document.createElement('span');
+        dot.className = 'legend-dot';
+        dot.style.background = TAG_COLORS[tag] || '#888';
+        item.appendChild(dot);
+        item.appendChild(document.createTextNode(tag));
+        item.addEventListener('click', () => {
+          const tagId = 'tag-' + tag;
+          if (activeFilter === tagId) {
+            clearFilter();
+          } else {
+            activeFilter = tagId;
+            applyFilter(tagId);
+          }
+        });
+        legendEl.appendChild(item);
+      });
+
+      /* ── bilingual: update labels on lang change ── */
+      const langObserver = new MutationObserver(() => {
+        // tooltip is dynamic, nothing static to update
+      });
+      langObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+      /* ── lazy start with IntersectionObserver ── */
+      let started = false;
+      const netObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !started) {
+            started = true;
+            simulation.restart();
+            netObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      netObserver.observe(container);
+
+      /* also observe for scroll reveal */
+      const networkWrap = document.getElementById('research-network');
+      if (networkWrap) revealObserver.observe(networkWrap);
+
+      /* ── responsive resize ── */
+      window.addEventListener('resize', () => {
+        W = container.clientWidth;
+        H = container.clientHeight;
+        svg.attr('viewBox', [0, 0, W, H].join(' '));
+        simulation.force('center', d3.forceCenter(W / 2, H / 2));
+        simulation.force('x', d3.forceX(W / 2).strength(0.04));
+        simulation.force('y', d3.forceY(H / 2).strength(0.04));
+        simulation.alpha(0.3).restart();
+      }, { passive: true });
+
+      /* ══════════════════════════════════════════════
+         PROJECT TIMELINE (GANTT CHART)
+         ══════════════════════════════════════════════ */
+      (function drawTimeline() {
+        const tlSvgEl = document.getElementById('timeline-svg');
+        const tlContainer = document.getElementById('project-timeline');
+        const tlTooltip = document.getElementById('timeline-tooltip');
+        const tlWrap = document.getElementById('project-timeline-wrap');
+        if (!tlSvgEl || !tlContainer) return;
+
+        /* ── layout constants ── */
+        const margin = { top: 50, right: 24, bottom: 30, left: 100 };
+        const barHeight = 22;
+        const barGap = 6;
+        const groupGap = 28;
+        const xMin = 2013;
+        const xMax = 2031;
+
+        /* ── split into PI / Co-I groups ── */
+        const piProjects = projects.filter(p => p.group === 'pi').sort((a, b) => a.startYear - b.startYear);
+        const coiProjects = projects.filter(p => p.group === 'coi').sort((a, b) => a.startYear - b.startYear);
+
+        const piCount = piProjects.length;
+        const coiCount = coiProjects.length;
+        const totalBars = piCount + coiCount;
+        const innerHeight = totalBars * (barHeight + barGap) + groupGap + 10;
+        const totalHeight = margin.top + innerHeight + margin.bottom;
+        const totalWidth = tlContainer.clientWidth || 700;
+
+        const tlSvg = d3.select(tlSvgEl)
+          .attr('width', totalWidth)
+          .attr('height', totalHeight);
+
+        /* ── X scale ── */
+        let xScale = d3.scaleLinear()
+          .domain([xMin, xMax])
+          .range([margin.left, totalWidth - margin.right]);
+
+        /* ── grid lines ── */
+        const gridG = tlSvg.append('g').attr('class', 'tl-grid');
+        function drawGrid() {
+          gridG.selectAll('line').remove();
+          for (let yr = xMin; yr <= xMax; yr++) {
+            gridG.append('line')
+              .attr('x1', xScale(yr))
+              .attr('x2', xScale(yr))
+              .attr('y1', margin.top)
+              .attr('y2', totalHeight - margin.bottom);
+          }
+        }
+        drawGrid();
+
+        /* ── X axis ── */
+        const axisG = tlSvg.append('g')
+          .attr('class', 'tl-axis')
+          .attr('transform', `translate(0,${totalHeight - margin.bottom})`);
+
+        function drawAxis() {
+          const ticks = [];
+          for (let yr = xMin; yr <= xMax; yr++) ticks.push(yr);
+          axisG.call(
+            d3.axisBottom(xScale)
+              .tickValues(ticks)
+              .tickFormat(d => String(d))
+              .tickSize(-innerHeight - 4)
+          );
+          axisG.select('.domain').remove();
+          axisG.selectAll('.tick line').attr('stroke-opacity', 0);
+        }
+        drawAxis();
+
+        /* ── "NOW" marker ── */
+        const now = new Date();
+        const nowFrac = now.getFullYear() + (now.getMonth() / 12);
+        const nowG = tlSvg.append('g');
+
+        function drawNow() {
+          nowG.selectAll('*').remove();
+          const nx = xScale(nowFrac);
+          nowG.append('line')
+            .attr('class', 'tl-today-line')
+            .attr('x1', nx).attr('x2', nx)
+            .attr('y1', margin.top - 8)
+            .attr('y2', totalHeight - margin.bottom);
+          nowG.append('text')
+            .attr('x', nx)
+            .attr('y', margin.top - 14)
+            .attr('text-anchor', 'middle')
+            .attr('fill', 'var(--accent)')
+            .attr('font-size', '9px')
+            .attr('letter-spacing', '0.1em')
+            .text('NOW');
+        }
+        drawNow();
+
+        /* ── group labels ── */
+        function getGroupLabel(group) {
+          const lang = getLang();
+          if (group === 'pi') return lang === 'ja' ? '代表者' : 'PI';
+          return lang === 'ja' ? '分担者' : 'Co-I';
+        }
+
+        const piLabelY = margin.top + (barHeight + barGap) * piCount / 2;
+        const coiLabelY = margin.top + (barHeight + barGap) * piCount + groupGap + (barHeight + barGap) * coiCount / 2;
+
+        const piLabel = tlSvg.append('text')
+          .attr('class', 'tl-group-label')
+          .attr('x', 12)
+          .attr('y', piLabelY)
+          .attr('dominant-baseline', 'central')
+          .text(getGroupLabel('pi'));
+
+        const coiLabel = tlSvg.append('text')
+          .attr('class', 'tl-group-label')
+          .attr('x', 12)
+          .attr('y', coiLabelY)
+          .attr('dominant-baseline', 'central')
+          .text(getGroupLabel('coi'));
+
+        /* ── MutationObserver for language switch ── */
+        const tlLangObs = new MutationObserver(() => {
+          piLabel.text(getGroupLabel('pi'));
+          coiLabel.text(getGroupLabel('coi'));
+        });
+        tlLangObs.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+        /* ── bar y positions ── */
+        function barY(d) {
+          if (d.group === 'pi') {
+            const idx = piProjects.indexOf(d);
+            return margin.top + idx * (barHeight + barGap);
+          } else {
+            const idx = coiProjects.indexOf(d);
+            return margin.top + piCount * (barHeight + barGap) + groupGap + idx * (barHeight + barGap);
+          }
+        }
+
+        /* ── all projects sorted for entry animation ── */
+        const allSorted = [...piProjects, ...coiProjects];
+
+        /* ── draw bars ── */
+        const barsG = tlSvg.append('g');
+
+        tlBars = barsG.selectAll('rect')
+          .data(allSorted)
+          .join('rect')
+          .attr('class', 'tl-bar')
+          .attr('x', d => xScale(d.startYear))
+          .attr('y', d => barY(d))
+          .attr('height', barHeight)
+          .attr('width', 0)
+          .attr('rx', 2)
+          .attr('fill', d => TAG_COLORS[d.tags[0]] || '#888')
+          .attr('fill-opacity', 0.65);
+
+        /* ── number labels ── */
+        tlBarLabels = barsG.selectAll('text.tl-bar-num')
+          .data(allSorted)
+          .join('text')
+          .attr('class', 'tl-bar-num')
+          .attr('x', d => xScale(d.startYear) + 8)
+          .attr('y', d => barY(d) + barHeight / 2)
+          .attr('dominant-baseline', 'central')
+          .attr('opacity', 0)
+          .text(d => '#' + d.num);
+
+        /* ── entry animation via IntersectionObserver ── */
+        let tlAnimated = false;
+        const tlObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting && !tlAnimated) {
+              tlAnimated = true;
+              tlBars.transition()
+                .delay((d, i) => i * 60)
+                .duration(800)
+                .ease(d3.easeCubicOut)
+                .attr('width', d => Math.max(xScale(d.endYear) - xScale(d.startYear), 6));
+
+              tlBarLabels.transition()
+                .delay((d, i) => i * 60 + 500)
+                .duration(400)
+                .attr('opacity', 1);
+
+              tlObserver.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.15 });
+        tlObserver.observe(tlContainer);
+
+        /* ── hover tooltip ── */
+        tlBars.on('mouseenter', function(event, d) {
+          tlTooltip.innerHTML = buildProjectTip(d);
+          tlTooltip.classList.add('visible');
+        })
+        .on('mousemove', function(event) {
+          const rect = tlContainer.getBoundingClientRect();
+          const tipW = tlTooltip.offsetWidth || 200;
+          const tipH = tlTooltip.offsetHeight || 40;
+          let x = event.clientX - rect.left + 16;
+          let y = event.clientY - rect.top - tipH - 8;
+          if (x + tipW > rect.width) x = event.clientX - rect.left - tipW - 8;
+          if (y < 0) y = event.clientY - rect.top + 16;
+          tlTooltip.style.left = x + 'px';
+          tlTooltip.style.top = y + 'px';
+        })
+        .on('mouseleave', function() {
+          tlTooltip.classList.remove('visible');
+        });
+
+        /* ── click → highlight network node ── */
+        tlBars.on('click', function(event, d) {
+          event.stopPropagation();
+          // highlight matching project node in network
+          const neighbors = getNeighbors(d.id);
+          svgEl.classList.remove('has-hover');
+          svgEl.classList.add('has-filter');
+          node.classed('node-active', n => neighbors.has(n.id));
+          link.classed('edge-active', l => isLinkConnected(l, d.id));
+          activeFilter = '__tl_' + d.id; // mark as timeline-originated filter
+
+          // scroll to network
+          const netEl = document.getElementById('research-network');
+          if (netEl) netEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+          // auto-clear after 3s
+          setTimeout(() => {
+            if (activeFilter === '__tl_' + d.id) {
+              clearFilter();
+            }
+          }, 3000);
+        });
+
+        /* ── responsive resize ── */
+        window.addEventListener('resize', () => {
+          const newW = tlContainer.clientWidth || 700;
+          tlSvg.attr('width', newW);
+          xScale.range([margin.left, newW - margin.right]);
+
+          tlBars
+            .attr('x', d => xScale(d.startYear))
+            .attr('width', d => tlAnimated ? Math.max(xScale(d.endYear) - xScale(d.startYear), 6) : 0);
+
+          tlBarLabels
+            .attr('x', d => xScale(d.startYear) + 8);
+
+          drawGrid();
+          drawAxis();
+          drawNow();
+        }, { passive: true });
+
+        /* ── observe for scroll reveal ── */
+        if (tlWrap) revealObserver.observe(tlWrap);
+
+      })();
+
     })();
 
     /* ── HERO AMBIENT GLOW ── */
