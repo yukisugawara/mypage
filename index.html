@@ -359,6 +359,144 @@
       opacity: 0.3;
     }
 
+    /* ── MVV STACK (vertical redesign) ── */
+    .mvv-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border: 1px solid var(--line);
+    }
+    .mvv-block {
+      padding: 48px 52px;
+      border-bottom: 1px solid var(--line);
+      position: relative;
+      overflow: hidden;
+      transition: background 0.4s ease;
+      cursor: default;
+    }
+    .mvv-block:last-child { border-bottom: none; }
+    /* left accent line — grows on hover */
+    .mvv-block::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 0;
+      background: var(--mvv-color);
+      transition: height 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .mvv-block:hover::before { height: 100%; }
+    .mvv-block:hover { background: var(--bg2); }
+    .mvv-block-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    .mvv-block-icon {
+      width: 48px; height: 48px;
+      flex-shrink: 0;
+      stroke: var(--mvv-color);
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .mvv-block-label {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--mvv-color);
+      margin-bottom: 6px;
+      transition: letter-spacing 0.4s ease;
+    }
+    .mvv-block:hover .mvv-block-label { letter-spacing: 0.28em; }
+    .mvv-block-title {
+      font-size: 20px;
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.3;
+    }
+    .mvv-block-body {
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.9;
+      margin-top: 16px;
+    }
+    .mvv-block-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 16px;
+    }
+    .mvv-block-tag {
+      font-size: 9px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--mvv-color);
+      border: 1px solid var(--mvv-color);
+      padding: 2px 10px;
+      border-radius: 2px;
+      opacity: 0.7;
+      transition: opacity 0.3s ease;
+    }
+    .mvv-block:hover .mvv-block-tag { opacity: 1; }
+    /* values list inside Values block */
+    .mvv-values-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-top: 16px;
+      padding: 0;
+    }
+    .mvv-values-item {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      align-items: start;
+      gap: 16px;
+      transition: transform 0.25s ease;
+      cursor: default;
+    }
+    .mvv-values-item:hover { transform: translateX(4px); }
+    .mvv-values-num {
+      font-size: 28px;
+      font-weight: 200;
+      color: var(--mvv-color);
+      line-height: 1;
+      opacity: 0.6;
+    }
+    .mvv-values-item:hover .mvv-values-num { opacity: 1; }
+    .mvv-values-item-title {
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+    .mvv-values-item-body {
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.8;
+      opacity: 0.75;
+    }
+
+    /* responsive */
+    @media (max-width: 768px) {
+      .mvv-block { padding: 36px 28px; }
+      .mvv-block-icon { width: 36px; height: 36px; }
+      .mvv-block-header { gap: 14px; margin-bottom: 18px; }
+      .mvv-block-title { font-size: 18px; }
+      .mvv-values-item { grid-template-columns: 32px 1fr; gap: 12px; }
+      .mvv-values-num { font-size: 24px; }
+    }
+    @media (max-width: 560px) {
+      .mvv-block { padding: 28px 20px; }
+      .mvv-block-icon { width: 30px; height: 30px; }
+      .mvv-block-header { gap: 10px; margin-bottom: 14px; }
+      .mvv-block-title { font-size: 16px; }
+      .mvv-block-body { font-size: 13px; }
+      .mvv-block-tag { font-size: 8px; padding: 2px 8px; }
+    }
+
     /* ── STRENGTHS ── */
     .strengths-grid {
       display: grid;
@@ -505,6 +643,102 @@
       transform: translateY(0);
       margin-top: 24px;
     }
+
+    /* ── STRENGTHS v2 (vertical stack) ── */
+    .str-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border: 1px solid var(--line);
+      margin-top: 56px;
+    }
+    .str-block {
+      padding: 48px 52px;
+      border-bottom: 1px solid var(--line);
+      position: relative;
+      overflow: hidden;
+      transition: background 0.4s ease;
+      cursor: default;
+    }
+    .str-block:last-child { border-bottom: none; }
+    /* left accent line — grows on hover */
+    .str-block::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 0;
+      background: var(--str-color);
+      transition: height 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .str-block:hover::before { height: 100%; }
+    .str-block:hover { background: var(--bg2); }
+    .str-block-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    .str-block-icon {
+      width: 48px; height: 48px;
+      flex-shrink: 0;
+      stroke: var(--str-color);
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: transform 0.4s ease;
+    }
+    .str-block:hover .str-block-icon { transform: translateY(-2px); }
+    .str-block-label {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--str-color);
+      margin-bottom: 6px;
+      transition: letter-spacing 0.4s ease;
+    }
+    .str-block:hover .str-block-label { letter-spacing: 0.28em; }
+    .str-block-title {
+      font-size: 20px;
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.3;
+    }
+    .str-block-body {
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.9;
+      margin-top: 16px;
+    }
+    .str-block-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 20px;
+    }
+    .str-block-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 11px;
+      color: var(--str-color);
+      opacity: 0.7;
+      padding: 7px 14px;
+      border: 1px solid var(--str-color);
+      border-radius: 1px;
+      transition: opacity 0.3s ease;
+      letter-spacing: 0.02em;
+    }
+    .str-block:hover .str-block-tag { opacity: 1; }
+    .str-block-tag-icon {
+      width: 13px;
+      height: 13px;
+      flex-shrink: 0;
+      opacity: 0.6;
+      transition: opacity 0.3s ease;
+    }
+    .str-block:hover .str-block-tag-icon { opacity: 1; }
+    .str-block-tag-icon svg { width: 100%; height: 100%; }
 
     /* ── RESEARCH ── */
     .topic-tag {
@@ -918,18 +1152,16 @@
       font-size: 12px;
       color: var(--text);
       line-height: 1.75;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
+      max-height: 0;
       overflow: hidden;
+      opacity: 0;
       transition: max-height 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-                  -webkit-line-clamp 0s;
-      max-height: 3.5em;
+                  opacity 0.4s ease;
     }
     .pub-card:hover .pub-card-summary {
-      -webkit-line-clamp: unset;
       max-height: 600px;
       overflow: visible;
+      opacity: 1;
     }
     .pub-card-cover {
       width: 48px;
@@ -948,7 +1180,7 @@
     }
     body.lang-ja .pub-card-summary[data-lang="ja"],
     body.lang-en .pub-card-summary[data-lang="en"] {
-      display: -webkit-box;
+      display: block;
     }
     .pub-card.filtered-out {
       opacity: 0;
@@ -970,9 +1202,9 @@
     }
     @media (pointer: coarse) {
       .pub-card-summary {
-        -webkit-line-clamp: unset;
         max-height: none;
         overflow: visible;
+        opacity: 1;
       }
       #pub-card-grid:has(.pub-card:hover) .pub-card:not(:hover) { opacity: 1; }
     }
@@ -1045,6 +1277,64 @@
       transition: filter 0.2s;
     }
     .tl-diamond:hover { filter: brightness(1.5); }
+
+    /* ── CAREER CARD LIST ── */
+    #career-card-list { margin-top: 48px; }
+    #career-card-filters { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px; align-items:center; }
+    #career-card-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:20px; }
+    #career-card-grid:has(.pub-card:hover) .pub-card:not(:hover) { opacity:0.06; }
+    @media (max-width: 768px) {
+      #career-card-grid { grid-template-columns:1fr; }
+    }
+    @media (max-width: 560px) {
+      #career-card-grid:has(.pub-card:hover) .pub-card:not(:hover) { opacity:1; }
+    }
+    @media (pointer: coarse) {
+      #career-card-grid:has(.pub-card:hover) .pub-card:not(:hover) { opacity:1; }
+    }
+
+    /* ── CAREER NETWORK ── */
+    #career-network-container {
+      width:100%; height:588px;
+      background:var(--bg); border:1px solid var(--line);
+      border-radius:2px; overflow:hidden; position:relative;
+    }
+    #career-network-svg { width:100%; height:100%; display:block; }
+    #career-network-svg.has-hover .network-edge { stroke-opacity: 0.04; }
+    #career-network-svg.has-hover .node-tag,
+    #career-network-svg.has-hover .node-project { opacity: 0.15; }
+    #career-network-svg.has-hover .network-edge.edge-active { stroke-opacity: 0.5; stroke-width: 1.5; }
+    #career-network-svg.has-hover .node-tag.node-active,
+    #career-network-svg.has-hover .node-project.node-active { opacity: 1; }
+    #career-network-svg.has-filter .network-edge { stroke-opacity: 0.04; }
+    #career-network-svg.has-filter .node-tag,
+    #career-network-svg.has-filter .node-project { opacity: 0.15; }
+    #career-network-svg.has-filter .network-edge.edge-active { stroke-opacity: 0.5; stroke-width: 1.5; }
+    #career-network-svg.has-filter .node-tag.node-active,
+    #career-network-svg.has-filter .node-project.node-active { opacity: 1; }
+    #career-network-tooltip {
+      position: absolute;
+      pointer-events: none;
+      background: rgba(16, 16, 16, 0.94);
+      border: 1px solid var(--line);
+      color: var(--text);
+      font-size: 12px;
+      padding: 12px 16px;
+      border-radius: 3px;
+      white-space: normal;
+      opacity: 0;
+      transition: opacity 0.18s;
+      z-index: 10;
+      max-width: 380px;
+      line-height: 1.55;
+      backdrop-filter: blur(6px);
+    }
+    #career-network-tooltip.visible { opacity: 1; }
+    #career-network-legend { display:flex; flex-wrap:wrap; gap:10px 18px; margin-top:12px; align-items:center; }
+
+    /* dimming for career-item sync */
+    .career-item.net-dimmed { opacity:0.15; transition:opacity 0.3s; }
+    .career-item.net-highlight { transition:opacity 0.3s; }
 
     /* ── PROJECT TIMELINE (GANTT) ── */
     #grant-static-list { display: none; }
@@ -1527,6 +1817,83 @@
     }
     .contact-card:hover .contact-card-action { opacity: 1; transform: translateY(0); }
 
+    /* ── CONTACT STACK (vertical redesign) ── */
+    .contact-stack {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--line);
+      margin-top: 56px;
+    }
+    .contact-block {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 44px 52px;
+      border-bottom: 1px solid var(--line);
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.4s ease;
+      cursor: pointer;
+    }
+    .contact-block:last-child { border-bottom: none; }
+    .contact-block::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 0;
+      background: var(--contact-color);
+      transition: height 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .contact-block:hover::before { height: 100%; }
+    .contact-block:hover { background: var(--bg2); }
+    .contact-block-header {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex: 1;
+      min-width: 0;
+    }
+    .contact-block-icon {
+      width: 48px; height: 48px;
+      flex-shrink: 0;
+      color: var(--muted);
+      transition: color 0.4s ease, transform 0.4s ease;
+    }
+    .contact-block:hover .contact-block-icon { color: var(--contact-color); transform: translateY(-2px); }
+    .contact-block-icon svg { width: 100%; height: 100%; }
+    .contact-block-text {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+    }
+    .contact-block-label {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--contact-color);
+      transition: letter-spacing 0.4s ease;
+    }
+    .contact-block:hover .contact-block-label { letter-spacing: 0.28em; }
+    .contact-block-value {
+      font-size: 16px;
+      color: var(--white);
+      font-weight: 300;
+      line-height: 1.5;
+    }
+    .contact-block-action {
+      font-size: 12px;
+      color: var(--contact-color);
+      letter-spacing: 0.04em;
+      opacity: 0.7;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .contact-block:hover .contact-block-action { opacity: 1; transform: translateX(4px); }
+
     /* ── PUB TYPE BADGES ── */
     .pub-type-badge {
       display: inline-block;
@@ -1918,6 +2285,10 @@
       section { padding: 64px 24px; }
       .mvv-grid { grid-template-columns: 1fr; }
       .strengths-grid { grid-template-columns: 1fr; }
+      .str-block { padding: 36px 28px; }
+      .str-block-icon { width: 36px; height: 36px; }
+      .str-block-header { gap: 14px; margin-bottom: 18px; }
+      .str-block-title { font-size: 18px; }
       .ig-grid { grid-template-columns: 1fr; }
       .ro-pillars { grid-template-columns: 1fr; }
       .ro-pillar { border-right: none; border-bottom: 1px solid var(--line); }
@@ -1926,6 +2297,9 @@
       .career-item { grid-template-columns: 1fr; gap: 6px; }
       .contact-cards { grid-template-columns: 1fr; }
       .contact-card { padding: 36px 28px; }
+      .contact-block { flex-direction: column; align-items: flex-start; gap: 16px; padding: 36px 28px; }
+      .contact-block-icon { width: 36px; height: 36px; }
+      .contact-block-action { align-self: flex-end; }
       .teaching-grid { grid-template-columns: 1fr; }
       .teaching-card.tc-featured { flex-direction: column; }
       .tc-featured-media { width: 100%; max-width: 360px; }
@@ -1954,6 +2328,15 @@
       #network-container { height: 440px; }
       #pub-network-container { height: 380px; }
       .network-wrap { margin-bottom: 32px; }
+      .contact-block { padding: 28px 20px; }
+      .contact-block-icon { width: 30px; height: 30px; }
+      .contact-block-value { font-size: 14px; }
+      .str-block { padding: 28px 20px; }
+      .str-block-icon { width: 30px; height: 30px; }
+      .str-block-header { gap: 10px; margin-bottom: 14px; }
+      .str-block-title { font-size: 16px; }
+      .str-block-body { font-size: 13px; }
+      .str-block-tag { font-size: 10px; }
     }
     /* タッチデバイスではホバー非表示コンテンツを常時表示 */
     @media (pointer: coarse) {
@@ -2004,7 +2387,12 @@
     /* block-level overrides */
     .mvv-card-body[data-lang],
     .strengths-card-body[data-lang],
+    .str-block-body[data-lang],
+    .str-block-title[data-lang],
     .mvv-card-title[data-lang],
+    .mvv-block-title[data-lang],
+    .mvv-block-body[data-lang],
+    .mvv-values-list[data-lang],
     .ro-vision-title[data-lang],
     .ro-vision-body[data-lang],
     .ro-pillar-name[data-lang],
@@ -2029,7 +2417,12 @@
     body.lang-ja .pub-card-detail[data-lang="ja"],
     body.lang-ja .mvv-card-body[data-lang="ja"],
     body.lang-ja .strengths-card-body[data-lang="ja"],
+    body.lang-ja .str-block-body[data-lang="ja"],
+    body.lang-ja .str-block-title[data-lang="ja"],
     body.lang-ja .mvv-card-title[data-lang="ja"],
+    body.lang-ja .mvv-block-title[data-lang="ja"],
+    body.lang-ja .mvv-block-body[data-lang="ja"],
+    body.lang-ja .mvv-values-list[data-lang="ja"],
     body.lang-ja .ro-vision-title[data-lang="ja"],
     body.lang-ja .ro-vision-body[data-lang="ja"],
     body.lang-ja .ro-pillar-name[data-lang="ja"],
@@ -2043,13 +2436,19 @@
     body.lang-ja .values-text-title[data-lang="ja"],
     body.lang-ja .values-text-body[data-lang="ja"],
     body.lang-ja .strengths-card-title[data-lang="ja"],
+    body.lang-ja .str-block-label[data-lang="ja"],
     body.lang-ja p[data-lang="ja"] { display: block; }
     body.lang-ja .pub-card-group[data-lang="ja"] { display: inline-block; }
     body.lang-en .pub-card-title[data-lang="en"],
     body.lang-en .pub-card-detail[data-lang="en"],
     body.lang-en .mvv-card-body[data-lang="en"],
     body.lang-en .strengths-card-body[data-lang="en"],
+    body.lang-en .str-block-body[data-lang="en"],
+    body.lang-en .str-block-title[data-lang="en"],
     body.lang-en .mvv-card-title[data-lang="en"],
+    body.lang-en .mvv-block-title[data-lang="en"],
+    body.lang-en .mvv-block-body[data-lang="en"],
+    body.lang-en .mvv-values-list[data-lang="en"],
     body.lang-en .ro-vision-title[data-lang="en"],
     body.lang-en .ro-vision-body[data-lang="en"],
     body.lang-en .ro-pillar-name[data-lang="en"],
@@ -2063,8 +2462,12 @@
     body.lang-en .values-text-title[data-lang="en"],
     body.lang-en .values-text-body[data-lang="en"],
     body.lang-en .strengths-card-title[data-lang="en"],
+    body.lang-en .str-block-label[data-lang="en"],
     body.lang-en p[data-lang="en"] { display: block; }
     body.lang-en .pub-card-group[data-lang="en"] { display: inline-block; }
+    /* mvv-values-list needs flex not block */
+    body.lang-ja .mvv-values-list[data-lang="ja"],
+    body.lang-en .mvv-values-list[data-lang="en"] { display: flex; }
 
     /* fade transition */
     .lang-fade {
@@ -2214,10 +2617,10 @@
     .sec-label.visible::before { width: 24px; margin-right: 10px; }
 
     /* ── HOVER LIFT on cards ── */
-    .mvv-card, .strengths-card {
+    .mvv-card, .strengths-card, .str-block {
       transition: background 0.3s, transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s;
     }
-    .mvv-card:hover, .strengths-card:hover {
+    .mvv-card:hover, .strengths-card:hover, .str-block:hover {
       transform: translateY(-4px);
       box-shadow: 0 12px 40px rgba(0,0,0,0.4);
     }
@@ -2299,7 +2702,7 @@
     }
 
     /* ── CARD TILT (3-D) ── */
-    .mvv-card, .strengths-card, .ro-pillar { will-change: transform; }
+    .mvv-card, .mvv-block, .strengths-card, .str-block, .ro-pillar, .contact-block { will-change: transform; }
   </style>
 </head>
 <body class="lang-ja">
@@ -2430,67 +2833,126 @@
   <!-- MISSION / VISION / VALUES -->
   <div style="padding: 90px 0; border-bottom: 1px solid var(--line);">
     <div style="max-width:1100px; margin:0 auto; padding:0 48px;">
-      <p class="sec-label">Philosophy</p>
+      <p class="sec-label">Mission, Vision and Values</p>
       <h2 class="sec-title" data-lang="ja">ミッション／ビジョン／バリュー</h2>
       <h2 class="sec-title" data-lang="en">Mission · Vision · Values</h2>
     </div>
 
     <div style="max-width:1100px; margin:0 auto; padding: 0 48px; margin-top: 56px;">
-      <div class="mvv-grid">
+      <div class="mvv-stack">
         <!-- MISSION -->
-        <div class="mvv-card">
-          <p class="mvv-card-label">Mission</p>
-          <div class="mvv-card-title" data-lang="ja">日々果たすべき使命</div>
-          <div class="mvv-card-title" data-lang="en">Daily Mission</div>
-          <div class="mvv-card-body" data-lang="ja">
+        <div class="mvv-block" style="--mvv-color: #4dc4a8">
+          <div class="mvv-block-header">
+            <svg class="mvv-block-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="24" cy="24" r="18"/>
+              <circle cx="24" cy="24" r="8"/>
+              <line x1="24" y1="2" x2="24" y2="14"/>
+              <line x1="24" y1="34" x2="24" y2="46"/>
+              <line x1="2" y1="24" x2="14" y2="24"/>
+              <line x1="34" y1="24" x2="46" y2="24"/>
+            </svg>
+            <div>
+              <p class="mvv-block-label">Mission</p>
+              <div class="mvv-block-title" data-lang="ja">日々果たすべき使命</div>
+              <div class="mvv-block-title" data-lang="en">Daily Mission</div>
+            </div>
+          </div>
+          <div class="mvv-block-body" data-lang="ja">
             人文学の伝統的・アナログな知見と、最先端のデジタル技術（AI、データ分析、Web・デザイン、動画編集等）を「実装」レベルで掛け合わせる。理論にとどまらず自ら手を動かすことで、次世代に向けた新たな研究手法と視座を社会に提示し、実践的なモデルを示す。
           </div>
-          <div class="mvv-card-body" data-lang="en">
+          <div class="mvv-block-body" data-lang="en">
             To fuse the profound, analog insights of the humanities with cutting-edge digital technologies (such as AI, data analysis, web design, and video editing) at an implementation level. Moving beyond theory by actively building tools and platforms, my mission is to present society with innovative research methodologies and practical new perspectives.
+          </div>
+          <div class="mvv-block-tags">
+            <span class="mvv-block-tag">Humanities × Digital</span>
+            <span class="mvv-block-tag">Implementation</span>
+            <span class="mvv-block-tag">Next-Gen Methods</span>
           </div>
         </div>
         <!-- VISION -->
-        <div class="mvv-card">
-          <p class="mvv-card-label">Vision</p>
-          <div class="mvv-card-title" data-lang="ja">実現したい未来</div>
-          <div class="mvv-card-title" data-lang="en">Future Envisioned</div>
-          <div class="mvv-card-body" data-lang="ja">
+        <div class="mvv-block" style="--mvv-color: var(--accent)">
+          <div class="mvv-block-header">
+            <svg class="mvv-block-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+              <ellipse cx="24" cy="24" rx="22" ry="14"/>
+              <circle cx="24" cy="24" r="8"/>
+              <circle cx="24" cy="24" r="3"/>
+            </svg>
+            <div>
+              <p class="mvv-block-label">Vision</p>
+              <div class="mvv-block-title" data-lang="ja">実現したい未来</div>
+              <div class="mvv-block-title" data-lang="en">Future Envisioned</div>
+            </div>
+          </div>
+          <div class="mvv-block-body" data-lang="ja">
             先端技術の急速な発展と、人文学的な価値観が対立・乖離するのではなく、相互に共創し、より豊かな人間社会を形作る未来。誰もが自らの内なる「熱」を原動力に、テクノロジーを自在に操りながら本質的な思索を深められる社会の構築。
           </div>
-          <div class="mvv-card-body" data-lang="en">
+          <div class="mvv-block-body" data-lang="en">
             A future where the rapid advancement of advanced technology and humanistic values do not conflict, but mutually co-create to shape a richer human society. I envision a world where everyone, driven by their own inner "passion," can freely leverage technology to deepen their essential contemplation.
+          </div>
+          <div class="mvv-block-tags">
+            <span class="mvv-block-tag">Co-creation</span>
+            <span class="mvv-block-tag">Technology × Humanity</span>
+            <span class="mvv-block-tag">Society</span>
           </div>
         </div>
         <!-- VALUES -->
-        <div class="mvv-card">
-          <p class="mvv-card-label">Values</p>
-          <div class="mvv-card-title" data-lang="ja">大切にしている価値観</div>
-          <div class="mvv-card-title" data-lang="en">Core Values</div>
-          <div class="mvv-card-body" data-lang="ja">
-            <ol style="list-style:none; display:flex; flex-direction:column; gap:16px;">
-              <li><span style="color:var(--accent)">01 &mdash;</span> 対話を重んじ、熱を連鎖させる
-                <div class="vhd-inline">常に「対話」を中心に据え、純粋な探求心と「熱量」を共有できる人々と共に本質的な課題に取り組む。</div>
-              </li>
-              <li><span style="color:var(--accent)">02 &mdash;</span> 越境し、自ら形にする
-                <div class="vhd-inline">分野の垣根を越えた協働を心から楽しみ、アイディアを単なる構想で終わらせず、プログラミングやデザインを通じて自らの手で形にする。</div>
-              </li>
-              <li><span style="color:var(--accent)">03 &mdash;</span> デジタルとアナログの往復
-                <div class="vhd-inline">テクノロジーの利便性をフル活用しながらも、人文学が培ってきた深くアナログな思考法を決して手放さない。</div>
-              </li>
-            </ol>
+        <div class="mvv-block" style="--mvv-color: #e06878">
+          <div class="mvv-block-header">
+            <svg class="mvv-block-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+              <polygon points="24,4 44,18 38,42 10,42 4,18"/>
+              <polygon points="24,14 34,22 31,34 17,34 14,22"/>
+            </svg>
+            <div>
+              <p class="mvv-block-label">Values</p>
+              <div class="mvv-block-title" data-lang="ja">大切にしている価値観</div>
+              <div class="mvv-block-title" data-lang="en">Core Values</div>
+            </div>
           </div>
-          <div class="mvv-card-body" data-lang="en">
-            <ol style="list-style:none; display:flex; flex-direction:column; gap:16px;">
-              <li><span style="color:var(--accent)">01 &mdash;</span> Prioritizing Dialogue &amp; Chaining Passions
-                <div class="vhd-inline">Always placing "dialogue" at the core, I tackle essential challenges alongside those who share a pure sense of curiosity and deep "passion."</div>
-              </li>
-              <li><span style="color:var(--accent)">02 &mdash;</span> Crossing Borders &amp; Hands-on Implementation
-                <div class="vhd-inline">Genuinely enjoying collaboration across disciplinary boundaries, I do not let ideas end as mere concepts; I shape them with my own hands through code and design.</div>
-              </li>
-              <li><span style="color:var(--accent)">03 &mdash;</span> Traversing Analog and Digital
-                <div class="vhd-inline">While fully utilizing the convenience of digital tools, I firmly hold onto the deep, analog analytical thinking cultivated by the humanities.</div>
-              </li>
-            </ol>
+          <div class="mvv-values-list" data-lang="ja">
+            <div class="mvv-values-item">
+              <span class="mvv-values-num">01</span>
+              <div>
+                <div class="mvv-values-item-title">対話を重んじ、熱を連鎖させる</div>
+                <div class="mvv-values-item-body">常に「対話」を中心に据え、純粋な探求心と「熱量」を共有できる人々と共に本質的な課題に取り組む。</div>
+              </div>
+            </div>
+            <div class="mvv-values-item">
+              <span class="mvv-values-num">02</span>
+              <div>
+                <div class="mvv-values-item-title">越境し、自ら形にする</div>
+                <div class="mvv-values-item-body">分野の垣根を越えた協働を心から楽しみ、アイディアを単なる構想で終わらせず、プログラミングやデザインを通じて自らの手で形にする。</div>
+              </div>
+            </div>
+            <div class="mvv-values-item">
+              <span class="mvv-values-num">03</span>
+              <div>
+                <div class="mvv-values-item-title">デジタルとアナログの往復</div>
+                <div class="mvv-values-item-body">テクノロジーの利便性をフル活用しながらも、人文学が培ってきた深くアナログな思考法を決して手放さない。</div>
+              </div>
+            </div>
+          </div>
+          <div class="mvv-values-list" data-lang="en">
+            <div class="mvv-values-item">
+              <span class="mvv-values-num">01</span>
+              <div>
+                <div class="mvv-values-item-title">Prioritizing Dialogue &amp; Chaining Passions</div>
+                <div class="mvv-values-item-body">Always placing "dialogue" at the core, I tackle essential challenges alongside those who share a pure sense of curiosity and deep "passion."</div>
+              </div>
+            </div>
+            <div class="mvv-values-item">
+              <span class="mvv-values-num">02</span>
+              <div>
+                <div class="mvv-values-item-title">Crossing Borders &amp; Hands-on Implementation</div>
+                <div class="mvv-values-item-body">Genuinely enjoying collaboration across disciplinary boundaries, I do not let ideas end as mere concepts; I shape them with my own hands through code and design.</div>
+              </div>
+            </div>
+            <div class="mvv-values-item">
+              <span class="mvv-values-num">03</span>
+              <div>
+                <div class="mvv-values-item-title">Traversing Analog and Digital</div>
+                <div class="mvv-values-item-body">While fully utilizing the convenience of digital tools, I firmly hold onto the deep, analog analytical thinking cultivated by the humanities.</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -2506,104 +2968,87 @@
       <h2 class="sec-title" data-lang="en">Strengths &amp; Working Style</h2>
     </div>
     <div style="max-width:1100px; margin:0 auto; padding:0 48px;">
-      <div class="strengths-grid">
+      <div class="str-stack">
 
-        <!-- Strengths Card -->
-        <div class="strengths-card">
-          <div class="strengths-card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M2 4h8v5a3 3 0 0 1 0 6v5H2z"/>
-              <path d="M12 4h10v16H12v-5a3 3 0 0 0 0-6V4z" opacity="0.5"/>
+        <!-- Strengths Block -->
+        <div class="str-block" style="--str-color:#7eb8c9">
+          <div class="str-block-header">
+            <svg class="str-block-icon" viewBox="0 0 48 48">
+              <path d="M4 8h16v10c0 3.3-2.7 6-6 6s-6-2.7-6-6V8z"/>
+              <path d="M24 8h20v10c0 3.3-2.7 6-6 6h-2c-3.3 0-6-2.7-6-6V8z"/>
+              <path d="M20 24c0 3.3 2.7 6 6 6"/>
+              <path d="M14 24v10c0 3.3 2.7 6 6 6h8c3.3 0 6-2.7 6-6V30"/>
             </svg>
+            <div>
+              <div class="str-block-label">Strengths</div>
+              <div class="str-block-title" data-lang="ja">デジタルと人文学を架橋する「実践力」</div>
+              <div class="str-block-title" data-lang="en">Bridging Digital &amp; Humanities</div>
+            </div>
           </div>
-          <div class="strengths-card-title" data-lang="ja">強み：デジタルと人文学を架橋する「実践力」</div>
-          <div class="strengths-card-title" data-lang="en">Core Strengths: Bridging Digital &amp; Humanities</div>
-          <div class="strengths-card-body" data-lang="ja">
+          <div class="str-block-body" data-lang="ja">
             最先端のデジタル技術と、人文社会科学が大切にしてきたアナログな思考法を融合させるアプローチを得意としています。アイディアを形にし、社会に発信するまでのプロセスをワンストップで実行することができます。
-            <div class="str-skills">
-              <span class="str-skill">
-                <span class="str-skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7L12 12L22 7L12 2Z"/><path d="M2 17L12 22L22 17"/><path d="M2 12L12 17L22 12"/></svg></span>
-                <span data-lang="ja">プログラミング</span><span data-lang="en">Programming</span>
-              </span>
-              <span class="str-skill">
-                <span class="str-skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2A15.3 15.3 0 0 1 15.54 12 15.3 15.3 0 0 1 12 22 15.3 15.3 0 0 1 8.46 12 15.3 15.3 0 0 1 12 2Z"/></svg></span>
-                <span data-lang="ja">ウェブ開発</span><span data-lang="en">Web Dev</span>
-              </span>
-              <span class="str-skill">
-                <span class="str-skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="7.5 4.21 12 6.81 16.5 4.21"/><polyline points="7.5 19.79 7.5 14.6 3 12"/><polyline points="21 12 16.5 14.6 16.5 19.79"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></span>
-                <span data-lang="ja">AI・生成AI</span><span data-lang="en">AI / GenAI</span>
-              </span>
-              <span class="str-skill">
-                <span class="str-skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>
-                <span data-lang="ja">データ分析</span><span data-lang="en">Data Analysis</span>
-              </span>
-              <span class="str-skill">
-                <span class="str-skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20H2"/><path d="M12 20V10"/><circle cx="12" cy="7" r="3"/><path d="M22 20H12"/><path d="M19 17V14"/><path d="M22 14H16"/></svg></span>
-                <span data-lang="ja">デザイン</span><span data-lang="en">Design</span>
-              </span>
-              <span class="str-skill">
-                <span class="str-skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></span>
-                <span data-lang="ja">SNS運用</span><span data-lang="en">Social Media</span>
-              </span>
-            </div>
           </div>
-          <div class="strengths-card-body" data-lang="en">
+          <div class="str-block-body" data-lang="en">
             My primary strength lies in harmonizing cutting-edge digital tools with the deeply analytical, "analog" thinking foundational to the humanities. I can seamlessly execute from ideation through to public delivery in a one-stop workflow.
-            <div class="str-skills">
-              <span class="str-skill">
-                <span class="str-skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7L12 12L22 7L12 2Z"/><path d="M2 17L12 22L22 17"/><path d="M2 12L12 17L22 12"/></svg></span>
-                Programming
-              </span>
-              <span class="str-skill">
-                <span class="str-skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2A15.3 15.3 0 0 1 15.54 12 15.3 15.3 0 0 1 12 22 15.3 15.3 0 0 1 8.46 12 15.3 15.3 0 0 1 12 2Z"/></svg></span>
-                Web Dev
-              </span>
-              <span class="str-skill">
-                <span class="str-skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="7.5 4.21 12 6.81 16.5 4.21"/><polyline points="7.5 19.79 7.5 14.6 3 12"/><polyline points="21 12 16.5 14.6 16.5 19.79"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></span>
-                AI / GenAI
-              </span>
-              <span class="str-skill">
-                <span class="str-skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>
-                Data Analysis
-              </span>
-              <span class="str-skill">
-                <span class="str-skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20H2"/><path d="M12 20V10"/><circle cx="12" cy="7" r="3"/><path d="M22 20H12"/><path d="M19 17V14"/><path d="M22 14H16"/></svg></span>
-                Design
-              </span>
-              <span class="str-skill">
-                <span class="str-skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></span>
-                Social Media
-              </span>
-            </div>
+          </div>
+          <div class="str-block-tags">
+            <span class="str-block-tag">
+              <span class="str-block-tag-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7L12 12L22 7L12 2Z"/><path d="M2 17L12 22L22 17"/><path d="M2 12L12 17L22 12"/></svg></span>
+              <span data-lang="ja">プログラミング</span><span data-lang="en">Programming</span>
+            </span>
+            <span class="str-block-tag">
+              <span class="str-block-tag-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2A15.3 15.3 0 0 1 15.54 12 15.3 15.3 0 0 1 12 22 15.3 15.3 0 0 1 8.46 12 15.3 15.3 0 0 1 12 2Z"/></svg></span>
+              <span data-lang="ja">ウェブ開発</span><span data-lang="en">Web Dev</span>
+            </span>
+            <span class="str-block-tag">
+              <span class="str-block-tag-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="7.5 4.21 12 6.81 16.5 4.21"/><polyline points="7.5 19.79 7.5 14.6 3 12"/><polyline points="21 12 16.5 14.6 16.5 19.79"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></span>
+              <span data-lang="ja">AI・生成AI</span><span data-lang="en">AI / GenAI</span>
+            </span>
+            <span class="str-block-tag">
+              <span class="str-block-tag-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>
+              <span data-lang="ja">データ分析</span><span data-lang="en">Data Analysis</span>
+            </span>
+            <span class="str-block-tag">
+              <span class="str-block-tag-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20H2"/><path d="M12 20V10"/><circle cx="12" cy="7" r="3"/><path d="M22 20H12"/><path d="M19 17V14"/><path d="M22 14H16"/></svg></span>
+              <span data-lang="ja">デザイン</span><span data-lang="en">Design</span>
+            </span>
+            <span class="str-block-tag">
+              <span class="str-block-tag-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></span>
+              <span data-lang="ja">SNS運用</span><span data-lang="en">Social Media</span>
+            </span>
           </div>
         </div>
 
-        <!-- Working Style Card -->
-        <div class="strengths-card">
-          <div class="strengths-card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2C6.48 2 2 6 2 10.5c0 3 2.5 5.5 5 7.5V22l3.5-2 3.5 2v-4c2.5-2 5-4.5 5-7.5C19 6 15.52 2 12 2z"/>
-              <path d="M12 6v4"/><path d="M10 8h4"/>
+        <!-- Working Style Block -->
+        <div class="str-block" style="--str-color:#b09ac8">
+          <div class="str-block-header">
+            <svg class="str-block-icon" viewBox="0 0 48 48">
+              <path d="M24 44C24 44 4 32 4 18c0-5.5 4.5-10 10-10 3.8 0 7.2 2.1 8.8 5.3h2.4C26.8 10.1 30.2 8 34 8c5.5 0 10 4.5 10 10 0 14-20 26-20 26z"/>
+              <path d="M24 18v8" stroke-width="2"/>
+              <path d="M20 22h8" stroke-width="2"/>
             </svg>
+            <div>
+              <div class="str-block-label">Working Style</div>
+              <div class="str-block-title" data-lang="ja">「欲」ではなく「熱」で駆動する</div>
+              <div class="str-block-title" data-lang="en">Driven by Passion, Not Profit</div>
+            </div>
           </div>
-          <div class="strengths-card-title" data-lang="ja">仕事のスタイルと課題：「欲」ではなく「熱」で駆動する</div>
-          <div class="strengths-card-title" data-lang="en">Working Style: Driven by Passion, Not Profit</div>
-          <div class="strengths-card-body" data-lang="ja">
+          <div class="str-block-body" data-lang="ja">
             <div class="str-section">
-              <div class="str-section-label str-plus" data-lang="ja">Synergy &mdash; 熱量が合うとき</div>
+              <div class="str-section-label str-plus">Synergy &mdash; 熱量が合うとき</div>
               <div class="str-section-body">
                 純粋な「熱（情熱）」を原動力として動きます。自分の心が動くテーマには爆発的なエネルギーを注ぎ、どこまでも頑張ることができます。「熱量」を共有できる方との協働では大きな相乗効果を生みます。
               </div>
             </div>
             <div class="str-divider"></div>
             <div class="str-section">
-              <div class="str-section-label str-delta" data-lang="ja">Challenge &mdash; 課題</div>
+              <div class="str-section-label str-delta">Challenge &mdash; 課題</div>
               <div class="str-section-body">
                 熱意を感じられない環境や、情熱を失ってしまった人との仕事では、正直なところ少し不器用になってしまう面があります。モチベーションの維持に苦労することも。
               </div>
             </div>
           </div>
-          <div class="strengths-card-body" data-lang="en">
+          <div class="str-block-body" data-lang="en">
             <div class="str-section">
               <div class="str-section-label str-plus">Synergy &mdash; When Passion Aligns</div>
               <div class="str-section-body">
@@ -2627,7 +3072,7 @@
   <!-- RESEARCH -->
   <section>
     <p class="sec-label">Research</p>
-    <h2 class="sec-title" data-lang="ja">研究について</h2>
+    <h2 class="sec-title" data-lang="ja">研究</h2>
     <h2 class="sec-title" data-lang="en">Research Overview</h2>
 
     <div style="margin-top: 56px;">
@@ -2706,7 +3151,7 @@
   <!-- PUBLICATIONS -->
   <section>
     <p class="sec-label">Publications</p>
-    <h2 class="sec-title" data-lang="ja">主要業績（抜粋）</h2>
+    <h2 class="sec-title" data-lang="ja">業績</h2>
     <h2 class="sec-title" data-lang="en">Selected Publications</h2>
 
     <div id="pub-card-list" class="reveal">
@@ -2971,7 +3416,7 @@
   <!-- RESEARCH PROJECTS -->
   <section>
     <p class="sec-label">Grants &amp; Projects</p>
-    <h2 class="sec-title" data-lang="ja">研究課題・競争的資金</h2>
+    <h2 class="sec-title" data-lang="ja">研究課題</h2>
     <h2 class="sec-title" data-lang="en">Research Projects &amp; Grants</h2>
 
     <div id="proj-card-list" class="reveal">
@@ -3311,7 +3756,7 @@
   <!-- TEACHING -->
   <section>
     <p class="sec-label">Teaching</p>
-    <h2 class="sec-title" data-lang="ja">授業（現在担当分）</h2>
+    <h2 class="sec-title" data-lang="ja">授業</h2>
     <h2 class="sec-title" data-lang="en">Courses Currently Taught</h2>
 
     <div class="teaching-grid">
@@ -3495,10 +3940,35 @@
   <!-- CAREER -->
   <section>
     <p class="sec-label">Career</p>
-    <h2 class="sec-title" data-lang="ja">経歴（抜粋）</h2>
+    <h2 class="sec-title" data-lang="ja">経歴</h2>
     <h2 class="sec-title" data-lang="en">Academic Career (Selected)</h2>
 
+    <!-- Career Card List -->
+    <div id="career-card-list" class="reveal">
+      <div id="career-card-filters"></div>
+      <div id="career-card-grid"></div>
+    </div>
+
+    <!-- Career Network -->
+    <div id="career-network" class="network-wrap reveal">
+      <p class="network-label">
+        <span data-lang="ja">経歴トピックネットワーク</span>
+        <span data-lang="en">Career Topic Network</span>
+      </p>
+      <p class="network-hint">
+        <span data-lang="ja">ドラッグで移動 / ホイールでズーム / クリックでフィルタ</span>
+        <span data-lang="en">Drag to move / Scroll to zoom / Click to filter</span>
+      </p>
+      <div id="career-network-container"><svg id="career-network-svg"></svg></div>
+      <div id="career-network-tooltip"></div>
+      <div id="career-network-legend"></div>
+    </div>
+
     <div id="career-timeline-wrap" class="reveal" style="margin-top: 48px;">
+      <p class="network-label">
+        <span data-lang="ja">経歴タイムライン</span>
+        <span data-lang="en">Career Timeline</span>
+      </p>
       <div id="career-timeline" style="position: relative;">
         <svg id="career-timeline-svg"></svg>
         <div id="career-timeline-tooltip"></div>
@@ -3740,59 +4210,65 @@
     <h2 class="sec-title" data-lang="ja">連絡先</h2>
     <h2 class="sec-title" data-lang="en">Get in Touch</h2>
 
-    <div class="contact-cards">
+    <div class="contact-stack">
       <!-- Email -->
-      <a class="contact-card" href="mailto:ysugawara.hmt@osaka-u.ac.jp">
-        <div class="contact-card-icon">
-          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="7" width="26" height="18" rx="2"/>
-            <path d="M3 9l13 9 13-9"/>
+      <a class="contact-block" href="mailto:ysugawara.hmt@osaka-u.ac.jp" style="--contact-color:#4dc4a8">
+        <div class="contact-block-header">
+          <svg class="contact-block-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="10" width="40" height="28" rx="3"/>
+            <path d="M4 14l20 13 20-13"/>
           </svg>
+          <div class="contact-block-text">
+            <span class="contact-block-label">Email</span>
+            <span class="contact-block-value">ysugawara.hmt [at] osaka-u.ac.jp</span>
+          </div>
         </div>
-        <span class="contact-card-label">Email</span>
-        <span class="contact-card-value">ysugawara.hmt [at] osaka-u.ac.jp</span>
-        <span class="contact-card-action">
+        <span class="contact-block-action">
           <span data-lang="ja">メールを送る &rarr;</span>
           <span data-lang="en">Send email &rarr;</span>
         </span>
       </a>
       <!-- researchmap -->
-      <a class="contact-card" href="https://researchmap.jp/yukisugawara" target="_blank" rel="noopener noreferrer">
-        <div class="contact-card-icon">
-          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="16" cy="16" r="12"/>
-            <ellipse cx="16" cy="16" rx="5.5" ry="12"/>
-            <line x1="4" y1="12" x2="28" y2="12"/>
-            <line x1="4" y1="20" x2="28" y2="20"/>
+      <a class="contact-block" href="https://researchmap.jp/yukisugawara" target="_blank" rel="noopener noreferrer" style="--contact-color:#c8a96e">
+        <div class="contact-block-header">
+          <svg class="contact-block-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="24" cy="24" r="18"/>
+            <ellipse cx="24" cy="24" rx="8" ry="18"/>
+            <line x1="6" y1="18" x2="42" y2="18"/>
+            <line x1="6" y1="30" x2="42" y2="30"/>
           </svg>
+          <div class="contact-block-text">
+            <span class="contact-block-label">researchmap</span>
+            <span class="contact-block-value">researchmap.jp/yukisugawara</span>
+          </div>
         </div>
-        <span class="contact-card-label">researchmap</span>
-        <span class="contact-card-value">researchmap.jp/yukisugawara</span>
-        <span class="contact-card-action">
+        <span class="contact-block-action">
           <span data-lang="ja">プロフィールを見る &rarr;</span>
           <span data-lang="en">View profile &rarr;</span>
         </span>
       </a>
       <!-- Affiliation -->
-      <a class="contact-card" href="https://jinbungakurin.hmt.osaka-u.ac.jp" target="_blank" rel="noopener noreferrer">
-        <div class="contact-card-icon">
-          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="6" y="5" width="20" height="24" rx="1"/>
-            <line x1="12" y1="11" x2="20" y2="11"/>
-            <line x1="12" y1="16" x2="20" y2="16"/>
-            <line x1="12" y1="21" x2="20" y2="21"/>
-            <rect x="13" y="25" width="6" height="4"/>
+      <a class="contact-block" href="https://jinbungakurin.hmt.osaka-u.ac.jp" target="_blank" rel="noopener noreferrer" style="--contact-color:#e06878">
+        <div class="contact-block-header">
+          <svg class="contact-block-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="8" y="6" width="32" height="38" rx="2"/>
+            <line x1="8" y1="14" x2="40" y2="14"/>
+            <line x1="16" y1="22" x2="32" y2="22"/>
+            <line x1="16" y1="28" x2="32" y2="28"/>
+            <rect x="19" y="34" width="10" height="10"/>
           </svg>
+          <div class="contact-block-text">
+            <span class="contact-block-label">
+              <span data-lang="ja">所属</span>
+              <span data-lang="en">Affiliation</span>
+            </span>
+            <span class="contact-block-value">
+              <span data-lang="ja">大阪大学 大学院人文学研究科 人文学林</span>
+              <span data-lang="en">Interdisciplinary Network in the Humanities, Graduate School of Humanities, The University of Osaka</span>
+            </span>
+          </div>
         </div>
-        <span class="contact-card-label">
-          <span data-lang="ja">所属</span>
-          <span data-lang="en">Affiliation</span>
-        </span>
-        <span class="contact-card-value">
-          <span data-lang="ja">大阪大学 大学院人文学研究科 人文学林</span>
-          <span data-lang="en">Interdisciplinary Network in the Humanities, Graduate School of Humanities, The University of Osaka</span>
-        </span>
-        <span class="contact-card-action">
+        <span class="contact-block-action">
           <span data-lang="ja">ウェブサイトを見る &rarr;</span>
           <span data-lang="en">Visit website &rarr;</span>
         </span>
@@ -3856,7 +4332,7 @@
     }
     animateRing();
 
-    document.querySelectorAll('a, button, .mvv-card, .strengths-card, .ig-card').forEach(el => {
+    document.querySelectorAll('a, button, .mvv-card, .mvv-block, .strengths-card, .str-block, .ig-card').forEach(el => {
       el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
       el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
     });
@@ -3897,8 +4373,18 @@
       revealObserver.observe(el);
     });
 
+    // Observe MVV blocks (new stack layout) with stagger
+    document.querySelectorAll('.mvv-block').forEach((el, i) => {
+      el.classList.add('reveal', `stagger-${i + 1}`);
+      revealObserver.observe(el);
+    });
+
     // Observe strengths cards with stagger
     document.querySelectorAll('.strengths-card').forEach((el, i) => {
+      el.classList.add('reveal', `stagger-${i + 1}`);
+      revealObserver.observe(el);
+    });
+    document.querySelectorAll('.str-block').forEach((el, i) => {
       el.classList.add('reveal', `stagger-${i + 1}`);
       revealObserver.observe(el);
     });
@@ -3934,7 +4420,7 @@
     });
 
     // Observe contact items
-    document.querySelectorAll('.contact-item').forEach((el, i) => {
+    document.querySelectorAll('.contact-block').forEach((el, i) => {
       el.classList.add('reveal', `stagger-${i + 1}`);
       revealObserver.observe(el);
     });
@@ -5178,15 +5664,14 @@
 
     })();
 
-    /* ── CAREER & EDUCATION TIMELINE ── */
+    /* ── CAREER & EDUCATION: CARDS + NETWORK + TIMELINE ── */
     (function() {
       const ctSvgEl = document.getElementById('career-timeline-svg');
       const ctContainer = document.getElementById('career-timeline');
       const ctTooltip = document.getElementById('career-timeline-tooltip');
       const ctWrap = document.getElementById('career-timeline-wrap');
-      if (!ctSvgEl || !ctContainer) return;
 
-      /* ── local TAG_COLORS (mirror of network IIFE) ── */
+      /* ── local TAG_COLORS ── */
       const TAG_COLORS = {
         'Anthropology':                 '#c87a5e',
         'Digital Anthropology':         '#c8a96e',
@@ -5735,6 +6220,691 @@
 
       /* ── observe for scroll reveal ── */
       if (ctWrap) revealObserver.observe(ctWrap);
+
+      /* ═══════════════════════════════════════════
+         CAREER CARDS + NETWORK + CROSS-FILTER
+         ═══════════════════════════════════════════ */
+
+      /* ── numbering (newest first) ── */
+      const careerSorted = [...careerItems].sort((a, b) => b.start - a.start);
+      careerSorted.forEach((d, i) => { d.num = String(i + 1); });
+      const eduSorted = [...educationItems].sort((a, b) => b.start - a.start);
+      eduSorted.forEach((d, i) => { d.num = 'E' + (i + 1); });
+      degreeItems.forEach(d => { d.num = '◆'; });
+
+      /* ── collect tags ── */
+      const tagSet = new Set();
+      careerItems.forEach(d => d.tags.forEach(t => tagSet.add(t)));
+      educationItems.forEach(d => d.tags.forEach(t => tagSet.add(t)));
+
+      const tagOrder = [
+        'Digital STS', 'Digital Philosophy of Science', 'Digital Anthropology',
+        'STS', 'Philosophy of Science', 'Anthropology',
+        'Digital Humanities', 'Digital Technology',
+        'Humanities', 'Technology',
+        'Neuroscience', 'Research Ethics'
+      ];
+
+      /* ── syncing flag ── */
+      let _careerSyncing = false;
+      let activeCareerFilter = null;
+
+      /* ── group labels ── */
+      function groupLabelJa(group) {
+        if (group === 'career') return '職歴';
+        if (group === 'education') return '学歴';
+        return '学位';
+      }
+      function groupLabelEn(group) {
+        if (group === 'career') return 'Career';
+        if (group === 'education') return 'Education';
+        return 'Degree';
+      }
+
+      /* ═══════════════════════
+         3C: CAREER CARDS
+         ═══════════════════════ */
+      (function buildCareerCards() {
+        const cardGrid = document.getElementById('career-card-grid');
+        const filterBar = document.getElementById('career-card-filters');
+        const cardListWrap = document.getElementById('career-card-list');
+        if (!cardGrid || !filterBar) return;
+
+        /* filter bar: All + tags */
+        const allBtn = document.createElement('button');
+        allBtn.className = 'pub-filter-btn active';
+        allBtn.textContent = 'All';
+        allBtn.addEventListener('click', () => {
+          careerCardClearFilter();
+        });
+        filterBar.appendChild(allBtn);
+
+        tagOrder.forEach(tag => {
+          if (!tagSet.has(tag)) return;
+          const btn = document.createElement('button');
+          btn.className = 'pub-filter-btn';
+          btn.textContent = tag;
+          btn.dataset.tag = tag;
+          btn.style.setProperty('--filter-color', TAG_COLORS[tag] || '#888');
+          btn.addEventListener('click', () => {
+            const tagId = 'tag-' + tag;
+            if (activeCareerFilter === tagId) {
+              careerCardClearFilter();
+            } else {
+              activeCareerFilter = tagId;
+              careerCardApplyFilter(tagId);
+            }
+          });
+          filterBar.appendChild(btn);
+        });
+
+        /* combine all items for display (newest first) */
+        const allDisplay = [
+          ...careerSorted.map(d => Object.assign({}, d)),
+          ...degreeItems.slice().sort((a, b) => b.start - a.start).map(d => Object.assign({}, d)),
+          ...eduSorted.map(d => Object.assign({}, d))
+        ];
+
+        allDisplay.forEach(d => {
+          const card = document.createElement('div');
+          card.className = 'pub-card';
+          card.dataset.group = d.group;
+          card.dataset.careerNum = d.num;
+          if (d.url) card.dataset.link = d.url;
+          const color = d.tags.length ? (TAG_COLORS[d.tags[0]] || '#888') : 'var(--accent)';
+          const colorHex = d.tags.length ? (TAG_COLORS[d.tags[0]] || '#888888') : '#c8a96e';
+          const r = parseInt(colorHex.replace('#','').substring(0,2),16);
+          const g = parseInt(colorHex.replace('#','').substring(2,4),16);
+          const b = parseInt(colorHex.replace('#','').substring(4,6),16);
+          card.style.setProperty('--card-accent', color);
+          card.style.setProperty('--card-glow', `rgba(${r},${g},${b},0.08)`);
+
+          const lang = getLang();
+          const title = d.ja || d.en;
+          const titleEn = d.en || d.ja;
+          const period = formatPeriod(d);
+          const role = d.roleJa || d.roleEn;
+          const roleEn = d.roleEn || d.roleJa;
+          const groupJa = groupLabelJa(d.group);
+          const groupEn = groupLabelEn(d.group);
+
+          let html = '';
+          html += '<div class="pub-card-header">';
+          html += `<span class="pub-card-num" style="background:${color}">${d.num}</span>`;
+          html += '<div>';
+          if (title) html += `<div class="pub-card-title" data-lang="ja">${title}</div>`;
+          if (titleEn) html += `<div class="pub-card-title" data-lang="en">${titleEn}</div>`;
+          html += '</div>';
+          html += `<span class="pub-card-group" data-lang="ja">${groupJa}</span>`;
+          html += `<span class="pub-card-group" data-lang="en">${groupEn}</span>`;
+          html += '</div>';
+
+          html += `<div class="pub-card-year">${period}</div>`;
+
+          if (role || roleEn) {
+            if (role) html += `<div class="pub-card-detail" data-lang="ja">${role}</div>`;
+            if (roleEn) html += `<div class="pub-card-detail" data-lang="en">${roleEn}</div>`;
+          }
+
+          if (d.tags.length) {
+            html += '<div class="pub-card-tags">';
+            d.tags.forEach(tag => {
+              html += `<span class="topic-tag" data-tag="${tag}">${tag}</span>`;
+            });
+            html += '</div>';
+          }
+
+          card.innerHTML = html;
+
+          /* click → open link */
+          if (d.url) {
+            card.addEventListener('click', (e) => {
+              if (e.target.closest('.topic-tag')) return;
+              window.open(d.url, '_blank', 'noopener,noreferrer');
+            });
+          }
+
+          /* tag chip click → filter */
+          card.querySelectorAll('.topic-tag').forEach(chip => {
+            chip.style.cursor = 'pointer';
+            chip.addEventListener('click', (e) => {
+              e.stopPropagation();
+              const tagId = 'tag-' + chip.dataset.tag;
+              if (activeCareerFilter === tagId) {
+                careerCardClearFilter();
+              } else {
+                activeCareerFilter = tagId;
+                careerCardApplyFilter(tagId);
+              }
+            });
+          });
+
+          cardGrid.appendChild(card);
+        });
+
+        /* filter logic */
+        function updateFilterBar(tagId) {
+          filterBar.querySelectorAll('.pub-filter-btn').forEach(btn => {
+            if (!btn.dataset.tag) {
+              btn.classList.toggle('active', !tagId);
+            } else {
+              btn.classList.toggle('active', ('tag-' + btn.dataset.tag) === tagId);
+            }
+          });
+        }
+
+        function filterCards(tagId) {
+          const tagLabel = tagId ? tagId.replace('tag-', '') : null;
+          cardGrid.querySelectorAll('.pub-card').forEach(card => {
+            const tags = [];
+            card.querySelectorAll('.topic-tag').forEach(t => tags.push(t.dataset.tag));
+            if (!tagLabel || tags.includes(tagLabel)) {
+              card.classList.remove('filtered-out');
+            } else {
+              card.classList.add('filtered-out');
+            }
+          });
+        }
+
+        /* public interface */
+        window.__careerCardApplyFilter = function(tagId) {
+          updateFilterBar(tagId);
+          filterCards(tagId);
+        };
+        window.__careerCardClearFilter = function() {
+          updateFilterBar(null);
+          filterCards(null);
+        };
+
+        function careerCardApplyFilter(tagId) {
+          updateFilterBar(tagId);
+          filterCards(tagId);
+          if (!_careerSyncing) {
+            _careerSyncing = true;
+            if (typeof window.__careerNetworkApplyFilter === 'function') window.__careerNetworkApplyFilter(tagId);
+            if (typeof window.__careerTimelineApplyFilter === 'function') window.__careerTimelineApplyFilter(tagId);
+            _careerSyncing = false;
+          }
+        }
+        function careerCardClearFilter() {
+          activeCareerFilter = null;
+          updateFilterBar(null);
+          filterCards(null);
+          if (!_careerSyncing) {
+            _careerSyncing = true;
+            if (typeof window.__careerNetworkClearFilter === 'function') window.__careerNetworkClearFilter();
+            if (typeof window.__careerTimelineClearFilter === 'function') window.__careerTimelineClearFilter();
+            _careerSyncing = false;
+          }
+        }
+
+        if (cardListWrap) revealObserver.observe(cardListWrap);
+      })();
+
+      /* ═══════════════════════
+         3D: CAREER NETWORK
+         ═══════════════════════ */
+      (function buildCareerNetwork() {
+        const svgEl = document.getElementById('career-network-svg');
+        const container = document.getElementById('career-network-container');
+        const tooltip = document.getElementById('career-network-tooltip');
+        const legendEl = document.getElementById('career-network-legend');
+        if (!svgEl || !container) return;
+
+        /* nodes & links */
+        const nodes = [];
+        const links = [];
+        const tagNodes = {};
+
+        tagSet.forEach(tag => {
+          const id = 'tag-' + tag;
+          tagNodes[tag] = id;
+          nodes.push({ id: id, type: 'tag', label: tag, color: TAG_COLORS[tag] || '#888' });
+        });
+
+        /* career + education items (not degree — no tags) */
+        const netItems = [...careerSorted, ...eduSorted];
+        netItems.forEach(d => {
+          const id = 'career-' + d.num;
+          nodes.push({
+            id: id, type: 'project', num: d.num,
+            ja: d.ja, en: d.en, roleJa: d.roleJa, roleEn: d.roleEn,
+            tags: d.tags, group: d.group, url: d.url, itemRef: d
+          });
+          d.tags.forEach(tag => {
+            if (tagNodes[tag]) links.push({ source: tagNodes[tag], target: id });
+          });
+        });
+
+        /* Digital ↔ base discipline links */
+        const digitalPairs = [
+          ['Digital STS', 'STS'],
+          ['Digital Philosophy of Science', 'Philosophy of Science'],
+          ['Digital Anthropology', 'Anthropology'],
+          ['Digital Humanities', 'Humanities'],
+          ['Digital Technology', 'Technology']
+        ];
+        digitalPairs.forEach(([dTag, bTag]) => {
+          if (tagNodes[dTag] && tagNodes[bTag]) {
+            links.push({ source: tagNodes[dTag], target: tagNodes[bTag], tagLink: true });
+          }
+        });
+
+        /* dimensions */
+        let W = container.clientWidth;
+        let H = container.clientHeight;
+        const svg = d3.select(svgEl)
+          .attr('viewBox', [0, 0, W, H].join(' '))
+          .attr('preserveAspectRatio', 'xMidYMid meet');
+        const g = svg.append('g');
+
+        /* simulation */
+        const simulation = d3.forceSimulation(nodes)
+          .force('link', d3.forceLink(links).id(d => d.id).distance(d => d.tagLink ? 50 : 80))
+          .force('charge', d3.forceManyBody().strength(-220))
+          .force('center', d3.forceCenter(W / 2, H / 2))
+          .force('collision', d3.forceCollide().radius(d => d.type === 'tag' ? 28 : 18))
+          .force('x', d3.forceX(W / 2).strength(0.04))
+          .force('y', d3.forceY(H / 2).strength(0.04))
+          .alphaDecay(0.02)
+          .stop();
+
+        /* edges */
+        const link = g.append('g')
+          .selectAll('line')
+          .data(links)
+          .join('line')
+          .attr('class', 'network-edge')
+          .attr('stroke-dasharray', d => d.tagLink ? '4 3' : null)
+          .attr('stroke-opacity', d => d.tagLink ? 0.30 : null);
+
+        /* tag nodes */
+        const node = g.append('g')
+          .selectAll('g')
+          .data(nodes)
+          .join('g')
+          .attr('class', d => d.type === 'tag' ? 'node-tag' : 'node-project');
+
+        node.filter(d => d.type === 'tag')
+          .append('circle')
+          .attr('r', 14)
+          .attr('fill', d => d.color)
+          .attr('fill-opacity', 0.18)
+          .attr('stroke', d => d.color)
+          .attr('stroke-width', 1.5);
+
+        const TAG_ABBR = {
+          'Digital STS': 'DSTS',
+          'Digital Philosophy of Science': 'DPS',
+          'Digital Anthropology': 'DA',
+          'Digital Humanities': 'DH',
+          'Digital Technology': 'DT',
+          'Philosophy of Science': 'PoS',
+          'Anthropology': 'Anth',
+          'STS': 'STS',
+          'Humanities': 'Hum',
+          'Technology': 'Tech',
+          'Neuroscience': 'Neuro',
+          'Research Ethics': 'RE'
+        };
+
+        node.filter(d => d.type === 'tag')
+          .append('text')
+          .attr('dy', '0.35em')
+          .attr('text-anchor', 'middle')
+          .attr('fill', d => d.color)
+          .attr('font-size', '8px')
+          .attr('letter-spacing', '0.04em')
+          .attr('pointer-events', 'none')
+          .text(d => TAG_ABBR[d.label] || d.label.substring(0, 4));
+
+        /* career/education nodes */
+        node.filter(d => d.type === 'project')
+          .append('circle')
+          .attr('r', 11)
+          .attr('fill', d => TAG_COLORS[d.tags[0]] || '#888')
+          .attr('fill-opacity', 0.22)
+          .attr('stroke', d => TAG_COLORS[d.tags[0]] || '#888')
+          .attr('stroke-width', 1)
+          .attr('stroke-opacity', 0.5);
+
+        node.filter(d => d.type === 'project')
+          .append('text')
+          .attr('dy', '0.35em')
+          .attr('text-anchor', 'middle')
+          .attr('fill', d => TAG_COLORS[d.tags[0]] || '#888')
+          .attr('font-size', '9px')
+          .attr('font-weight', '500')
+          .attr('pointer-events', 'none')
+          .text(d => d.num);
+
+        /* adjacency helpers */
+        function getNeighbors(nodeId) {
+          const neighbors = new Set([nodeId]);
+          links.forEach(l => {
+            const sId = typeof l.source === 'object' ? l.source.id : l.source;
+            const tId = typeof l.target === 'object' ? l.target.id : l.target;
+            if (sId === nodeId) neighbors.add(tId);
+            if (tId === nodeId) neighbors.add(sId);
+          });
+          return neighbors;
+        }
+        function isLinkConnected(l, nodeId) {
+          const sId = typeof l.source === 'object' ? l.source.id : l.source;
+          const tId = typeof l.target === 'object' ? l.target.id : l.target;
+          return sId === nodeId || tId === nodeId;
+        }
+
+        /* tooltip builders */
+        function buildCareerNetTip(d) {
+          const lang = getLang();
+          const color = TAG_COLORS[d.tags[0]] || '#888';
+          const title = lang === 'en' ? (d.en || d.ja) : (d.ja || d.en);
+          const role = lang === 'en' ? (d.roleEn || d.roleJa) : (d.roleJa || d.roleEn);
+          const item = d.itemRef;
+          const period = item ? formatPeriod(item) : '';
+          let h = '<div class="tip-head">';
+          h += `<span class="tip-num" style="background:${color}">${d.num}</span>`;
+          h += `<span class="tip-year">${period}</span>`;
+          h += '</div>';
+          h += `<div class="tip-title">${title}</div>`;
+          if (role) h += `<div class="tip-grant" style="border-top:none;padding-top:0;margin-top:0;">${role}</div>`;
+          if (d.tags.length) {
+            h += '<div class="tip-tags">';
+            d.tags.forEach(t => {
+              const tc = TAG_COLORS[t] || '#888';
+              h += `<span class="tip-tag" style="color:${tc};border-color:${tc}">${t}</span>`;
+            });
+            h += '</div>';
+          }
+          return h;
+        }
+
+        function buildTagNetTip(label) {
+          const color = TAG_COLORS[label] || '#888';
+          return `<span style="color:${color}">${label}</span>`;
+        }
+
+        /* hover */
+        let netActiveFilter = null;
+
+        function showTooltip(d, event) {
+          const neighbors = getNeighbors(d.id);
+          svgEl.classList.add('has-hover');
+          node.classed('node-active', n => neighbors.has(n.id));
+          link.classed('edge-active', l => isLinkConnected(l, d.id));
+          if (d.type === 'tag') {
+            tooltip.innerHTML = buildTagNetTip(d.label);
+          } else {
+            tooltip.innerHTML = buildCareerNetTip(d);
+          }
+          tooltip.classList.add('visible');
+        }
+
+        function hideTooltip() {
+          svgEl.classList.remove('has-hover');
+          node.classed('node-active', false);
+          link.classed('edge-active', false);
+          tooltip.classList.remove('visible');
+        }
+
+        node.on('mouseenter', function(event, d) {
+          if (netActiveFilter) return;
+          showTooltip(d, event);
+        })
+        .on('mousemove', function(event) {
+          const wrapRect = container.parentElement.getBoundingClientRect();
+          const tipW = tooltip.offsetWidth || 200;
+          const tipH = tooltip.offsetHeight || 40;
+          let x = event.clientX - wrapRect.left + 16;
+          let y = event.clientY - wrapRect.top - tipH - 8;
+          if (x + tipW > wrapRect.width) x = event.clientX - wrapRect.left - tipW - 8;
+          if (y < 0) y = event.clientY - wrapRect.top + 16;
+          tooltip.style.left = x + 'px';
+          tooltip.style.top = y + 'px';
+        })
+        .on('mouseleave', function() {
+          if (netActiveFilter) return;
+          hideTooltip();
+        });
+
+        /* click filter */
+        node.on('click', function(event, d) {
+          event.stopPropagation();
+          if (d.type === 'tag') {
+            if (netActiveFilter === d.id) {
+              netClearFilter();
+            } else {
+              netActiveFilter = d.id;
+              netApplyFilter(d.id);
+            }
+          } else if (d.type === 'project' && d.url) {
+            window.open(d.url, '_blank', 'noopener,noreferrer');
+          }
+        });
+
+        svg.on('click', function() {
+          if (netActiveFilter) netClearFilter();
+        });
+
+        function netApplyFilter(tagId) {
+          const neighbors = getNeighbors(tagId);
+          svgEl.classList.remove('has-hover');
+          svgEl.classList.add('has-filter');
+          node.classed('node-active', n => neighbors.has(n.id));
+          link.classed('edge-active', l => isLinkConnected(l, tagId));
+          legendEl.querySelectorAll('.legend-item').forEach(li => {
+            li.classList.toggle('legend-active', ('tag-' + li.dataset.tag) === tagId);
+          });
+          hideTooltip();
+          /* sync to cards + timeline */
+          if (!_careerSyncing) {
+            _careerSyncing = true;
+            activeCareerFilter = tagId;
+            if (typeof window.__careerCardApplyFilter === 'function') window.__careerCardApplyFilter(tagId);
+            if (typeof window.__careerTimelineApplyFilter === 'function') window.__careerTimelineApplyFilter(tagId);
+            _careerSyncing = false;
+          }
+        }
+
+        function netClearFilter() {
+          netActiveFilter = null;
+          svgEl.classList.remove('has-filter');
+          node.classed('node-active', false);
+          link.classed('edge-active', false);
+          legendEl.querySelectorAll('.legend-item').forEach(li => li.classList.remove('legend-active'));
+          if (!_careerSyncing) {
+            _careerSyncing = true;
+            activeCareerFilter = null;
+            if (typeof window.__careerCardClearFilter === 'function') window.__careerCardClearFilter();
+            if (typeof window.__careerTimelineClearFilter === 'function') window.__careerTimelineClearFilter();
+            _careerSyncing = false;
+          }
+        }
+
+        /* expose for card/timeline to call into network */
+        window.__careerNetworkApplyFilter = function(tagId) {
+          _careerSyncing = true;
+          netActiveFilter = tagId;
+          const neighbors = getNeighbors(tagId);
+          svgEl.classList.remove('has-hover');
+          svgEl.classList.add('has-filter');
+          node.classed('node-active', n => neighbors.has(n.id));
+          link.classed('edge-active', l => isLinkConnected(l, tagId));
+          legendEl.querySelectorAll('.legend-item').forEach(li => {
+            li.classList.toggle('legend-active', ('tag-' + li.dataset.tag) === tagId);
+          });
+          _careerSyncing = false;
+        };
+        window.__careerNetworkClearFilter = function() {
+          _careerSyncing = true;
+          netActiveFilter = null;
+          svgEl.classList.remove('has-filter');
+          node.classed('node-active', false);
+          link.classed('edge-active', false);
+          legendEl.querySelectorAll('.legend-item').forEach(li => li.classList.remove('legend-active'));
+          _careerSyncing = false;
+        };
+
+        /* zoom */
+        const zoom = d3.zoom()
+          .scaleExtent([0.4, 3])
+          .on('zoom', (event) => { g.attr('transform', event.transform); });
+        svg.call(zoom);
+        svg.on('dblclick.zoom', () => {
+          svg.transition().duration(500).call(zoom.transform, d3.zoomIdentity);
+        });
+
+        /* drag */
+        const drag = d3.drag()
+          .on('start', (event, d) => {
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            d.fx = d.x; d.fy = d.y;
+          })
+          .on('drag', (event, d) => { d.fx = event.x; d.fy = event.y; })
+          .on('end', (event, d) => {
+            if (!event.active) simulation.alphaTarget(0);
+            d.fx = null; d.fy = null;
+          });
+        node.call(drag);
+
+        /* tick */
+        simulation.on('tick', () => {
+          link
+            .attr('x1', d => d.source.x)
+            .attr('y1', d => d.source.y)
+            .attr('x2', d => d.target.x)
+            .attr('y2', d => d.target.y);
+          node.attr('transform', d => `translate(${d.x},${d.y})`);
+        });
+
+        /* legend */
+        tagOrder.forEach(tag => {
+          if (!tagSet.has(tag)) return;
+          const item = document.createElement('span');
+          item.className = 'legend-item';
+          item.dataset.tag = tag;
+          const dot = document.createElement('span');
+          dot.className = 'legend-dot';
+          dot.style.background = TAG_COLORS[tag] || '#888';
+          item.appendChild(dot);
+          item.appendChild(document.createTextNode(tag));
+          item.addEventListener('click', () => {
+            const tagId = 'tag-' + tag;
+            if (netActiveFilter === tagId) {
+              netClearFilter();
+            } else {
+              netActiveFilter = tagId;
+              netApplyFilter(tagId);
+            }
+          });
+          legendEl.appendChild(item);
+        });
+
+        /* lazy start */
+        let started = false;
+        const careerNetObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting && !started) {
+              started = true;
+              simulation.restart();
+              careerNetObserver.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.1 });
+        careerNetObserver.observe(container);
+
+        /* reveal observer */
+        const careerNetWrap = document.getElementById('career-network');
+        if (careerNetWrap) revealObserver.observe(careerNetWrap);
+
+        /* responsive resize */
+        window.addEventListener('resize', () => {
+          W = container.clientWidth;
+          H = container.clientHeight;
+          svg.attr('viewBox', [0, 0, W, H].join(' '));
+          simulation.force('center', d3.forceCenter(W / 2, H / 2));
+          simulation.force('x', d3.forceX(W / 2).strength(0.04));
+          simulation.force('y', d3.forceY(H / 2).strength(0.04));
+          simulation.alpha(0.3).restart();
+        }, { passive: true });
+      })();
+
+      /* ═══════════════════════
+         3E: TIMELINE FILTER HOOKS
+         ═══════════════════════ */
+      (function careerTimelineFilter() {
+        if (!ctSvgEl || !ctContainer) return;
+
+        /* collect tag → bar mapping */
+        function getConnectedBars(tagId) {
+          const tagLabel = tagId ? tagId.replace('tag-', '') : null;
+          if (!tagLabel) return null;
+          const connected = new Set();
+          allBars.forEach((d, i) => {
+            if (d.tags.includes(tagLabel)) connected.add(i);
+          });
+          return connected;
+        }
+
+        window.__careerTimelineApplyFilter = function(tagId) {
+          const connected = getConnectedBars(tagId);
+          if (!connected) return;
+          ctBars.classed('tl-dimmed', (d, i) => !connected.has(i))
+                .classed('tl-highlight', (d, i) => connected.has(i));
+          ctTenureBars.classed('tl-dimmed', (d) => {
+            const idx = allBars.indexOf(d);
+            return !connected.has(idx);
+          }).classed('tl-highlight', (d) => {
+            const idx = allBars.indexOf(d);
+            return connected.has(idx);
+          });
+          if (!_careerSyncing) {
+            _careerSyncing = true;
+            activeCareerFilter = tagId;
+            if (typeof window.__careerCardApplyFilter === 'function') window.__careerCardApplyFilter(tagId);
+            if (typeof window.__careerNetworkApplyFilter === 'function') window.__careerNetworkApplyFilter(tagId);
+            _careerSyncing = false;
+          }
+        };
+
+        window.__careerTimelineClearFilter = function() {
+          ctBars.classed('tl-dimmed', false).classed('tl-highlight', false);
+          ctTenureBars.classed('tl-dimmed', false).classed('tl-highlight', false);
+          if (!_careerSyncing) {
+            _careerSyncing = true;
+            activeCareerFilter = null;
+            if (typeof window.__careerCardClearFilter === 'function') window.__careerCardClearFilter();
+            if (typeof window.__careerNetworkClearFilter === 'function') window.__careerNetworkClearFilter();
+            _careerSyncing = false;
+          }
+        };
+
+        /* click on timeline bar → filter by primary tag */
+        ctBars.on('click', function(event, d) {
+          if (d.tags.length === 0) return;
+          const tagId = 'tag-' + d.tags[0];
+          if (activeCareerFilter === tagId) {
+            activeCareerFilter = null;
+            window.__careerTimelineClearFilter();
+          } else {
+            activeCareerFilter = tagId;
+            window.__careerTimelineApplyFilter(tagId);
+          }
+        });
+
+        ctTenureBars.on('click', function(event, d) {
+          if (d.tags.length === 0) return;
+          const tagId = 'tag-' + d.tags[0];
+          if (activeCareerFilter === tagId) {
+            activeCareerFilter = null;
+            window.__careerTimelineClearFilter();
+          } else {
+            activeCareerFilter = tagId;
+            window.__careerTimelineApplyFilter(tagId);
+          }
+        });
+      })();
 
     })();
 
@@ -6985,7 +8155,7 @@
 
     /* ── 3-D CARD TILT ── */
     (function() {
-      const TILT_SELECTORS = ['.mvv-card', '.strengths-card', '.ro-pillar'];
+      const TILT_SELECTORS = ['.mvv-card', '.mvv-block', '.strengths-card', '.str-block', '.ro-pillar', '.contact-block'];
       const BASE_T = 'background 0.4s ease, opacity 0.4s ease';
       TILT_SELECTORS.forEach(sel => {
         document.querySelectorAll(sel).forEach(card => {
