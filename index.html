@@ -274,7 +274,7 @@
     }
     /* values list items slide on hover */
     .mvv-card-body li {
-      transition: transform 0.25s ease;
+      transition: transform 0.25s ease, opacity 0.3s ease;
       cursor: default;
     }
     .mvv-card-body li:hover { transform: translateX(6px); }
@@ -330,62 +330,33 @@
       line-height: 1.9;
     }
 
-    /* ── VALUES HOVER DETAIL ── */
-    .values-hover-detail {
+    /* ── VALUES INLINE DETAIL (appears below each li on hover) ── */
+    .vhd-inline {
       max-height: 0;
       overflow: hidden;
       opacity: 0;
-      transform: translateY(10px);
-      transition: max-height 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-                  opacity 0.45s ease,
-                  margin-top 0.35s ease,
-                  transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-      margin-top: 0;
-    }
-    .mvv-card:hover .values-hover-detail {
-      max-height: 700px;
-      opacity: 1;
-      margin-top: 28px;
-      transform: translateY(0);
-      transition-delay: 0.45s;
-    }
-    /* stagger vhd items */
-    .vhd-item {
-      opacity: 0;
-      transform: translateY(8px);
-      transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .mvv-card:hover .vhd-item:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0.55s; }
-    .mvv-card:hover .vhd-item:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.70s; }
-    .mvv-card:hover .vhd-item:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.85s; }
-    .vhd-ja, .vhd-en { display: none; }
-    body.lang-ja .vhd-ja { display: block; }
-    body.lang-en .vhd-en { display: block; }
-    .vhd-item {
-      display: grid;
-      grid-template-columns: 36px 1fr;
-      gap: 16px;
-      padding: 16px 0;
-      border-top: 1px solid var(--line);
-      align-items: start;
-    }
-    .vhd-num {
-      font-size: 11px;
-      color: var(--accent);
-      letter-spacing: 0.08em;
-      padding-top: 3px;
-    }
-    .vhd-title {
-      font-size: 13px;
-      font-weight: 400;
-      color: var(--white);
-      margin-bottom: 6px;
-      line-height: 1.5;
-    }
-    .vhd-body {
       font-size: 12px;
       color: var(--muted);
       line-height: 1.85;
+      margin-top: 0;
+      padding-top: 0;
+      border-top: 1px solid transparent;
+      transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                  opacity 0.4s ease,
+                  margin-top 0.3s ease,
+                  padding-top 0.3s ease,
+                  border-top-color 0.3s ease;
+    }
+    .mvv-card-body li:hover > .vhd-inline {
+      max-height: 200px;
+      opacity: 1;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top-color: var(--line);
+    }
+    /* dim sibling li items when one is hovered */
+    .mvv-card-body ol:has(li:hover) li:not(:hover) {
+      opacity: 0.3;
     }
 
     /* ── STRENGTHS ── */
@@ -565,6 +536,14 @@
       color: #6890c0;
       border-color: rgba(104, 144, 192, 0.35);
     }
+    .topic-tag[data-tag="Neuroscience"] {
+      color: #e06878;
+      border-color: rgba(224, 104, 120, 0.35);
+    }
+    .topic-tag[data-tag="Research Ethics"] {
+      color: #d4a84b;
+      border-color: rgba(212, 168, 75, 0.35);
+    }
 
     /* ── RESEARCH NETWORK GRAPH ── */
     .network-wrap {
@@ -698,9 +677,142 @@
       background: rgba(200, 169, 110, 0.08);
       transition: background 0.6s;
     }
+    .pub-item-book.net-dimmed {
+      opacity: 0.15;
+      transition: opacity 0.3s;
+    }
+    .pub-item-book.net-highlight {
+      transition: opacity 0.3s;
+    }
+    .pub-item-book.net-flash {
+      background: rgba(200, 169, 110, 0.08);
+      transition: background 0.6s;
+    }
+    /* ── PUB NETWORK ── */
+    #pub-network-container {
+      width: 100%;
+      height: 420px;
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      overflow: hidden;
+      position: relative;
+    }
+    #pub-network-svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    #pub-network-svg.has-hover .network-edge { stroke-opacity: 0.04; }
+    #pub-network-svg.has-hover .node-tag,
+    #pub-network-svg.has-hover .node-project { opacity: 0.15; }
+    #pub-network-svg.has-hover .network-edge.edge-active { stroke-opacity: 0.5; stroke-width: 1.5; }
+    #pub-network-svg.has-hover .node-tag.node-active,
+    #pub-network-svg.has-hover .node-project.node-active { opacity: 1; }
+    #pub-network-svg.has-filter .network-edge { stroke-opacity: 0.04; }
+    #pub-network-svg.has-filter .node-tag,
+    #pub-network-svg.has-filter .node-project { opacity: 0.15; }
+    #pub-network-svg.has-filter .network-edge.edge-active { stroke-opacity: 0.5; stroke-width: 1.5; }
+    #pub-network-svg.has-filter .node-tag.node-active,
+    #pub-network-svg.has-filter .node-project.node-active { opacity: 1; }
+    #pub-network-tooltip {
+      position: absolute;
+      pointer-events: none;
+      transition: opacity 0.15s;
+      background: rgba(16, 16, 16, 0.94);
+      border: 1px solid var(--line);
+      color: var(--text);
+      font-size: 12px;
+      padding: 12px 16px;
+      border-radius: 3px;
+      white-space: normal;
+      opacity: 0;
+      transition: opacity 0.18s;
+      z-index: 10;
+      max-width: 420px;
+      line-height: 1.55;
+      backdrop-filter: blur(6px);
+    }
+    #pub-network-tooltip.visible { opacity: 1; }
+    #pub-network-tooltip.tip-interactive { pointer-events: auto; }
+    #pub-network-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 18px;
+      margin-top: 12px;
+      align-items: center;
+    }
+    /* ── PUB TIMELINE ── */
+    #pub-timeline {
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      overflow-x: auto;
+      background: var(--bg);
+    }
+    #pub-timeline-svg {
+      display: block;
+      min-width: 600px;
+    }
+    #pub-timeline-tooltip {
+      position: absolute;
+      pointer-events: none;
+      transition: opacity 0.15s;
+      background: rgba(16, 16, 16, 0.94);
+      border: 1px solid var(--line);
+      color: var(--text);
+      font-size: 12px;
+      padding: 12px 16px;
+      border-radius: 3px;
+      white-space: normal;
+      opacity: 0;
+      transition: opacity 0.18s;
+      z-index: 10;
+      max-width: 420px;
+      line-height: 1.55;
+      backdrop-filter: blur(6px);
+    }
+    #pub-timeline-tooltip.visible { opacity: 1; }
+    #pub-timeline-tooltip.tip-interactive { pointer-events: auto; }
+
+    /* ── CAREER TIMELINE ── */
+    .career-static-list { display: none; }
+    #career-timeline {
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      overflow-x: auto;
+      background: var(--bg);
+    }
+    #career-timeline-svg {
+      display: block;
+      min-width: 600px;
+    }
+    #career-timeline-tooltip {
+      position: absolute;
+      pointer-events: none;
+      background: rgba(16, 16, 16, 0.94);
+      border: 1px solid var(--line);
+      color: var(--text);
+      font-size: 12px;
+      padding: 12px 16px;
+      border-radius: 3px;
+      white-space: normal;
+      opacity: 0;
+      transition: opacity 0.18s;
+      z-index: 10;
+      max-width: 380px;
+      line-height: 1.55;
+      backdrop-filter: blur(6px);
+    }
+    #career-timeline-tooltip.visible { opacity: 1; }
+    .tl-diamond {
+      cursor: pointer;
+      transition: filter 0.2s;
+    }
+    .tl-diamond:hover { filter: brightness(1.5); }
 
     /* ── PROJECT TIMELINE (GANTT) ── */
     #grant-static-list { display: none; }
+    #pub-static-list { display: none; }
     #project-timeline {
       border: 1px solid var(--line);
       border-radius: 2px;
@@ -779,6 +891,39 @@
       padding-top: 5px;
       margin-top: 2px;
     }
+    .tip-book-row {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .tip-book-cover {
+      flex-shrink: 0;
+      width: 60px;
+    }
+    .tip-book-cover img {
+      width: 100%;
+      border-radius: 3px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+    }
+    .tip-book-body {
+      flex: 1;
+      min-width: 0;
+    }
+    .tip-pub-link {
+      margin-top: 6px;
+      padding-top: 5px;
+      border-top: 1px solid var(--line);
+    }
+    .tip-pub-link a {
+      font-size: 11px;
+      color: var(--accent);
+      text-decoration: none;
+      opacity: 0.9;
+    }
+    .tip-pub-link a:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
     .tip-members {
       font-size: 10px;
       color: var(--muted);
@@ -833,6 +978,12 @@
       stroke-dasharray: 5 4;
       opacity: 0.6;
     }
+    .tl-divider {
+      stroke: var(--muted);
+      stroke-width: 0.8;
+      stroke-dasharray: 4 4;
+      opacity: 0.45;
+    }
     .tl-group-label {
       fill: var(--muted);
       font-size: 11px;
@@ -858,9 +1009,13 @@
     }
     @media (max-width: 860px) {
       #timeline-svg { min-width: 500px; }
+      #career-timeline-svg { min-width: 500px; }
+      #pub-timeline-svg { min-width: 500px; }
     }
     @media (max-width: 560px) {
       #timeline-svg { min-width: 450px; }
+      #career-timeline-svg { min-width: 450px; }
+      #pub-timeline-svg { min-width: 450px; }
     }
 
     /* ── RESEARCH CARD ── */
@@ -980,25 +1135,84 @@
     .career-body { font-size: 14px; color: var(--text); line-height: 1.7; }
     .career-role { color: var(--accent); font-size: 12px; margin-top: 4px; }
 
-    /* ── CONTACT ── */
-    .contact-grid {
+    /* ── CONTACT CARDS ── */
+    .contact-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+      margin-top: 56px;
+    }
+    .contact-card {
+      background: var(--bg);
+      padding: 48px 36px;
+      text-decoration: none;
+      color: inherit;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.4s ease, opacity 0.4s ease;
+      cursor: pointer;
     }
-    .contact-item {
-      display: grid;
-      grid-template-columns: 140px 1fr;
-      gap: 24px;
-      font-size: 13px;
-      padding: 16px 0;
-      border-bottom: 1px solid var(--line);
+    .contact-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 0; height: 1px;
+      background: var(--accent);
+      transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .contact-item:last-child { border-bottom: none; }
-    .contact-label { color: var(--muted); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; padding-top: 2px; }
-    .contact-val { color: var(--text); }
-    .contact-val a { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 1px; transition: border-color 0.2s, color 0.2s; }
-    .contact-val a:hover { color: var(--accent); border-color: var(--accent); }
+    .contact-card:hover::before { width: 100%; }
+    .contact-card::after {
+      content: '';
+      position: absolute;
+      bottom: -60px; right: -60px;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(200,169,110,0.10) 0%, transparent 70%);
+      transform: scale(0);
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .contact-card:hover::after { transform: scale(1); }
+    .contact-card:hover { background: var(--bg2); }
+    .contact-card > * { position: relative; z-index: 1; }
+    .contact-cards:has(.contact-card:hover) .contact-card:not(:hover) { opacity: 0.06; }
+    .contact-card-icon {
+      width: 32px; height: 32px;
+      margin-bottom: 28px;
+      color: var(--muted);
+      transition: color 0.4s ease, transform 0.4s ease;
+    }
+    .contact-card:hover .contact-card-icon { color: var(--accent); transform: translateY(-2px); }
+    .contact-card-icon svg { width: 100%; height: 100%; }
+    .contact-card-label {
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+      transition: letter-spacing 0.4s ease;
+    }
+    .contact-card:hover .contact-card-label { letter-spacing: 0.22em; }
+    .contact-card-value {
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.7;
+      flex: 1;
+    }
+    .contact-card-action {
+      font-size: 11px;
+      color: var(--accent);
+      margin-top: 20px;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      letter-spacing: 0.04em;
+    }
+    .contact-card:hover .contact-card-action { opacity: 1; transform: translateY(0); }
 
     /* ── PUB TYPE BADGES ── */
     .pub-type-badge {
@@ -1164,6 +1378,122 @@
       margin-top: 5px;
       letter-spacing: 0.04em;
     }
+
+    /* ── TEACHING CARDS ── */
+    .teaching-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+      margin-top: 56px;
+    }
+    .teaching-card {
+      background: var(--bg);
+      padding: 44px 36px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.4s ease, opacity 0.4s ease;
+    }
+    .teaching-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 0; height: 1px;
+      background: var(--accent);
+      transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .teaching-card:hover::before { width: 100%; }
+    .teaching-card::after {
+      content: '';
+      position: absolute;
+      bottom: -60px; right: -60px;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(200,169,110,0.10) 0%, transparent 70%);
+      transform: scale(0);
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .teaching-card:hover::after { transform: scale(1); }
+    .teaching-card:hover { background: var(--bg2); }
+    .teaching-card > * { position: relative; z-index: 1; }
+    .teaching-grid:has(.teaching-card:hover) .teaching-card:not(:hover) { opacity: 0.06; }
+    .tc-accent {
+      width: 24px;
+      height: 2px;
+      margin-bottom: 24px;
+      transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .teaching-card:hover .tc-accent { width: 48px; }
+    .tc-year {
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 0.14em;
+      margin-bottom: 14px;
+    }
+    .tc-title-link {
+      text-decoration: none;
+      display: block;
+    }
+    .tc-title {
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--white);
+      line-height: 1.5;
+      margin-bottom: 8px;
+      transition: color 0.2s;
+    }
+    .tc-title-link:hover .tc-title { color: var(--accent); }
+    .tc-inst {
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      margin-bottom: 12px;
+    }
+    .tc-tags { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+    .tc-action {
+      font-size: 11px;
+      color: var(--accent);
+      margin-top: auto;
+      padding-top: 20px;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      letter-spacing: 0.04em;
+    }
+    .teaching-card:hover .tc-action { opacity: 1; transform: translateY(0); }
+    /* featured card with video */
+    .teaching-card.tc-featured {
+      grid-column: 1 / -1;
+      flex-direction: row;
+      gap: 40px;
+      align-items: start;
+    }
+    .tc-featured-info { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+    .tc-featured-media {
+      flex-shrink: 0;
+      width: 300px;
+      border-radius: 2px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      position: relative;
+      align-self: center;
+    }
+    .tc-featured-media img { width: 100%; display: block; transition: opacity 0.2s; }
+    .tc-featured-media:hover img { opacity: 0.85; }
+    .tc-featured-media .yt-play-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.25); transition: background 0.2s; }
+    .tc-featured-media:hover .yt-play-overlay { background: rgba(0,0,0,0.1); }
+    /* lang handling for tc elements */
+    .tc-title-link[data-lang], .tc-inst[data-lang], .tc-title[data-lang] { display: none; }
+    body.lang-ja .tc-title-link[data-lang="ja"],
+    body.lang-ja .tc-inst[data-lang="ja"],
+    body.lang-ja .tc-title[data-lang="ja"] { display: block; }
+    body.lang-en .tc-title-link[data-lang="en"],
+    body.lang-en .tc-inst[data-lang="en"],
+    body.lang-en .tc-title[data-lang="en"] { display: block; }
     /* lang handling for new elements */
     .pub-title[data-lang], .grant-tag[data-lang], .grant-role[data-lang], .teaching-inst[data-lang] { display: none; }
     body.lang-ja .pub-title[data-lang="ja"],
@@ -1278,12 +1608,17 @@
       .ig-grid { grid-template-columns: 1fr; }
       .research-two-col { grid-template-columns: 1fr; gap: 48px; }
       .career-item { grid-template-columns: 1fr; gap: 6px; }
-      .contact-item { grid-template-columns: 1fr; gap: 6px; }
+      .contact-cards { grid-template-columns: 1fr; }
+      .contact-card { padding: 36px 28px; }
+      .teaching-grid { grid-template-columns: 1fr; }
+      .teaching-card.tc-featured { flex-direction: column; }
+      .tc-featured-media { width: 100%; max-width: 360px; }
       footer { padding: 32px 24px; flex-direction: column; gap: 12px; text-align: center; }
       .lang-bar { padding: 16px 24px; }
       .pub-item { gap: 20px; }
       .pub-item-book { gap: 20px; }
       #network-container { height: 350px; }
+      #pub-network-container { height: 350px; }
     }
     @media (max-width: 560px) {
       .hero { padding: 0 20px 56px; }
@@ -1301,6 +1636,7 @@
       .hero-tag { font-size: 9px; padding: 4px 10px; }
       .grant-group-label { margin-top: 36px !important; }
       #network-container { height: 280px; }
+      #pub-network-container { height: 280px; }
       .network-wrap { margin-bottom: 32px; }
     }
     /* タッチデバイスではホバー非表示コンテンツを常時表示 */
@@ -1776,66 +2112,29 @@
           <div class="mvv-card-title" data-lang="en">Core Values</div>
           <div class="mvv-card-body" data-lang="ja">
             <ol style="list-style:none; display:flex; flex-direction:column; gap:16px;">
-              <li><span style="color:var(--accent)">01 &mdash;</span> 対話を重んじ、熱を連鎖させる</li>
-              <li><span style="color:var(--accent)">02 &mdash;</span> 越境し、自ら形にする</li>
-              <li><span style="color:var(--accent)">03 &mdash;</span> デジタルとアナログの往復</li>
+              <li><span style="color:var(--accent)">01 &mdash;</span> 対話を重んじ、熱を連鎖させる
+                <div class="vhd-inline">常に「対話」を中心に据え、純粋な探求心と「熱量」を共有できる人々と共に本質的な課題に取り組む。</div>
+              </li>
+              <li><span style="color:var(--accent)">02 &mdash;</span> 越境し、自ら形にする
+                <div class="vhd-inline">分野の垣根を越えた協働を心から楽しみ、アイディアを単なる構想で終わらせず、プログラミングやデザインを通じて自らの手で形にする。</div>
+              </li>
+              <li><span style="color:var(--accent)">03 &mdash;</span> デジタルとアナログの往復
+                <div class="vhd-inline">テクノロジーの利便性をフル活用しながらも、人文学が培ってきた深くアナログな思考法を決して手放さない。</div>
+              </li>
             </ol>
           </div>
           <div class="mvv-card-body" data-lang="en">
             <ol style="list-style:none; display:flex; flex-direction:column; gap:16px;">
-              <li><span style="color:var(--accent)">01 &mdash;</span> Prioritizing Dialogue &amp; Chaining Passions</li>
-              <li><span style="color:var(--accent)">02 &mdash;</span> Crossing Borders &amp; Hands-on Implementation</li>
-              <li><span style="color:var(--accent)">03 &mdash;</span> Traversing Analog and Digital</li>
+              <li><span style="color:var(--accent)">01 &mdash;</span> Prioritizing Dialogue &amp; Chaining Passions
+                <div class="vhd-inline">Always placing "dialogue" at the core, I tackle essential challenges alongside those who share a pure sense of curiosity and deep "passion."</div>
+              </li>
+              <li><span style="color:var(--accent)">02 &mdash;</span> Crossing Borders &amp; Hands-on Implementation
+                <div class="vhd-inline">Genuinely enjoying collaboration across disciplinary boundaries, I do not let ideas end as mere concepts; I shape them with my own hands through code and design.</div>
+              </li>
+              <li><span style="color:var(--accent)">03 &mdash;</span> Traversing Analog and Digital
+                <div class="vhd-inline">While fully utilizing the convenience of digital tools, I firmly hold onto the deep, analog analytical thinking cultivated by the humanities.</div>
+              </li>
             </ol>
-          </div>
-          <!-- HOVER DETAIL -->
-          <div class="values-hover-detail">
-            <div class="vhd-ja">
-              <div class="vhd-item">
-                <span class="vhd-num">01</span>
-                <div>
-                  <div class="vhd-title">対話を重んじ、熱を連鎖させる</div>
-                  <div class="vhd-body">常に「対話」を中心に据え、純粋な探求心と「熱量」を共有できる人々と共に本質的な課題に取り組む。</div>
-                </div>
-              </div>
-              <div class="vhd-item">
-                <span class="vhd-num">02</span>
-                <div>
-                  <div class="vhd-title">越境し、自ら形にする</div>
-                  <div class="vhd-body">分野の垣根を越えた協働を心から楽しみ、アイディアを単なる構想で終わらせず、プログラミングやデザインを通じて自らの手で形にする。</div>
-                </div>
-              </div>
-              <div class="vhd-item">
-                <span class="vhd-num">03</span>
-                <div>
-                  <div class="vhd-title">デジタルとアナログの往復</div>
-                  <div class="vhd-body">テクノロジーの利便性をフル活用しながらも、人文学が培ってきた深くアナログな思考法を決して手放さない。</div>
-                </div>
-              </div>
-            </div>
-            <div class="vhd-en">
-              <div class="vhd-item">
-                <span class="vhd-num">01</span>
-                <div>
-                  <div class="vhd-title">Prioritizing Dialogue &amp; Chaining Passions</div>
-                  <div class="vhd-body">Always placing "dialogue" at the core, I tackle essential challenges alongside those who share a pure sense of curiosity and deep "passion."</div>
-                </div>
-              </div>
-              <div class="vhd-item">
-                <span class="vhd-num">02</span>
-                <div>
-                  <div class="vhd-title">Crossing Borders &amp; Hands-on Implementation</div>
-                  <div class="vhd-body">Genuinely enjoying collaboration across disciplinary boundaries, I do not let ideas end as mere concepts; I shape them with my own hands through code and design.</div>
-                </div>
-              </div>
-              <div class="vhd-item">
-                <span class="vhd-num">03</span>
-                <div>
-                  <div class="vhd-title">Traversing Analog and Digital</div>
-                  <div class="vhd-body">While fully utilizing the convenience of digital tools, I firmly hold onto the deep, analog analytical thinking cultivated by the humanities.</div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -1923,6 +2222,32 @@
     <h2 class="sec-title" data-lang="ja">主要業績（抜粋）</h2>
     <h2 class="sec-title" data-lang="en">Selected Publications</h2>
 
+    <div id="pub-network" class="network-wrap reveal">
+      <p class="network-label">
+        <span data-lang="ja">業績トピックネットワーク</span>
+        <span data-lang="en">Publication Topic Network</span>
+      </p>
+      <p class="network-hint">
+        <span data-lang="ja">ドラッグで移動 / ホイールでズーム / クリックでフィルタ</span>
+        <span data-lang="en">Drag to move / Scroll to zoom / Click to filter</span>
+      </p>
+      <div id="pub-network-container"><svg id="pub-network-svg"></svg></div>
+      <div id="pub-network-tooltip"></div>
+      <div id="pub-network-legend"></div>
+    </div>
+
+    <div id="pub-timeline-wrap" class="reveal" style="margin-top: 48px;">
+      <p class="network-label">
+        <span data-lang="ja">業績タイムライン</span>
+        <span data-lang="en">Publication Timeline</span>
+      </p>
+      <div id="pub-timeline" style="position: relative;">
+        <svg id="pub-timeline-svg"></svg>
+        <div id="pub-timeline-tooltip"></div>
+      </div>
+    </div>
+
+    <div id="pub-static-list">
     <!-- 論文 -->
     <p class="grant-group-label" data-lang="ja" style="margin-top: 56px;">論文</p>
     <p class="grant-group-label" data-lang="en" style="margin-top: 56px;">Papers</p>
@@ -1994,6 +2319,86 @@
         </div>
       </div>
 
+      <div class="pub-item">
+        <span class="pub-year">2025.12</span>
+        <div>
+          <div class="pub-title">How 'empirical' is corpus linguistics?: A meta-analysis using formal concept analysis</div>
+          <div class="pub-detail">Kazuho Kambara, Yuki Sugawara, Norihisa Takahashi / <i>Proceedings of the 39th Pacific Asia Conference on Language, Information and Computation</i>, pp.635–645</div>
+          <div style="margin-top:6px;"><span class="topic-tag" data-tag="Digital Philosophy of Science">Digital Philosophy of Science</span></div>
+        </div>
+      </div>
+
+      <div class="pub-item">
+        <span class="pub-year">2023.05</span>
+        <div>
+          <div class="pub-title" data-lang="ja">南三陸の復興に関するハイパーリンク・エスノグラフィ</div>
+          <div class="pub-title" data-lang="en">Hyperlink Ethnography Regarding Reconstruction in Minamisanriku</div>
+          <div class="pub-detail">
+            <span data-lang="ja">菅原裕輝 / 『テクストマイニングとデジタルヒューマニティーズ』2022, pp.5–18</span>
+            <span data-lang="en">Yuki Sugawara / <i>Text Mining and Digital Humanities</i> 2022, pp.5–18</span>
+          </div>
+          <div style="margin-top:6px;"><span class="topic-tag" data-tag="Digital Anthropology">Digital Anthropology</span></div>
+        </div>
+      </div>
+
+      <div class="pub-item">
+        <span class="pub-year">2017.11</span>
+        <div>
+          <a href="http://www.tamagawa-up.jp/book/b326026.html" target="_blank" rel="noopener noreferrer" class="pub-title-link">
+            <div class="pub-title" data-lang="ja">誰をオーサーにするべきか？：「オリジナリティー」の分野特性を考慮した自律的オーサーシップの提案</div>
+            <div class="pub-title" data-lang="en">Who Should Be an Author?: A Proposal for Autonomous Authorship Considering Field-Specific Characteristics of "Originality"</div>
+          </a>
+          <div class="pub-detail">
+            <span data-lang="ja">菅原裕輝, 松井健志 / 『科学技術社会論研究』(14), pp.77–89</span>
+            <span data-lang="en">Yuki Sugawara, Kenji Matsui / <i>Science, Technology and Society Studies</i> (14), pp.77–89</span>
+          </div>
+          <div style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;">
+            <span class="topic-tag" data-tag="STS">STS</span>
+            <span class="topic-tag" data-tag="Research Ethics">Research Ethics</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-item">
+        <span class="pub-year">2015.10</span>
+        <div>
+          <div class="pub-title">What is New with the New Mechanistic Philosophy? Comments on <i>In search of Mechanisms: Discoveries across the Life Sciences</i></div>
+          <div class="pub-detail">Yuki Sugawara, Hisashi Nakao / <i>Taiwanese Journal for Science, Technology and Medicine</i> 21, pp.233–240</div>
+          <div style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;">
+            <span class="topic-tag" data-tag="Philosophy of Science">Philosophy of Science</span>
+            <span class="topic-tag" data-tag="Neuroscience">Neuroscience</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-item">
+        <span class="pub-year">2014.12</span>
+        <div>
+          <a href="http://kiss.kstudy.com/journal/thesis_name.asp?tname=kiss2002&key=3292054" target="_blank" rel="noopener noreferrer" class="pub-title-link">
+            <div class="pub-title">Causal Mechanisms in Neurosciences</div>
+          </a>
+          <div class="pub-detail">Yuki Sugawara / <i>Korean Journal for the Philosophy of Science</i> 17(3), pp.53–68</div>
+          <div style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;">
+            <span class="topic-tag" data-tag="Philosophy of Science">Philosophy of Science</span>
+            <span class="topic-tag" data-tag="Neuroscience">Neuroscience</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-item">
+        <span class="pub-year">2013.02</span>
+        <div>
+          <a href="https://repository.kulib.kyoto-u.ac.jp/dspace/bitstream/2433/203249/1/capes_1_50.pdf" target="_blank" rel="noopener noreferrer" class="pub-title-link">
+            <div class="pub-title">Mechanistic stance: An epistemic norm among scientists</div>
+          </a>
+          <div class="pub-detail">Yuki Sugawara, Hisashi Nakao / <i>Proceedings of CAPE International Workshops, 2012</i>, pp.50–59</div>
+          <div style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;">
+            <span class="topic-tag" data-tag="Philosophy of Science">Philosophy of Science</span>
+            <span class="topic-tag" data-tag="Neuroscience">Neuroscience</span>
+          </div>
+        </div>
+      </div>
+
     </div>
 
     <!-- 著書・翻訳 -->
@@ -2059,6 +2464,7 @@
       </div>
 
     </div>
+    </div><!-- /pub-static-list -->
 
     <div style="margin-top: 40px;">
       <a href="https://researchmap.jp/yukisugawara" target="_blank" rel="noopener noreferrer" style="font-size: 12px; letter-spacing: 0.12em; color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent); padding-bottom: 2px; text-transform: uppercase;">
@@ -2106,7 +2512,7 @@
     <div class="pub-list" style="margin-top: 16px;">
 
       <div class="pub-item">
-        <span class="pub-year">2025—2028</span>
+        <span class="pub-year">2025.08—2028.03</span>
         <div>
           <a href="https://www.gjs.osaka-u.ac.jp/project/2025b/" target="_blank" rel="noopener noreferrer" class="pub-title-link">
             <div class="pub-title" data-lang="ja">デジタル人類学で拓く「デジタル日本学」教育のグローバル展開</div>
@@ -2121,7 +2527,7 @@
       </div>
 
       <div class="pub-item">
-        <span class="pub-year">2025—2027</span>
+        <span class="pub-year">2025.04—2027.10</span>
         <div>
           <div class="pub-title" data-lang="ja">深層学習を用いた社会技術的現象の分析</div>
           <div class="pub-title" data-lang="en">Analysis of Sociotechnical Phenomena Using Deep Learning</div>
@@ -2134,7 +2540,7 @@
       </div>
 
       <div class="pub-item">
-        <span class="pub-year">2025—2026</span>
+        <span class="pub-year">2025.08—2026.03</span>
         <div>
           <div class="pub-title" data-lang="ja">機械学習を用いた知識構造と社会技術的現象の俯瞰的分析</div>
           <div class="pub-title" data-lang="en">Panoramic Analysis of Knowledge Structures and Sociotechnical Phenomena Using Machine Learning</div>
@@ -2150,7 +2556,7 @@
       </div>
 
       <div class="pub-item">
-        <span class="pub-year">2024—2026</span>
+        <span class="pub-year">2024.04—2026.03</span>
         <div>
           <div class="pub-title" data-lang="ja">津波被災地域の持続可能なまちづくりへ向けたグローカルな未来像の分析</div>
           <div class="pub-title" data-lang="en">Analysis of Glocal Visions for Sustainable Community Development in Tsunami-Affected Areas</div>
@@ -2166,7 +2572,7 @@
       </div>
 
       <div class="pub-item">
-        <span class="pub-year">2024—2026</span>
+        <span class="pub-year">2024.03—2026.02</span>
         <div>
           <div class="pub-title" data-lang="ja">津波被災自治体移住者の語りの記録と分析を基にした共生型地域社会のモデル構築</div>
           <div class="pub-title" data-lang="en">Building a Model of Inclusive Local Communities Based on Documentation and Analysis of Narratives from Migrants in Tsunami-Affected Municipalities</div>
@@ -2182,7 +2588,7 @@
       </div>
 
       <div class="pub-item">
-        <span class="pub-year">2024—2025</span>
+        <span class="pub-year">2024.04—2025.03</span>
         <div>
           <div class="pub-title" data-lang="ja">ゲノム合成分野におけるバイオベンチャーの動向に関する調査研究</div>
           <div class="pub-title" data-lang="en">Research on Trends in Bio-ventures in the Field of Genome Synthesis</div>
@@ -2195,7 +2601,7 @@
       </div>
 
       <div class="pub-item">
-        <span class="pub-year">2024—2025</span>
+        <span class="pub-year">2024.08—2025.03</span>
         <div>
           <div class="pub-title" data-lang="ja">機械学習を用いた学際分野の俯瞰的分析</div>
           <div class="pub-title" data-lang="en">Panoramic Analysis of Interdisciplinary Fields Using Machine Learning</div>
@@ -2208,7 +2614,7 @@
       </div>
 
       <div class="pub-item">
-        <span class="pub-year">2023—2024</span>
+        <span class="pub-year">2023.02—2024.01</span>
         <div>
           <div class="pub-title" data-lang="ja">機械学習を用いた学術分野の俯瞰的分析</div>
           <div class="pub-title" data-lang="en">Panoramic Analysis of Academic Fields Using Machine Learning</div>
@@ -2221,7 +2627,7 @@
       </div>
 
       <div class="pub-item">
-        <span class="pub-year">2014—2016</span>
+        <span class="pub-year">2014.04—2016.03</span>
         <div>
           <div class="pub-title" data-lang="ja">神経科学の哲学の基盤構築</div>
           <div class="pub-title" data-lang="en">Foundations of the Philosophy of Neuroscience</div>
@@ -2234,7 +2640,7 @@
       </div>
 
       <div class="pub-item">
-        <span class="pub-year">2013—2014</span>
+        <span class="pub-year">2013.04—2014.03</span>
         <div>
           <div class="pub-title" data-lang="ja">神経科学の哲学の基盤構築</div>
           <div class="pub-title" data-lang="en">Foundations of the Philosophy of Neuroscience</div>
@@ -2254,7 +2660,7 @@
     <div class="pub-list" style="margin-top: 16px;">
 
       <div class="pub-item">
-        <span class="pub-year">2025—2030</span>
+        <span class="pub-year">2025.04—2030.03</span>
         <div>
           <div class="pub-title" data-lang="ja">文化的言語的に多様な子どもの複数言語アセスメントの実証研究</div>
           <div class="pub-title" data-lang="en">Empirical Research on Multilingual Assessment of Culturally and Linguistically Diverse Children</div>
@@ -2273,7 +2679,7 @@
       </div>
 
       <div class="pub-item">
-        <span class="pub-year">2021—2024</span>
+        <span class="pub-year">2021.04—2024.07</span>
         <div>
           <div class="pub-title">Future Organisms: Synthetic Genomics and Responsible Innovation in the UK, the USA and Japan</div>
           <div style="margin-top:6px;"><span class="topic-tag" data-tag="STS">STS</span></div>
@@ -2310,53 +2716,63 @@
     <h2 class="sec-title" data-lang="ja">授業（現在担当分）</h2>
     <h2 class="sec-title" data-lang="en">Courses Currently Taught</h2>
 
-    <div class="pub-list" style="margin-top: 56px;">
+    <div class="teaching-grid">
 
-      <div class="pub-item">
-        <span class="pub-year">2025—</span>
-        <div>
-          <a href="https://koan.osaka-u.ac.jp/campusweb/campussquare.do?_flowExecutionKey=_cA8C83EE2-4C26-D521-36AB-1BF35A27782C_kF1B42C46-A6B9-AB83-EE63-D2FF11171DE5" target="_blank" rel="noopener noreferrer" class="pub-title-link" data-lang="ja">
-            <div class="pub-title">デジタルヒューマニティーズ基礎演習</div>
-          </a>
-          <a href="https://koan.osaka-u.ac.jp/campusweb/campussquare.do?_flowExecutionKey=_cA8C83EE2-4C26-D521-36AB-1BF35A27782C_k629A5FDD-FD95-3B10-19CF-8431DA65E562" target="_blank" rel="noopener noreferrer" class="pub-title-link" data-lang="en">
-            <div class="pub-title">Introductory Seminar in Digital Humanities</div>
-          </a>
-          <div class="teaching-inst" data-lang="ja">大阪大学 文学部</div>
-          <div class="teaching-inst" data-lang="en">School of Letters, Osaka University</div>
-          <div style="margin-top:6px;"><span class="topic-tag" data-tag="Digital Humanities">Digital Humanities</span></div>
-        </div>
+      <!-- 1. DH基礎演習 -->
+      <div class="teaching-card">
+        <div class="tc-accent" style="background:#38b0e8"></div>
+        <span class="tc-year">2025 &mdash;</span>
+        <a href="https://koan.osaka-u.ac.jp/campusweb/campussquare.do?_flowExecutionKey=_cA8C83EE2-4C26-D521-36AB-1BF35A27782C_kF1B42C46-A6B9-AB83-EE63-D2FF11171DE5" target="_blank" rel="noopener noreferrer" class="tc-title-link" data-lang="ja">
+          <div class="tc-title">デジタルヒューマニティーズ基礎演習</div>
+        </a>
+        <a href="https://koan.osaka-u.ac.jp/campusweb/campussquare.do?_flowExecutionKey=_cA8C83EE2-4C26-D521-36AB-1BF35A27782C_k629A5FDD-FD95-3B10-19CF-8431DA65E562" target="_blank" rel="noopener noreferrer" class="tc-title-link" data-lang="en">
+          <div class="tc-title">Introductory Seminar in Digital Humanities</div>
+        </a>
+        <div class="tc-inst" data-lang="ja">大阪大学 文学部</div>
+        <div class="tc-inst" data-lang="en">School of Letters, Osaka University</div>
+        <div class="tc-tags"><span class="topic-tag" data-tag="Digital Humanities">Digital Humanities</span></div>
+        <span class="tc-action">
+          <span data-lang="ja">シラバスを見る &rarr;</span>
+          <span data-lang="en">View syllabus &rarr;</span>
+        </span>
       </div>
 
-      <div class="pub-item">
-        <span class="pub-year">2025—</span>
-        <div>
-          <a href="https://koan.osaka-u.ac.jp/campusweb/campussquare.do?_flowExecutionKey=_cA8C83EE2-4C26-D521-36AB-1BF35A27782C_kBC63EC31-A621-B02B-841B-E99689A97030" target="_blank" rel="noopener noreferrer" class="pub-title-link" data-lang="ja">
-            <div class="pub-title">外国語学部生のためのデジタルツール</div>
-          </a>
-          <a href="https://koan.osaka-u.ac.jp/campusweb/campussquare.do?_flowExecutionKey=_cA8C83EE2-4C26-D521-36AB-1BF35A27782C_k04AA83A5-0587-B280-A763-214C44B3BBE3" target="_blank" rel="noopener noreferrer" class="pub-title-link" data-lang="en">
-            <div class="pub-title">Digital Tools for Students of Foreign Languages</div>
-          </a>
-          <div style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;">
-            <span class="topic-tag" data-tag="Humanities">Humanities</span>
-            <span class="topic-tag" data-tag="Digital Technology">Digital Technology</span>
-          </div>
-          <div class="teaching-inst" data-lang="ja">大阪大学 外国語学部</div>
-          <div class="teaching-inst" data-lang="en">School of Foreign Studies, Osaka University</div>
+      <!-- 2. デジタルツール -->
+      <div class="teaching-card">
+        <div class="tc-accent" style="background:#4868a8"></div>
+        <span class="tc-year">2025 &mdash;</span>
+        <a href="https://koan.osaka-u.ac.jp/campusweb/campussquare.do?_flowExecutionKey=_cA8C83EE2-4C26-D521-36AB-1BF35A27782C_kBC63EC31-A621-B02B-841B-E99689A97030" target="_blank" rel="noopener noreferrer" class="tc-title-link" data-lang="ja">
+          <div class="tc-title">外国語学部生のためのデジタルツール</div>
+        </a>
+        <a href="https://koan.osaka-u.ac.jp/campusweb/campussquare.do?_flowExecutionKey=_cA8C83EE2-4C26-D521-36AB-1BF35A27782C_k04AA83A5-0587-B280-A763-214C44B3BBE3" target="_blank" rel="noopener noreferrer" class="tc-title-link" data-lang="en">
+          <div class="tc-title">Digital Tools for Students of Foreign Languages</div>
+        </a>
+        <div class="tc-inst" data-lang="ja">大阪大学 外国語学部</div>
+        <div class="tc-inst" data-lang="en">School of Foreign Studies, Osaka University</div>
+        <div class="tc-tags">
+          <span class="topic-tag" data-tag="Humanities">Humanities</span>
+          <span class="topic-tag" data-tag="Digital Technology">Digital Technology</span>
         </div>
+        <span class="tc-action">
+          <span data-lang="ja">シラバスを見る &rarr;</span>
+          <span data-lang="en">View syllabus &rarr;</span>
+        </span>
       </div>
 
-      <div class="pub-item">
-        <span class="pub-year">2025—</span>
-        <div>
-          <a href="https://koan.osaka-u.ac.jp/campusweb/campussquare.do?_flowExecutionKey=_cA8C83EE2-4C26-D521-36AB-1BF35A27782C_k81682114-8412-9C19-27FF-E6F2756E16C6" target="_blank" rel="noopener noreferrer" class="pub-title-link" data-lang="ja">
-            <div class="pub-title">人文学とデジタル技術</div>
+      <!-- 3. 人文学とデジタル技術 (featured with YouTube) -->
+      <div class="teaching-card tc-featured">
+        <div class="tc-featured-info">
+          <div class="tc-accent" style="background:#4868a8"></div>
+          <span class="tc-year">2025 &mdash;</span>
+          <a href="https://koan.osaka-u.ac.jp/campusweb/campussquare.do?_flowExecutionKey=_cA8C83EE2-4C26-D521-36AB-1BF35A27782C_k81682114-8412-9C19-27FF-E6F2756E16C6" target="_blank" rel="noopener noreferrer" class="tc-title-link" data-lang="ja">
+            <div class="tc-title">人文学とデジタル技術</div>
           </a>
-          <a href="https://koan.osaka-u.ac.jp/campusweb/campussquare.do?_flowExecutionKey=_cA8C83EE2-4C26-D521-36AB-1BF35A27782C_k8C2F658B-D52A-BAFE-8519-6D5B14DF259F" target="_blank" rel="noopener noreferrer" class="pub-title-link" data-lang="en">
-            <div class="pub-title">Humanities and Digital Technologies</div>
+          <a href="https://koan.osaka-u.ac.jp/campusweb/campussquare.do?_flowExecutionKey=_cA8C83EE2-4C26-D521-36AB-1BF35A27782C_k8C2F658B-D52A-BAFE-8519-6D5B14DF259F" target="_blank" rel="noopener noreferrer" class="tc-title-link" data-lang="en">
+            <div class="tc-title">Humanities and Digital Technologies</div>
           </a>
-          <div class="teaching-inst" data-lang="ja">大阪大学 大学院人文学研究科</div>
-          <div class="teaching-inst" data-lang="en">Graduate School of Humanities, Osaka University</div>
-          <div style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
+          <div class="tc-inst" data-lang="ja">大阪大学 大学院人文学研究科</div>
+          <div class="tc-inst" data-lang="en">Graduate School of Humanities, Osaka University</div>
+          <div class="tc-tags">
             <span class="topic-tag" data-tag="Humanities">Humanities</span>
             <span class="topic-tag" data-tag="Digital Technology">Digital Technology</span>
             <a href="https://youtu.be/72bx9-_iJN0" target="_blank" rel="noopener noreferrer" class="yt-badge">
@@ -2364,60 +2780,71 @@
                 <rect width="13" height="9" rx="2" fill="#ff4444"/>
                 <polygon points="5,2.5 9.5,4.5 5,6.5" fill="white"/>
               </svg>
-              紹介動画
+              <span data-lang="ja">紹介動画</span>
+              <span data-lang="en">Intro video</span>
             </a>
           </div>
-          <div class="pub-detail pub-detail-media">
-            <a href="https://youtu.be/72bx9-_iJN0" target="_blank" rel="noopener noreferrer" class="yt-thumb-link">
-              <img src="https://img.youtube.com/vi/72bx9-_iJN0/hqdefault.jpg" alt="人文学とデジタル技術 紹介動画">
-              <div class="yt-play-overlay">
-                <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
-                  <circle cx="26" cy="26" r="26" fill="rgba(0,0,0,0.55)"/>
-                  <polygon points="21,17 39,26 21,35" fill="white"/>
-                </svg>
-              </div>
-            </a>
-          </div>
+          <span class="tc-action">
+            <span data-lang="ja">シラバスを見る &rarr;</span>
+            <span data-lang="en">View syllabus &rarr;</span>
+          </span>
         </div>
+        <a href="https://youtu.be/72bx9-_iJN0" target="_blank" rel="noopener noreferrer" class="tc-featured-media">
+          <img src="https://img.youtube.com/vi/72bx9-_iJN0/hqdefault.jpg" alt="人文学とデジタル技術 紹介動画">
+          <div class="yt-play-overlay">
+            <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+              <circle cx="26" cy="26" r="26" fill="rgba(0,0,0,0.55)"/>
+              <polygon points="21,17 39,26 21,35" fill="white"/>
+            </svg>
+          </div>
+        </a>
       </div>
 
-      <div class="pub-item">
-        <span class="pub-year">2022—</span>
-        <div>
-          <a href="https://koan.osaka-u.ac.jp/campusweb/campussquare.do?_flowExecutionKey=_cA8C83EE2-4C26-D521-36AB-1BF35A27782C_k03434786-F766-3A4F-2226-7DA31D7AD480" target="_blank" rel="noopener noreferrer" class="pub-title-link" data-lang="ja">
-            <div class="pub-title">人文学基礎（人文学と対話）</div>
-          </a>
-          <a href="https://koan.osaka-u.ac.jp/campusweb/campussquare.do?_flowExecutionKey=_cA8C83EE2-4C26-D521-36AB-1BF35A27782C_k349654A3-EE37-6E3F-A3ED-E2F0E2B6FEA6" target="_blank" rel="noopener noreferrer" class="pub-title-link" data-lang="en">
-            <div class="pub-title">Foundations of the Humanities (Humanities and Dialogue)</div>
-          </a>
-          <div class="teaching-inst" data-lang="ja">大阪大学 大学院人文学研究科</div>
-          <div class="teaching-inst" data-lang="en">Graduate School of Humanities, Osaka University</div>
-          <div style="margin-top:6px;"><span class="topic-tag" data-tag="Humanities">Humanities</span></div>
-        </div>
+      <!-- 4. 人文学基礎 -->
+      <div class="teaching-card">
+        <div class="tc-accent" style="background:#4868a8"></div>
+        <span class="tc-year">2022 &mdash;</span>
+        <a href="https://koan.osaka-u.ac.jp/campusweb/campussquare.do?_flowExecutionKey=_cA8C83EE2-4C26-D521-36AB-1BF35A27782C_k03434786-F766-3A4F-2226-7DA31D7AD480" target="_blank" rel="noopener noreferrer" class="tc-title-link" data-lang="ja">
+          <div class="tc-title">人文学基礎（人文学と対話）</div>
+        </a>
+        <a href="https://koan.osaka-u.ac.jp/campusweb/campussquare.do?_flowExecutionKey=_cA8C83EE2-4C26-D521-36AB-1BF35A27782C_k349654A3-EE37-6E3F-A3ED-E2F0E2B6FEA6" target="_blank" rel="noopener noreferrer" class="tc-title-link" data-lang="en">
+          <div class="tc-title">Foundations of the Humanities (Humanities and Dialogue)</div>
+        </a>
+        <div class="tc-inst" data-lang="ja">大阪大学 大学院人文学研究科</div>
+        <div class="tc-inst" data-lang="en">Graduate School of Humanities, Osaka University</div>
+        <div class="tc-tags"><span class="topic-tag" data-tag="Humanities">Humanities</span></div>
+        <span class="tc-action">
+          <span data-lang="ja">シラバスを見る &rarr;</span>
+          <span data-lang="en">View syllabus &rarr;</span>
+        </span>
       </div>
 
-      <div class="pub-item">
-        <span class="pub-year">2021—</span>
-        <div>
-          <a href="https://www.dwc.doshisha.ac.jp/current/classes/course_registration/syllabus" target="_blank" rel="noopener noreferrer" class="pub-title-link">
-            <div class="pub-title" data-lang="ja">コーパス演習</div>
-            <div class="pub-title" data-lang="en">Corpus Studies Practicum</div>
-          </a>
-          <div class="teaching-inst" data-lang="ja">同志社女子大学 学芸学部</div>
-          <div class="teaching-inst" data-lang="en">Faculty of Liberal Arts, Doshisha Women's College of Liberal Arts</div>
-          <div style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;">
-            <span class="topic-tag" data-tag="Humanities">Humanities</span>
-            <span class="topic-tag" data-tag="Digital Technology">Digital Technology</span>
-          </div>
+      <!-- 5. コーパス演習 -->
+      <div class="teaching-card">
+        <div class="tc-accent" style="background:#4868a8"></div>
+        <span class="tc-year">2021 &mdash;</span>
+        <a href="https://www.dwc.doshisha.ac.jp/current/classes/course_registration/syllabus" target="_blank" rel="noopener noreferrer" class="tc-title-link">
+          <div class="tc-title" data-lang="ja">コーパス演習</div>
+          <div class="tc-title" data-lang="en">Corpus Studies Practicum</div>
+        </a>
+        <div class="tc-inst" data-lang="ja">同志社女子大学 学芸学部</div>
+        <div class="tc-inst" data-lang="en">Faculty of Liberal Arts, Doshisha Women's College of Liberal Arts</div>
+        <div class="tc-tags">
+          <span class="topic-tag" data-tag="Humanities">Humanities</span>
+          <span class="topic-tag" data-tag="Digital Technology">Digital Technology</span>
         </div>
+        <span class="tc-action">
+          <span data-lang="ja">シラバスを見る &rarr;</span>
+          <span data-lang="en">View syllabus &rarr;</span>
+        </span>
       </div>
 
     </div>
 
     <div style="margin-top: 40px;">
       <a href="https://researchmap.jp/yukisugawara" target="_blank" rel="noopener noreferrer" style="font-size: 12px; letter-spacing: 0.12em; color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent); padding-bottom: 2px; text-transform: uppercase;">
-        <span data-lang="ja">researchmap で全授業を見る →</span>
-        <span data-lang="en">View all courses on researchmap →</span>
+        <span data-lang="ja">researchmap で全授業を見る &rarr;</span>
+        <span data-lang="en">View all courses on researchmap &rarr;</span>
       </a>
     </div>
   </section>
@@ -2473,8 +2900,16 @@
     <h2 class="sec-title" data-lang="ja">経歴（抜粋）</h2>
     <h2 class="sec-title" data-lang="en">Academic Career (Selected)</h2>
 
+    <div id="career-timeline-wrap" class="reveal" style="margin-top: 48px;">
+      <div id="career-timeline" style="position: relative;">
+        <svg id="career-timeline-svg"></svg>
+        <div id="career-timeline-tooltip"></div>
+      </div>
+    </div>
+
+    <div class="career-static-list">
     <div class="career-list" style="margin-top: 56px;">
-      <div class="career-item">
+      <div class="career-item" data-tenure-end="2053.03">
         <span class="career-period">2025.04 — <span data-lang="ja">現在</span><span data-lang="en">Present</span></span>
         <div>
           <div class="career-body">
@@ -2482,7 +2917,7 @@
             <span data-lang="en">Interdisciplinary Network in the Humanities, Graduate School of Humanities, The University of Osaka</span>
           </div>
           <div class="career-role">
-            <span data-lang="ja">講師</span><span data-lang="en">Lecturer</span>
+            <span data-lang="ja">講師（テニュア）</span><span data-lang="en">Lecturer (Tenured)</span>
           </div>
           <div style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;">
             <span class="topic-tag" data-tag="Humanities">Humanities</span>
@@ -2509,6 +2944,19 @@
         </div>
       </div>
       <div class="career-item">
+        <span class="career-period">2022.04 — 2024.03</span>
+        <div>
+          <div class="career-body">
+            <span data-lang="ja">慶應義塾大学 理工学部</span>
+            <span data-lang="en">Faculty of Science and Technology, Keio University</span>
+          </div>
+          <div class="career-role">
+            <span data-lang="ja">研究員（非常勤・兼任）</span><span data-lang="en">Researcher (Part-time)</span>
+          </div>
+          <div style="margin-top:6px;"><span class="topic-tag" data-tag="STS">STS</span></div>
+        </div>
+      </div>
+      <div class="career-item">
         <span class="career-period">2021.07 — 2022.03</span>
         <div>
           <div class="career-body">
@@ -2516,9 +2964,80 @@
             <span data-lang="en">Faculty of Science and Technology, Keio University</span>
           </div>
           <div class="career-role">
-            <span data-lang="ja">研究員</span><span data-lang="en">Research Fellow</span>
+            <span data-lang="ja">研究員</span><span data-lang="en">Researcher</span>
           </div>
           <div style="margin-top:6px;"><span class="topic-tag" data-tag="STS">STS</span></div>
+        </div>
+      </div>
+      <div class="career-item">
+        <span class="career-period">2020.05 — 2021.12</span>
+        <div>
+          <div class="career-body">
+            <span data-lang="ja">大阪大学 大学院人間科学研究科 基礎人間科学講座（科学技術と文化）</span>
+            <span data-lang="en">Graduate School of Human Sciences, Osaka University</span>
+          </div>
+          <div class="career-role">
+            <span data-lang="ja">特任研究員</span><span data-lang="en">Specially Appointed Researcher</span>
+          </div>
+          <div style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;">
+            <span class="topic-tag" data-tag="STS">STS</span>
+            <span class="topic-tag" data-tag="Anthropology">Anthropology</span>
+          </div>
+        </div>
+      </div>
+      <div class="career-item">
+        <span class="career-period">2017.04 — 2018.03</span>
+        <div>
+          <div class="career-body">
+            <span data-lang="ja">大阪大学 COデザインセンター</span>
+            <span data-lang="en">Center for the Study of Co* Design, Osaka University</span>
+          </div>
+          <div class="career-role">
+            <span data-lang="ja">特任助教（常勤）</span><span data-lang="en">Specially Appointed Assistant Professor</span>
+          </div>
+          <div style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;">
+            <span class="topic-tag" data-tag="STS">STS</span>
+            <span class="topic-tag" data-tag="Philosophy of Science">Philosophy of Science</span>
+          </div>
+        </div>
+      </div>
+      <div class="career-item">
+        <span class="career-period">2015.08 — 2017.03</span>
+        <div>
+          <div class="career-body">
+            <span data-lang="ja">国立循環器病研究センター 研究開発基盤センター 医学倫理研究部</span>
+            <span data-lang="en">Department of Medical Ethics, National Cerebral and Cardiovascular Center</span>
+          </div>
+          <div class="career-role">
+            <span data-lang="ja">研究員（非常勤）</span><span data-lang="en">Researcher (Part-time)</span>
+          </div>
+          <div style="margin-top:6px;"><span class="topic-tag" data-tag="Research Ethics">Research Ethics</span></div>
+        </div>
+      </div>
+      <div class="career-item">
+        <span class="career-period">2014.04 — 2015.07</span>
+        <div>
+          <div class="career-body">
+            <span data-lang="ja">日本学術振興会</span>
+            <span data-lang="en">Japan Society for the Promotion of Science</span>
+          </div>
+          <div class="career-role">
+            <span data-lang="ja">特別研究員（DC2）</span><span data-lang="en">JSPS Research Fellow (DC2)</span>
+          </div>
+          <div style="margin-top:6px;"><span class="topic-tag" data-tag="Philosophy of Science">Philosophy of Science</span></div>
+        </div>
+      </div>
+      <div class="career-item">
+        <span class="career-period">2014.04 — 2014.07</span>
+        <div>
+          <div class="career-body">
+            <span data-lang="ja">自然科学研究機構 基礎生物学研究所 光脳回路研究部門</span>
+            <span data-lang="en">Division of Brain Circuit, National Institute for Basic Biology</span>
+          </div>
+          <div class="career-role">
+            <span data-lang="ja">特別共同利用研究員</span><span data-lang="en">Visiting Scientist</span>
+          </div>
+          <div style="margin-top:6px;"><span class="topic-tag" data-tag="Neuroscience">Neuroscience</span></div>
         </div>
       </div>
     </div>
@@ -2614,6 +3133,7 @@
         </div>
       </div>
     </div>
+    </div><!-- /career-static-list -->
   </section>
 
   <!-- CONTACT -->
@@ -2622,25 +3142,63 @@
     <h2 class="sec-title" data-lang="ja">連絡先</h2>
     <h2 class="sec-title" data-lang="en">Get in Touch</h2>
 
-    <div class="contact-grid" style="margin-top: 56px; max-width: 600px;">
-      <div class="contact-item">
-        <span class="contact-label">Email</span>
-        <span class="contact-val">ysugawara.hmt [at] osaka-u.ac.jp</span>
-      </div>
-      <div class="contact-item">
-        <span class="contact-label">researchmap</span>
-        <span class="contact-val"><a href="https://researchmap.jp/yukisugawara" target="_blank" rel="noopener noreferrer">researchmap.jp/yukisugawara</a></span>
-      </div>
-      <div class="contact-item">
-        <span class="contact-label">
+    <div class="contact-cards">
+      <!-- Email -->
+      <a class="contact-card" href="mailto:ysugawara.hmt@osaka-u.ac.jp">
+        <div class="contact-card-icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="7" width="26" height="18" rx="2"/>
+            <path d="M3 9l13 9 13-9"/>
+          </svg>
+        </div>
+        <span class="contact-card-label">Email</span>
+        <span class="contact-card-value">ysugawara.hmt [at] osaka-u.ac.jp</span>
+        <span class="contact-card-action">
+          <span data-lang="ja">メールを送る &rarr;</span>
+          <span data-lang="en">Send email &rarr;</span>
+        </span>
+      </a>
+      <!-- researchmap -->
+      <a class="contact-card" href="https://researchmap.jp/yukisugawara" target="_blank" rel="noopener noreferrer">
+        <div class="contact-card-icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="16" cy="16" r="12"/>
+            <ellipse cx="16" cy="16" rx="5.5" ry="12"/>
+            <line x1="4" y1="12" x2="28" y2="12"/>
+            <line x1="4" y1="20" x2="28" y2="20"/>
+          </svg>
+        </div>
+        <span class="contact-card-label">researchmap</span>
+        <span class="contact-card-value">researchmap.jp/yukisugawara</span>
+        <span class="contact-card-action">
+          <span data-lang="ja">プロフィールを見る &rarr;</span>
+          <span data-lang="en">View profile &rarr;</span>
+        </span>
+      </a>
+      <!-- Affiliation -->
+      <a class="contact-card" href="https://jinbungakurin.hmt.osaka-u.ac.jp" target="_blank" rel="noopener noreferrer">
+        <div class="contact-card-icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="6" y="5" width="20" height="24" rx="1"/>
+            <line x1="12" y1="11" x2="20" y2="11"/>
+            <line x1="12" y1="16" x2="20" y2="16"/>
+            <line x1="12" y1="21" x2="20" y2="21"/>
+            <rect x="13" y="25" width="6" height="4"/>
+          </svg>
+        </div>
+        <span class="contact-card-label">
           <span data-lang="ja">所属</span>
           <span data-lang="en">Affiliation</span>
         </span>
-        <span class="contact-val">
-          <span data-lang="ja"><a href="https://jinbungakurin.hmt.osaka-u.ac.jp" target="_blank" rel="noopener noreferrer" style="color:inherit; border-bottom:1px solid var(--line); text-decoration:none;">大阪大学 大学院人文学研究科 人文学林</a></span>
-          <span data-lang="en"><a href="https://jinbungakurin.hmt.osaka-u.ac.jp" target="_blank" rel="noopener noreferrer" style="color:inherit; border-bottom:1px solid var(--line); text-decoration:none;">Interdisciplinary Network in the Humanities, Graduate School of Humanities, The University of Osaka</a></span>
+        <span class="contact-card-value">
+          <span data-lang="ja">大阪大学 大学院人文学研究科 人文学林</span>
+          <span data-lang="en">Interdisciplinary Network in the Humanities, Graduate School of Humanities, The University of Osaka</span>
         </span>
-      </div>
+        <span class="contact-card-action">
+          <span data-lang="ja">ウェブサイトを見る &rarr;</span>
+          <span data-lang="en">Visit website &rarr;</span>
+        </span>
+      </a>
     </div>
   </section>
 
@@ -2874,7 +3432,9 @@
         'Humanities':                   '#4868a8',
         'Digital Humanities':           '#38b0e8',
         'Digital Technology':           '#78a8e0',
-        'Technology':                   '#6890c0'
+        'Technology':                   '#6890c0',
+        'Neuroscience':                 '#e06878',
+        'Research Ethics':              '#d4a84b'
       };
 
       /* ── tag descriptions (ja / en) ── */
@@ -2928,6 +3488,16 @@
           ja: 'デジタル人文学',
           descJa: 'デジタルヒューマニティーズ（デジタル人文学）は、歴史学や文学といった伝統的な人文学の研究手法に、最新のデジタル技術や計算論的アプローチを融合させた革新的な学際分野です。歴史的文書や芸術作品などの膨大な文化資源をデジタルデータ化し、テキストマイニング、ネットワーク分析、地理情報システム（GIS）、3Dモデリングなどを用いて解析します。これにより、人間の目視だけでは発見できなかった大規模なパターン（遠読）や新たな知見を抽出し、人文学の知識生産のあり方を革新し、可能性を大きく広げています。',
           descEn: 'Digital Humanities is an innovative, interdisciplinary field that merges traditional humanistic research\u2014such as history and literature\u2014with cutting-edge digital technologies and computational approaches. Researchers digitize vast collections of cultural resources, including historical manuscripts and artworks, and analyze them using advanced techniques like text mining, network analysis, Geographic Information Systems (GIS), and 3D modeling. This computational power enables scholars to engage in "distant reading," extracting new insights and uncovering large-scale patterns impossible to detect through manual analysis alone. By synergizing technological capabilities with humanistic insight, it revolutionizes knowledge production in the humanities.'
+        },
+        'Research Ethics': {
+          ja: '研究倫理',
+          descJa: '研究倫理は、科学的探求や学術活動において研究者が遵守すべき行動規範や道徳的原則を探求・実践する分野です。研究の誠実性（インテグリティ）を確保し、科学に対する社会の信頼を維持・構築することを最大の目的としています。具体的には、データの捏造、改ざん、盗用といった研究不正行為の防止をはじめ、研究データの適切な取り扱い、論文の正当な著者資格（オーサーシップ）、資金提供元との利益相反の透明化など、研究活動全般に関わる規範を扱います。また、人間を対象とする医学や社会科学の研究においては、インフォームド・コンセントの取得やプライバシーの保護といった被験者の人権・尊厳への配慮が極めて重要視されます。実験動物の福祉（苦痛の軽減など）も主要なテーマです。近年では、生命科学技術の進歩に伴う生命倫理的ジレンマや、人工知能（AI）・ビッグデータを活用した研究におけるアルゴリズムのバイアス、個人情報の保護など、新たな課題にも直面しています。研究倫理は、単なるルールの遵守にとどまらず、研究者が社会に対する責任を自覚し、健全で持続可能な科学の発展を導くための不可欠な基盤となる領域です。',
+          descEn: 'Research Ethics is an academic field that explores and implements the codes of conduct and moral principles that researchers must observe in their scientific inquiry and scholarly activities. Its primary objective is to ensure research integrity and maintain public trust in science. Specifically, it addresses norms related to overall research practices, including the prevention of research misconduct—such as fabrication, falsification, and plagiarism—as well as proper data management, fair authorship allocation, and the transparent disclosure of conflicts of interest. Furthermore, in medical and social science research involving human subjects, ethical considerations such as obtaining informed consent and protecting the privacy and dignity of participants are of paramount importance. The welfare and ethical treatment of laboratory animals, including the minimization of suffering, is also a major theme. In recent years, the field has faced new challenges, such as bioethical dilemmas arising from rapid advances in the life sciences, as well as algorithmic bias and data privacy concerns in research utilizing artificial intelligence (AI) and big data. Rather than merely enforcing compliance with rules, research ethics serves as an indispensable foundation that encourages researchers to recognize their social responsibilities and guides the sound advancement of science.'
+        },
+        'Neuroscience': {
+          ja: '神経科学',
+          descJa: '神経科学は、脳、脊髄、末梢神経からなる神経系の構造、機能、発達、および病理を解明しようとする学際的な学問分野です。遺伝子やタンパク質、神経細胞（ニューロン）が連携するミクロなレベルの働きから、複雑な神経回路のネットワーク、さらには知覚、学習、記憶、感情、意思決定、そして「意識」といったマクロな精神活動に至るまで、幅広いスケールで「物質である脳がいかにして心や行動を生み出すのか」という根源的な問いに挑みます。生物学や医学、心理学を研究の基盤としつつも、現在では物理学、数学、情報工学など多様な分野の知見と融合している点が大きな特徴です。fMRI（機能的磁気共鳴画像法）や光遺伝学といった最先端のテクノロジーを駆使することで、活動中の生きた脳を精緻に観察・操作することが可能になりました。この分野の成果は、アルツハイマー病などの神経変性疾患やうつ病などの精神疾患のメカニズム解明と新たな治療法開発に直結しています。さらに、脳の仕組みを模倣した人工知能（AI）の構築やブレイン・マシン・インターフェース（BMI）の開発など、未来のテクノロジーの進化をも牽引する極めて重要な最前線の領域となっています。',
+          descEn: 'Neuroscience is an interdisciplinary academic field dedicated to uncovering the structure, function, development, and pathology of the nervous system, encompassing the brain, spinal cord, and peripheral nerves. It tackles the fundamental question of how the physical brain generates the mind and behavior across a vast spectrum of scales. This ranges from the microscopic workings of genes, proteins, and neurons, to complex neural networks, and ultimately to macroscopic mental phenomena such as perception, learning, memory, emotion, decision-making, and consciousness. A defining characteristic of modern neuroscience is its integration of diverse disciplines. While firmly rooted in biology, medicine, and psychology, it actively synthesizes insights from physics, mathematics, and computer science. By utilizing cutting-edge technologies like functional magnetic resonance imaging (fMRI) and optogenetics, researchers can now precisely observe and manipulate the dynamic, living brain in action. The discoveries in this field are directly linked to unraveling the mechanisms of neurodegenerative and psychiatric disorders, such as Alzheimer\'s disease, and developing novel treatments. Furthermore, neuroscience significantly drives the evolution of future technologies, inspiring the architecture of artificial intelligence (AI) and the advancement of brain-machine interfaces (BMI), making it a crucially important domain at the forefront of science.'
         }
       };
 
@@ -2948,9 +3518,18 @@
           tagSet.add(t.dataset.tag);
         });
         const yearText = year ? year.textContent.trim() : '';
-        const ym = yearText.match(/(\d{4})/g);
-        const startYear = ym ? parseInt(ym[0]) : 2020;
-        const endYear = ym && ym.length > 1 ? parseInt(ym[1]) : (yearText.includes('—') && !ym?.[1] ? 2030 : startYear + 1);
+        function toYmFrac(s) {
+          if (!s) return 0;
+          const m = s.match(/(\d{4})\.(\d{2})/);
+          if (m) return parseInt(m[1]) + (parseInt(m[2]) - 1) / 12;
+          const y = s.match(/(\d{4})/);
+          return y ? parseInt(y[1]) : 0;
+        }
+        const ymParts = yearText.split(/\s*—\s*/);
+        const startYear = toYmFrac(ymParts[0]) || 2020;
+        const endYear = ymParts.length > 1 && ymParts[1].match(/\d/)
+          ? toYmFrac(ymParts[1])
+          : (yearText.includes('—') ? 2030 : startYear + 1);
         // detect group: pub-lists under section
         const parentList = el.closest('.pub-list');
         const allPubLists = section.querySelectorAll('.pub-list');
@@ -2990,11 +3569,7 @@
       });
 
       /* ── assign numbers: oldest first ── */
-      const sorted = [...projects].sort((a, b) => {
-        const ya = parseInt(a.year) || 0;
-        const yb = parseInt(b.year) || 0;
-        return ya - yb;
-      });
+      const sorted = [...projects].sort((a, b) => a.startYear - b.startYear);
       sorted.forEach((p, i) => { p.num = i + 1; });
 
       /* inject number badge into DOM list */
@@ -3232,25 +3807,23 @@
 
         // tooltip
         if (d.type === 'tag') {
-          tooltip.textContent = d.label;
-          tooltip.classList.add('tip-tag');
+          tooltip.innerHTML = buildTagTip(d.label);
         } else {
           const proj = findProject(d.id);
           if (proj) {
             tooltip.innerHTML = buildProjectTip(proj);
-            tooltip.classList.remove('tip-tag');
           }
         }
         tooltip.classList.add('visible');
       })
       .on('mousemove', function(event) {
-        const rect = container.getBoundingClientRect();
+        const wrapRect = container.parentElement.getBoundingClientRect();
         const tipW = tooltip.offsetWidth || 200;
         const tipH = tooltip.offsetHeight || 40;
-        let x = event.clientX - rect.left + 16;
-        let y = event.clientY - rect.top - tipH - 8;
-        if (x + tipW > rect.width) x = event.clientX - rect.left - tipW - 8;
-        if (y < 0) y = event.clientY - rect.top + 16;
+        let x = event.clientX - wrapRect.left + 16;
+        let y = event.clientY - wrapRect.top - tipH - 8;
+        if (x + tipW > wrapRect.width) x = event.clientX - wrapRect.left - tipW - 8;
+        if (y < 0) y = event.clientY - wrapRect.top + 16;
         tooltip.style.left = x + 'px';
         tooltip.style.top = y + 'px';
       })
@@ -3260,7 +3833,6 @@
         node.classed('node-active', false);
         link.classed('edge-active', false);
         tooltip.classList.remove('visible');
-        tooltip.classList.remove('tip-tag');
       });
 
       /* ── click: tag → filter, project → scroll ── */
@@ -3554,8 +4126,22 @@
           return lang === 'ja' ? '分担者' : 'Co-I';
         }
 
+        const dividerY = margin.top + piCount * (barHeight + barGap) + groupGap / 2;
         const piLabelY = margin.top + (barHeight + barGap) * piCount / 2;
         const coiLabelY = margin.top + (barHeight + barGap) * piCount + groupGap + (barHeight + barGap) * coiCount / 2;
+
+        /* ── group divider line ── */
+        const dividerG = tlSvg.append('g');
+        function drawDivider() {
+          dividerG.selectAll('*').remove();
+          dividerG.append('line')
+            .attr('class', 'tl-divider')
+            .attr('x1', margin.left)
+            .attr('x2', xScale(xMax))
+            .attr('y1', dividerY)
+            .attr('y2', dividerY);
+        }
+        drawDivider();
 
         const piLabel = tlSvg.append('text')
           .attr('class', 'tl-group-label')
@@ -3700,10 +4286,1563 @@
           drawGrid();
           drawAxis();
           drawNow();
+          drawDivider();
         }, { passive: true });
 
         /* ── observe for scroll reveal ── */
         if (tlWrap) revealObserver.observe(tlWrap);
+
+      })();
+
+    })();
+
+    /* ── CAREER & EDUCATION TIMELINE ── */
+    (function() {
+      const ctSvgEl = document.getElementById('career-timeline-svg');
+      const ctContainer = document.getElementById('career-timeline');
+      const ctTooltip = document.getElementById('career-timeline-tooltip');
+      const ctWrap = document.getElementById('career-timeline-wrap');
+      if (!ctSvgEl || !ctContainer) return;
+
+      /* ── local TAG_COLORS (mirror of network IIFE) ── */
+      const TAG_COLORS = {
+        'Anthropology':                 '#c87a5e',
+        'Digital Anthropology':         '#c8a96e',
+        'STS':                          '#6ab08a',
+        'Digital STS':                  '#4dc4a8',
+        'Philosophy of Science':        '#a87cb0',
+        'Digital Philosophy of Science':'#8e7fd4',
+        'Humanities':                   '#4868a8',
+        'Digital Humanities':           '#38b0e8',
+        'Digital Technology':           '#78a8e0',
+        'Technology':                   '#6890c0',
+        'Neuroscience':                 '#e06878',
+        'Research Ethics':              '#d4a84b'
+      };
+
+      /* ── language helper ── */
+      function getLang() {
+        return document.body.classList.contains('lang-en') ? 'en' : 'ja';
+      }
+
+      /* ── parse period string → { start, end } as fractional year ── */
+      function parsePeriod(periodEl) {
+        const text = periodEl.textContent.trim();
+        // e.g. "2025.04 — 現在" or "2022.04 — 2025.03" or "2022.03"
+        const parts = text.split(/\s*[—–-]\s*/);
+        function toFrac(s) {
+          s = s.trim();
+          if (s.includes('現在') || s.includes('Present')) {
+            const now = new Date();
+            return now.getFullYear() + now.getMonth() / 12;
+          }
+          const m = s.match(/(\d{4})\.(\d{2})/);
+          if (m) return parseInt(m[1]) + (parseInt(m[2]) - 1) / 12;
+          return parseFloat(s) || 0;
+        }
+        if (parts.length >= 2) {
+          return { start: toFrac(parts[0]), end: toFrac(parts[1]) };
+        }
+        // single point (degree)
+        const v = toFrac(parts[0]);
+        return { start: v, end: v };
+      }
+
+      /* ── extract data from DOM ── */
+      const careerSection = document.querySelector('.career-static-list');
+      if (!careerSection) return;
+
+      const allLists = careerSection.querySelectorAll('.career-list');
+      // list 0 = career, list 1 = degrees, list 2 = education
+      const careerItems = [];
+      const degreeItems = [];
+      const educationItems = [];
+
+      function extractItems(listEl, group) {
+        const items = [];
+        listEl.querySelectorAll('.career-item').forEach(el => {
+          const periodEl = el.querySelector('.career-period');
+          if (!periodEl) return;
+          const period = parsePeriod(periodEl);
+
+          const bodyEl = el.querySelector('.career-body');
+          const jaSpan = bodyEl ? bodyEl.querySelector('[data-lang="ja"]') : null;
+          const enSpan = bodyEl ? bodyEl.querySelector('[data-lang="en"]') : null;
+          const ja = jaSpan ? jaSpan.textContent.trim() : (bodyEl ? bodyEl.textContent.trim() : '');
+          const en = enSpan ? enSpan.textContent.trim() : '';
+
+          const roleEl = el.querySelector('.career-role');
+          let roleJa = '', roleEn = '';
+          if (roleEl) {
+            const rja = roleEl.querySelector('[data-lang="ja"]');
+            const ren = roleEl.querySelector('[data-lang="en"]');
+            roleJa = rja ? rja.textContent.trim() : roleEl.textContent.trim();
+            roleEn = ren ? ren.textContent.trim() : '';
+          }
+
+          const tags = [];
+          el.querySelectorAll('.topic-tag').forEach(t => {
+            tags.push(t.getAttribute('data-tag') || t.textContent.trim());
+          });
+
+          // extract link URL
+          const linkEl = bodyEl ? bodyEl.querySelector('a[href]') : null;
+          const url = linkEl ? linkEl.getAttribute('href') : '';
+
+          // tenure end (e.g. "2053.03" → fractional year)
+          const tenureAttr = el.getAttribute('data-tenure-end');
+          let tenureEnd = 0;
+          if (tenureAttr) {
+            const tm = tenureAttr.match(/(\d{4})\.(\d{2})/);
+            tenureEnd = tm ? parseInt(tm[1]) + (parseInt(tm[2]) - 1) / 12 : parseFloat(tenureAttr);
+          }
+
+          items.push({
+            group: group,
+            start: period.start,
+            end: period.end,
+            ja: ja,
+            en: en,
+            roleJa: roleJa,
+            roleEn: roleEn,
+            tags: tags,
+            url: url,
+            isPoint: period.start === period.end,
+            tenureEnd: tenureEnd
+          });
+        });
+        return items;
+      }
+
+      if (allLists[0]) careerItems.push(...extractItems(allLists[0], 'career'));
+      if (allLists[1]) degreeItems.push(...extractItems(allLists[1], 'degree'));
+      if (allLists[2]) educationItems.push(...extractItems(allLists[2], 'education'));
+
+      /* ── sort by start date ── */
+      careerItems.sort((a, b) => a.start - b.start);
+      educationItems.sort((a, b) => a.start - b.start);
+      degreeItems.sort((a, b) => a.start - b.start);
+
+      /* ── layout constants ── */
+      const margin = { top: 50, right: 24, bottom: 30, left: 100 };
+      const barHeight = 22;
+      const barGap = 6;
+      const groupGap = 28;
+      const xMin = 2003;
+      const xMax = 2055;
+
+      const careerCount = careerItems.length;
+      const eduCount = educationItems.length;
+      const totalBars = careerCount + eduCount;
+      const innerHeight = totalBars * (barHeight + barGap) + groupGap + 10;
+      const totalHeight = margin.top + innerHeight + margin.bottom;
+      const totalWidth = ctContainer.clientWidth || 700;
+
+      const ctSvg = d3.select(ctSvgEl)
+        .attr('width', totalWidth)
+        .attr('height', totalHeight);
+
+      /* ── X scale ── */
+      let xScale = d3.scaleLinear()
+        .domain([xMin, xMax])
+        .range([margin.left, totalWidth - margin.right]);
+
+      /* ── grid lines ── */
+      const gridG = ctSvg.append('g').attr('class', 'tl-grid');
+      function drawGrid() {
+        gridG.selectAll('line').remove();
+        for (let yr = xMin; yr <= xMax; yr += 5) {
+          gridG.append('line')
+            .attr('x1', xScale(yr))
+            .attr('x2', xScale(yr))
+            .attr('y1', margin.top)
+            .attr('y2', totalHeight - margin.bottom);
+        }
+      }
+      drawGrid();
+
+      /* ── X axis ── */
+      const axisG = ctSvg.append('g')
+        .attr('class', 'tl-axis')
+        .attr('transform', `translate(0,${totalHeight - margin.bottom})`);
+
+      function drawAxis() {
+        const ticks = [];
+        for (let yr = xMin; yr <= xMax; yr += 5) ticks.push(yr);
+        axisG.call(
+          d3.axisBottom(xScale)
+            .tickValues(ticks)
+            .tickFormat(d => String(d))
+            .tickSize(-innerHeight - 4)
+        );
+        axisG.select('.domain').remove();
+        axisG.selectAll('.tick line').attr('stroke-opacity', 0);
+      }
+      drawAxis();
+
+      /* ── NOW marker ── */
+      const now = new Date();
+      const nowFrac = now.getFullYear() + (now.getMonth() / 12);
+      const nowG = ctSvg.append('g');
+
+      function drawNow() {
+        nowG.selectAll('*').remove();
+        const nx = xScale(nowFrac);
+        nowG.append('line')
+          .attr('class', 'tl-today-line')
+          .attr('x1', nx).attr('x2', nx)
+          .attr('y1', margin.top - 8)
+          .attr('y2', totalHeight - margin.bottom);
+        nowG.append('text')
+          .attr('x', nx)
+          .attr('y', margin.top - 14)
+          .attr('text-anchor', 'middle')
+          .attr('fill', 'var(--accent)')
+          .attr('font-size', '9px')
+          .attr('letter-spacing', '0.1em')
+          .text('NOW');
+      }
+      drawNow();
+
+      /* ── group labels ── */
+      function getCareerGroupLabel() {
+        return getLang() === 'ja' ? '職歴' : 'Career';
+      }
+      function getEduGroupLabel() {
+        return getLang() === 'ja' ? '学歴' : 'Education';
+      }
+
+      const dividerY = margin.top + eduCount * (barHeight + barGap) + groupGap / 2;
+      const eduLabelY = margin.top + (barHeight + barGap) * eduCount / 2;
+      const careerLabelY = margin.top + (barHeight + barGap) * eduCount + groupGap + (barHeight + barGap) * careerCount / 2;
+
+      /* ── group divider line ── */
+      const dividerG = ctSvg.append('g');
+      function drawDivider() {
+        dividerG.selectAll('*').remove();
+        dividerG.append('line')
+          .attr('class', 'tl-divider')
+          .attr('x1', margin.left)
+          .attr('x2', xScale(xMax))
+          .attr('y1', dividerY)
+          .attr('y2', dividerY);
+      }
+      drawDivider();
+
+      const careerLabel = ctSvg.append('text')
+        .attr('class', 'tl-group-label')
+        .attr('x', 12)
+        .attr('y', careerLabelY)
+        .attr('dominant-baseline', 'central')
+        .text(getCareerGroupLabel());
+
+      const eduLabel = ctSvg.append('text')
+        .attr('class', 'tl-group-label')
+        .attr('x', 12)
+        .attr('y', eduLabelY)
+        .attr('dominant-baseline', 'central')
+        .text(getEduGroupLabel());
+
+      /* (language observer set up after all elements are created) */
+
+      /* ── bar y positions (Education on top, Career on bottom) ── */
+      function barY(d) {
+        if (d.group === 'education') {
+          const idx = educationItems.indexOf(d);
+          return margin.top + idx * (barHeight + barGap);
+        } else {
+          const idx = careerItems.indexOf(d);
+          return margin.top + eduCount * (barHeight + barGap) + groupGap + idx * (barHeight + barGap);
+        }
+      }
+
+      /* ── stripe pattern for tenure projection ── */
+      const defs = ctSvg.append('defs');
+      // create one stripe pattern per unique first-tag color used by tenured items
+      const allBars = [...careerItems, ...educationItems];
+      const tenuredColors = new Set();
+      allBars.forEach(d => { if (d.tenureEnd) tenuredColors.add(TAG_COLORS[d.tags[0]] || '#888'); });
+      tenuredColors.forEach(color => {
+        const pid = 'tenure-stripe-' + color.replace('#', '');
+        const pat = defs.append('pattern')
+          .attr('id', pid)
+          .attr('patternUnits', 'userSpaceOnUse')
+          .attr('width', 6).attr('height', 6)
+          .attr('patternTransform', 'rotate(45)');
+        pat.append('rect').attr('width', 6).attr('height', 6).attr('fill', color).attr('opacity', 0.18);
+        pat.append('line').attr('x1', 0).attr('y1', 0).attr('x2', 0).attr('y2', 6)
+          .attr('stroke', color).attr('stroke-width', 2).attr('opacity', 0.35);
+      });
+
+      /* ── draw career bars (solid portion) ── */
+      const barsG = ctSvg.append('g');
+
+      // For tenured items, the solid bar goes from start → now
+      // For others, start → end
+      function barEnd(d) {
+        return d.tenureEnd ? Math.min(d.end, nowFrac) : d.end;
+      }
+
+      const ctBars = barsG.selectAll('rect.tl-bar')
+        .data(allBars)
+        .join('rect')
+        .attr('class', 'tl-bar')
+        .attr('x', d => xScale(d.start))
+        .attr('y', d => barY(d))
+        .attr('height', barHeight)
+        .attr('width', 0)
+        .attr('rx', 2)
+        .attr('fill', d => TAG_COLORS[d.tags[0]] || '#888')
+        .attr('fill-opacity', 0.65);
+
+      /* ── tenure projection bars (striped, now → retirement) ── */
+      const tenureData = allBars.filter(d => d.tenureEnd);
+      const ctTenureBars = barsG.selectAll('rect.tl-tenure')
+        .data(tenureData)
+        .join('rect')
+        .attr('class', 'tl-bar')
+        .attr('x', d => xScale(nowFrac))
+        .attr('y', d => barY(d))
+        .attr('height', barHeight)
+        .attr('width', 0)
+        .attr('rx', 2)
+        .attr('fill', d => {
+          const color = TAG_COLORS[d.tags[0]] || '#888';
+          return `url(#tenure-stripe-${color.replace('#', '')})`;
+        })
+        .attr('fill-opacity', 1);
+
+      /* ── tenure end labels ── */
+      const ctTenureLabels = barsG.selectAll('text.tl-tenure-label')
+        .data(tenureData)
+        .join('text')
+        .attr('class', 'tl-group-label')
+        .attr('x', d => xScale(d.tenureEnd) + 4)
+        .attr('y', d => barY(d) + barHeight / 2)
+        .attr('dominant-baseline', 'central')
+        .attr('font-size', '9px')
+        .attr('opacity', 0)
+        .text(d => {
+          const lang = getLang();
+          return lang === 'ja' ? `${Math.floor(d.tenureEnd)} 定年` : `${Math.floor(d.tenureEnd)} retirement`;
+        });
+
+      /* ── degree diamond markers ── */
+      // map each degree to the corresponding education bar row (by index)
+      degreeItems.forEach((deg, i) => {
+        deg.eduIndex = Math.min(i, eduCount - 1);
+      });
+
+      function diamondY(d) {
+        return margin.top + d.eduIndex * (barHeight + barGap) + barHeight / 2;
+      }
+
+      const diamondG = ctSvg.append('g');
+      const diamondSize = 7;
+
+      const ctDiamonds = diamondG.selectAll('path.tl-diamond')
+        .data(degreeItems)
+        .join('path')
+        .attr('class', 'tl-diamond')
+        .attr('d', d3.symbol().type(d3.symbolDiamond).size(diamondSize * diamondSize * 2))
+        .attr('transform', d => `translate(${xScale(d.start)},${diamondY(d)})`)
+        .attr('fill', 'var(--accent)')
+        .attr('fill-opacity', 0)
+        .attr('stroke', 'var(--accent)')
+        .attr('stroke-width', 1.5)
+        .attr('stroke-opacity', 0);
+
+      /* ── MutationObserver for language switch ── */
+      const ctLangObs = new MutationObserver(() => {
+        careerLabel.text(getCareerGroupLabel());
+        eduLabel.text(getEduGroupLabel());
+        ctTenureLabels.text(d => {
+          const lang = getLang();
+          return lang === 'ja' ? `${Math.floor(d.tenureEnd)} 定年` : `${Math.floor(d.tenureEnd)} retirement`;
+        });
+      });
+      ctLangObs.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+      /* ── format period text ── */
+      function formatPeriod(d) {
+        function ym(frac) {
+          const y = Math.floor(frac);
+          const m = Math.round((frac - y) * 12) + 1;
+          return y + '.' + String(m).padStart(2, '0');
+        }
+        if (d.isPoint) return ym(d.start);
+        const lang = getLang();
+        let endLabel;
+        if (d.tenureEnd) {
+          endLabel = ym(d.tenureEnd);
+        } else if (d.end >= nowFrac - 0.01) {
+          endLabel = lang === 'ja' ? '現在' : 'Present';
+        } else {
+          endLabel = ym(d.end);
+        }
+        return ym(d.start) + ' — ' + endLabel;
+      }
+
+      /* ── rich tooltip builder ── */
+      function buildCareerTip(d) {
+        const lang = getLang();
+        const color = TAG_COLORS[d.tags[0]] || 'var(--accent)';
+        const title = lang === 'en' ? (d.en || d.ja) : (d.ja || d.en);
+        const role = lang === 'en' ? (d.roleEn || d.roleJa) : (d.roleJa || d.roleEn);
+        const period = formatPeriod(d);
+
+        let h = '<div class="tip-head">';
+        h += `<span class="tip-year">${period}</span>`;
+        h += '</div>';
+        h += `<div class="tip-title">${title}</div>`;
+        if (role) {
+          h += `<div class="tip-grant" style="border-top:none;padding-top:0;margin-top:0;">${role}</div>`;
+        }
+        if (d.tenureEnd) {
+          const tenureNote = lang === 'ja'
+            ? `定年 ${Math.floor(d.tenureEnd)} 年まで（テニュア）`
+            : `Tenured — until retirement (${Math.floor(d.tenureEnd)})`;
+          h += `<div class="tip-grant" style="color:var(--accent);">${tenureNote}</div>`;
+        }
+        if (d.tags.length) {
+          h += '<div class="tip-tags">';
+          d.tags.forEach(t => {
+            const tc = TAG_COLORS[t] || '#888';
+            h += `<span class="tip-tag" style="color:${tc};border-color:${tc}">${t}</span>`;
+          });
+          h += '</div>';
+        }
+        return h;
+      }
+
+      function buildDegreeTip(d) {
+        const lang = getLang();
+        const title = lang === 'en' ? (d.en || d.ja) : (d.ja || d.en);
+        const period = formatPeriod(d);
+
+        let h = '<div class="tip-head">';
+        h += `<span class="tip-num" style="background:var(--accent)">◆</span>`;
+        h += `<span class="tip-year">${period}</span>`;
+        h += '</div>';
+        h += `<div class="tip-title">${title}</div>`;
+        return h;
+      }
+
+      /* ── hover tooltip (bars) ── */
+      ctBars.on('mouseenter', function(event, d) {
+        ctTooltip.innerHTML = buildCareerTip(d);
+        ctTooltip.classList.add('visible');
+      })
+      .on('mousemove', function(event) {
+        const rect = ctContainer.getBoundingClientRect();
+        const tipW = ctTooltip.offsetWidth || 200;
+        const tipH = ctTooltip.offsetHeight || 40;
+        let x = event.clientX - rect.left + 16;
+        let y = event.clientY - rect.top - tipH - 8;
+        if (x + tipW > rect.width) x = event.clientX - rect.left - tipW - 8;
+        if (y < 0) y = event.clientY - rect.top + 16;
+        ctTooltip.style.left = x + 'px';
+        ctTooltip.style.top = y + 'px';
+      })
+      .on('mouseleave', function() {
+        ctTooltip.classList.remove('visible');
+      });
+
+      /* ── hover tooltip (tenure projection bars) ── */
+      ctTenureBars.on('mouseenter', function(event, d) {
+        ctTooltip.innerHTML = buildCareerTip(d);
+        ctTooltip.classList.add('visible');
+      })
+      .on('mousemove', function(event) {
+        const rect = ctContainer.getBoundingClientRect();
+        const tipW = ctTooltip.offsetWidth || 200;
+        const tipH = ctTooltip.offsetHeight || 40;
+        let x = event.clientX - rect.left + 16;
+        let y = event.clientY - rect.top - tipH - 8;
+        if (x + tipW > rect.width) x = event.clientX - rect.left - tipW - 8;
+        if (y < 0) y = event.clientY - rect.top + 16;
+        ctTooltip.style.left = x + 'px';
+        ctTooltip.style.top = y + 'px';
+      })
+      .on('mouseleave', function() {
+        ctTooltip.classList.remove('visible');
+      });
+
+      /* ── hover tooltip (diamonds) ── */
+      ctDiamonds.on('mouseenter', function(event, d) {
+        ctTooltip.innerHTML = buildDegreeTip(d);
+        ctTooltip.classList.add('visible');
+      })
+      .on('mousemove', function(event) {
+        const rect = ctContainer.getBoundingClientRect();
+        const tipW = ctTooltip.offsetWidth || 200;
+        const tipH = ctTooltip.offsetHeight || 40;
+        let x = event.clientX - rect.left + 16;
+        let y = event.clientY - rect.top - tipH - 8;
+        if (x + tipW > rect.width) x = event.clientX - rect.left - tipW - 8;
+        if (y < 0) y = event.clientY - rect.top + 16;
+        ctTooltip.style.left = x + 'px';
+        ctTooltip.style.top = y + 'px';
+      })
+      .on('mouseleave', function() {
+        ctTooltip.classList.remove('visible');
+      });
+
+      /* ── entry animation via IntersectionObserver ── */
+      let ctAnimated = false;
+      const ctObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !ctAnimated) {
+            ctAnimated = true;
+            ctBars.transition()
+              .delay((d, i) => i * 80)
+              .duration(800)
+              .ease(d3.easeCubicOut)
+              .attr('width', d => Math.max(xScale(barEnd(d)) - xScale(d.start), 6));
+
+            // tenure projection bars animate after solid bars
+            ctTenureBars.transition()
+              .delay((d, i) => allBars.length * 80 + 200)
+              .duration(1200)
+              .ease(d3.easeCubicOut)
+              .attr('width', d => Math.max(xScale(d.tenureEnd) - xScale(nowFrac), 4));
+
+            ctTenureLabels.transition()
+              .delay((d, i) => allBars.length * 80 + 1200)
+              .duration(600)
+              .attr('opacity', 0.7);
+
+            ctDiamonds.transition()
+              .delay((d, i) => (allBars.length + i) * 80)
+              .duration(500)
+              .ease(d3.easeCubicOut)
+              .attr('fill-opacity', 0.85)
+              .attr('stroke-opacity', 1);
+
+            ctObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      ctObserver.observe(ctContainer);
+
+      /* ── responsive resize ── */
+      window.addEventListener('resize', () => {
+        const newW = ctContainer.clientWidth || 700;
+        ctSvg.attr('width', newW);
+        xScale.range([margin.left, newW - margin.right]);
+
+        ctBars
+          .attr('x', d => xScale(d.start))
+          .attr('width', d => ctAnimated ? Math.max(xScale(barEnd(d)) - xScale(d.start), 6) : 0);
+
+        ctTenureBars
+          .attr('x', d => xScale(nowFrac))
+          .attr('width', d => ctAnimated ? Math.max(xScale(d.tenureEnd) - xScale(nowFrac), 4) : 0);
+
+        ctTenureLabels
+          .attr('x', d => xScale(d.tenureEnd) + 4);
+
+        ctDiamonds
+          .attr('transform', d => `translate(${xScale(d.start)},${diamondY(d)})`);
+
+        drawGrid();
+        drawAxis();
+        drawNow();
+        drawDivider();
+      }, { passive: true });
+
+      /* ── observe for scroll reveal ── */
+      if (ctWrap) revealObserver.observe(ctWrap);
+
+    })();
+
+    /* ══════════════════════════════════════════════
+       PUBLICATIONS TOPIC NETWORK
+       ══════════════════════════════════════════════ */
+    (function() {
+      const svgEl = document.getElementById('pub-network-svg');
+      const container = document.getElementById('pub-network-container');
+      const tooltip = document.getElementById('pub-network-tooltip');
+      const legendEl = document.getElementById('pub-network-legend');
+      if (!svgEl || !container) return;
+
+      /* ── colour map ── */
+      const TAG_COLORS = {
+        'Anthropology':                 '#c87a5e',
+        'Digital Anthropology':         '#c8a96e',
+        'STS':                          '#6ab08a',
+        'Digital STS':                  '#4dc4a8',
+        'Philosophy of Science':        '#a87cb0',
+        'Digital Philosophy of Science':'#8e7fd4',
+        'Humanities':                   '#4868a8',
+        'Digital Humanities':           '#38b0e8',
+        'Digital Technology':           '#78a8e0',
+        'Technology':                   '#6890c0',
+        'Neuroscience':                 '#e06878',
+        'Research Ethics':              '#d4a84b'
+      };
+
+      /* ── tag descriptions (ja / en) ── */
+      const TAG_DESCS = {
+        'Philosophy of Science': {
+          ja: '科学哲学',
+          descJa: '科学哲学は、科学的知識の性質、科学の基礎、およびその方法論を哲学的な視点から探求する学問分野です。',
+          descEn: 'Philosophy of Science is a branch of philosophy that critically examines the foundations, methods, and implications of scientific inquiry.'
+        },
+        'Digital Philosophy of Science': {
+          ja: 'デジタル科学哲学',
+          descJa: 'デジタル科学哲学は、伝統的な科学哲学の問いに対して、情報技術やデータサイエンスの手法を用いてアプローチする新興の学際分野です。',
+          descEn: 'Digital Philosophy of Science is an emerging interdisciplinary field that addresses traditional philosophical questions about science using computational methods and digital tools.'
+        },
+        'Anthropology': {
+          ja: '人類学',
+          descJa: '人類学は、人間の進化、行動、文化、社会、言語を時間的・空間的に幅広く研究し、「人間とは何か」という根源的な問いに挑む総合的な学問分野です。',
+          descEn: 'Anthropology is the comprehensive study of human evolution, behavior, culture, society, and language across time and space, fundamentally seeking to answer what it means to be human.'
+        },
+        'Digital Anthropology': {
+          ja: 'デジタル人類学',
+          descJa: 'デジタル人類学は、インターネット、SNS、スマートフォン、人工知能、メタバースなどのデジタル技術が、人間の日常生活、文化、社会関係、アイデンティティの形成にどのような影響を与えているかを研究する新しい領域です。',
+          descEn: 'Digital Anthropology is a relatively new subfield of anthropology that investigates how digital technologies affect human daily life, culture, social relationships, and identity formation.'
+        },
+        'STS': {
+          ja: '科学技術社会論',
+          descJa: 'STS（Science and Technology Studies）は、科学的知識や技術的イノベーションが、社会、文化、政治、歴史の文脈とどのように相互作用しながら形成されているかを研究する学際的な分野です。',
+          descEn: 'STS (Science and Technology Studies) is an interdisciplinary field that investigates how scientific knowledge and technological innovations are shaped by, and in turn shape, society, culture, politics, and history.'
+        },
+        'Digital STS': {
+          ja: 'デジタルSTS',
+          descJa: 'デジタルSTSは、科学技術社会論（STS）の分析枠組みや批判的視点を、アルゴリズム、ビッグデータ、巨大プラットフォームといった現代のデジタル技術に適用する分野です。',
+          descEn: 'Digital STS is a specialized branch of Science and Technology Studies that applies STS analytical frameworks specifically to modern digital technologies, including algorithms, big data, and digital platforms.'
+        },
+        'Humanities': {
+          ja: '人文学',
+          descJa: '人文学は、文学、歴史学、哲学、言語学、宗教学、芸術学などを通じて、人間の思想、文化、歴史、精神的所産を深く理解しようとする学問領域の総称です。',
+          descEn: 'The Humanities encompass a broad group of academic disciplines dedicated to the profound understanding of human thought, culture, history, and spiritual endeavors.'
+        },
+        'Digital Humanities': {
+          ja: 'デジタル人文学',
+          descJa: 'デジタルヒューマニティーズは、伝統的な人文学の研究手法に、最新のデジタル技術や計算論的アプローチを融合させた革新的な学際分野です。',
+          descEn: 'Digital Humanities is an innovative, interdisciplinary field that merges traditional humanistic research with cutting-edge digital technologies and computational approaches.'
+        },
+        'Digital Technology': {
+          ja: 'デジタルテクノロジー',
+          descJa: 'デジタルテクノロジーは、連続的なアナログ情報を二進数データに変換して処理、保存、通信を行う技術体系全般を指します。',
+          descEn: 'Digital Technology refers to the comprehensive system of technologies that process, store, and transmit information by converting it into discrete binary data.'
+        },
+        'Technology': {
+          ja: 'テクノロジー / 技術・工学',
+          descJa: 'テクノロジーは、科学的な知識を応用して、人間の生活を向上させ、社会的な課題を解決するための手段やシステムを創出する分野です。',
+          descEn: 'Technology is the broad field dedicated to applying scientific knowledge to create tools, machines, and systems that improve human life and solve practical societal challenges.'
+        },
+        'Research Ethics': {
+          ja: '研究倫理',
+          descJa: '研究倫理は、科学的探求や学術活動において研究者が遵守すべき行動規範や道徳的原則を探求・実践する分野です。',
+          descEn: 'Research Ethics is an academic field that explores and implements the codes of conduct and moral principles that researchers must observe in their scientific inquiry and scholarly activities.'
+        },
+        'Neuroscience': {
+          ja: '神経科学',
+          descJa: '神経科学は、脳、脊髄、末梢神経からなる神経系の構造、機能、発達、および病理を解明しようとする学際的な学問分野です。',
+          descEn: 'Neuroscience is an interdisciplinary academic field dedicated to uncovering the structure, function, development, and pathology of the nervous system.'
+        }
+      };
+
+      /* ── extract data from Publications section DOM ── */
+      const section = container.closest('section');
+      const items = section.querySelectorAll('.pub-item, .pub-item-book');
+      const pubs = [];
+      const tagSet = new Set();
+
+      function toSortFrac(s) {
+        const m = s.match(/(\d{4})\.(\d{2})/);
+        if (m) return parseInt(m[1]) + (parseInt(m[2]) - 1) / 12;
+        const y = s.match(/\b((?:19|20)\d{2})\b/);
+        return y ? parseInt(y[1]) : 2020;
+      }
+
+      items.forEach((el, i) => {
+        if (el.classList.contains('news-entry')) return;
+        const isBook = el.classList.contains('pub-item-book');
+        const titleJa = el.querySelector('.pub-title[data-lang="ja"]');
+        const titleEn = el.querySelector('.pub-title[data-lang="en"]');
+        const titleOnly = el.querySelector('.pub-title:not([data-lang])');
+        const tags = [];
+        el.querySelectorAll('.topic-tag[data-tag]').forEach(t => {
+          tags.push(t.dataset.tag);
+          tagSet.add(t.dataset.tag);
+        });
+
+        /* year extraction */
+        let yearText = '';
+        if (!isBook) {
+          const yearEl = el.querySelector('.pub-year');
+          yearText = yearEl ? yearEl.textContent.trim() : '';
+        } else {
+          const detailEl = el.querySelector('.pub-detail');
+          if (detailEl) {
+            const jaSpan = detailEl.querySelector('[data-lang="ja"]');
+            const txt = jaSpan ? jaSpan.textContent : detailEl.textContent;
+            const mYM = txt.match(/(\d{4})年(\d{1,2})月/);
+            if (mYM) {
+              yearText = mYM[1] + '.' + mYM[2].padStart(2, '0');
+            } else {
+              const m = txt.match(/\b((?:19|20)\d{2})\b/);
+              if (m) yearText = m[1];
+            }
+          }
+        }
+        const sortYear = toSortFrac(yearText);
+
+        /* detail */
+        const detailEl = el.querySelector('.pub-detail');
+        const detJa = detailEl ? (detailEl.querySelector('[data-lang="ja"]')?.textContent.trim() || '') : '';
+        const detEn = detailEl ? (detailEl.querySelector('[data-lang="en"]')?.textContent.trim() || '') : '';
+        const detOnly = (detailEl && !detJa && !detEn) ? detailEl.textContent.trim() : '';
+
+        /* type (books) */
+        let typeJa = '', typeEn = '';
+        if (isBook) {
+          const tJa = el.querySelector('.pub-type-badge[data-lang="ja"]');
+          const tEn = el.querySelector('.pub-type-badge[data-lang="en"]');
+          typeJa = tJa ? tJa.textContent.trim() : '';
+          typeEn = tEn ? tEn.textContent.trim() : '';
+        }
+
+        const linkEl = el.querySelector('a.pub-title-link');
+        let coverImg = '';
+        if (isBook) {
+          const img = el.querySelector('.pub-book-cover');
+          if (img) coverImg = img.getAttribute('src');
+        }
+        pubs.push({
+          id: 'pub-' + pubs.length,
+          ja: titleJa ? titleJa.textContent.trim() : (titleOnly ? titleOnly.textContent.trim() : ''),
+          en: titleEn ? titleEn.textContent.trim() : (titleOnly ? titleOnly.textContent.trim() : ''),
+          year: yearText,
+          sortYear: sortYear,
+          isBook: isBook,
+          tags: tags,
+          detailJa: detJa || detOnly,
+          detailEn: detEn || detOnly,
+          typeJa: typeJa,
+          typeEn: typeEn,
+          link: linkEl ? linkEl.href : '',
+          coverImg: coverImg,
+          el: el
+        });
+      });
+
+      /* ── assign numbers: oldest first ── */
+      const sorted = [...pubs].sort((a, b) => a.sortYear - b.sortYear);
+      sorted.forEach((p, i) => { p.num = i + 1; });
+
+      /* inject number badge into DOM list */
+      pubs.forEach(p => {
+        if (p.num == null) return;
+        const badge = document.createElement('span');
+        badge.className = 'proj-num-badge';
+        badge.textContent = p.num;
+        badge.style.background = TAG_COLORS[p.tags[0]] || '#888';
+        if (p.isBook) {
+          const contentDiv = p.el.children[1] || p.el.lastElementChild;
+          if (contentDiv) contentDiv.insertBefore(badge, contentDiv.firstChild);
+        } else {
+          const yearSpan = p.el.querySelector('.pub-year');
+          if (yearSpan) yearSpan.parentNode.insertBefore(badge, yearSpan);
+        }
+      });
+
+      let pubTlBars = null;
+      let pubTlBarLabels = null;
+
+      /* ── build graph ── */
+      const nodes = [];
+      const links = [];
+      const tagNodes = {};
+
+      tagSet.forEach(tag => {
+        const id = 'tag-' + tag;
+        tagNodes[tag] = id;
+        nodes.push({ id: id, type: 'tag', label: tag, color: TAG_COLORS[tag] || '#888' });
+      });
+
+      pubs.forEach(p => {
+        nodes.push({
+          id: p.id, type: 'project', num: p.num,
+          ja: p.ja, en: p.en, year: p.year, tags: p.tags,
+          isBook: p.isBook, typeJa: p.typeJa, typeEn: p.typeEn,
+          detailJa: p.detailJa, detailEn: p.detailEn,
+          link: p.link, coverImg: p.coverImg, el: p.el
+        });
+        p.tags.forEach(tag => {
+          links.push({ source: tagNodes[tag], target: p.id });
+        });
+      });
+
+      /* ── Digital ↔ base discipline links ── */
+      const digitalPairs = [
+        ['Digital STS', 'STS'],
+        ['Digital Philosophy of Science', 'Philosophy of Science'],
+        ['Digital Anthropology', 'Anthropology'],
+        ['Digital Humanities', 'Humanities'],
+        ['Digital Technology', 'Technology']
+      ];
+      digitalPairs.forEach(([dTag, bTag]) => {
+        if (tagNodes[dTag] && tagNodes[bTag]) {
+          links.push({ source: tagNodes[dTag], target: tagNodes[bTag], tagLink: true });
+        }
+      });
+
+      /* ── dimensions ── */
+      let W = container.clientWidth;
+      let H = container.clientHeight;
+
+      const svg = d3.select(svgEl)
+        .attr('viewBox', [0, 0, W, H].join(' '))
+        .attr('preserveAspectRatio', 'xMidYMid meet');
+
+      const g = svg.append('g');
+
+      /* ── simulation ── */
+      const simulation = d3.forceSimulation(nodes)
+        .force('link', d3.forceLink(links).id(d => d.id).distance(d => d.tagLink ? 50 : 80))
+        .force('charge', d3.forceManyBody().strength(-220))
+        .force('center', d3.forceCenter(W / 2, H / 2))
+        .force('collision', d3.forceCollide().radius(d => d.type === 'tag' ? 28 : 18))
+        .force('x', d3.forceX(W / 2).strength(0.04))
+        .force('y', d3.forceY(H / 2).strength(0.04))
+        .alphaDecay(0.02)
+        .stop();
+
+      /* ── draw edges ── */
+      const link = g.append('g')
+        .selectAll('line')
+        .data(links)
+        .join('line')
+        .attr('class', 'network-edge')
+        .attr('stroke-dasharray', d => d.tagLink ? '4 3' : null)
+        .attr('stroke-opacity', d => d.tagLink ? 0.30 : null);
+
+      /* ── draw nodes ── */
+      const node = g.append('g')
+        .selectAll('g')
+        .data(nodes)
+        .join('g')
+        .attr('class', d => d.type === 'tag' ? 'node-tag' : 'node-project');
+
+      /* tag nodes: larger circle + abbreviation */
+      node.filter(d => d.type === 'tag')
+        .append('circle')
+        .attr('r', 14)
+        .attr('fill', d => d.color)
+        .attr('fill-opacity', 0.18)
+        .attr('stroke', d => d.color)
+        .attr('stroke-width', 1.5);
+
+      node.filter(d => d.type === 'tag')
+        .append('text')
+        .attr('dy', '0.35em')
+        .attr('text-anchor', 'middle')
+        .attr('fill', d => d.color)
+        .attr('font-size', '8px')
+        .attr('letter-spacing', '0.04em')
+        .attr('pointer-events', 'none')
+        .text(d => {
+          const abbr = {
+            'Digital STS': 'DSTS',
+            'Digital Philosophy of Science': 'DPS',
+            'Digital Anthropology': 'DA',
+            'Digital Humanities': 'DH',
+            'Digital Technology': 'DT',
+            'Philosophy of Science': 'PoS',
+            'Anthropology': 'Anth',
+            'STS': 'STS',
+            'Humanities': 'Hum',
+            'Technology': 'Tech',
+            'Neuroscience': 'Neuro',
+            'Research Ethics': 'RE'
+          };
+          return abbr[d.label] || d.label.substring(0, 4);
+        });
+
+      /* publication nodes: numbered circle */
+      node.filter(d => d.type === 'project')
+        .append('circle')
+        .attr('r', 11)
+        .attr('fill', d => TAG_COLORS[d.tags[0]] || '#888')
+        .attr('fill-opacity', 0.22)
+        .attr('stroke', d => TAG_COLORS[d.tags[0]] || '#888')
+        .attr('stroke-width', 1)
+        .attr('stroke-opacity', 0.5);
+
+      node.filter(d => d.type === 'project')
+        .append('text')
+        .attr('dy', '0.35em')
+        .attr('text-anchor', 'middle')
+        .attr('fill', d => TAG_COLORS[d.tags[0]] || '#888')
+        .attr('font-size', '9px')
+        .attr('font-weight', '500')
+        .attr('pointer-events', 'none')
+        .text(d => d.num);
+
+      /* ── adjacency helpers ── */
+      function getNeighbors(nodeId) {
+        const neighbors = new Set([nodeId]);
+        links.forEach(l => {
+          const sId = typeof l.source === 'object' ? l.source.id : l.source;
+          const tId = typeof l.target === 'object' ? l.target.id : l.target;
+          if (sId === nodeId) neighbors.add(tId);
+          if (tId === nodeId) neighbors.add(sId);
+        });
+        return neighbors;
+      }
+
+      function isLinkConnected(l, nodeId) {
+        const sId = typeof l.source === 'object' ? l.source.id : l.source;
+        const tId = typeof l.target === 'object' ? l.target.id : l.target;
+        return sId === nodeId || tId === nodeId;
+      }
+
+      /* ── language helper ── */
+      function getLang() {
+        return document.body.classList.contains('lang-en') ? 'en' : 'ja';
+      }
+
+      /* ── rich tooltip: publication ── */
+      function buildPubTip(p) {
+        const lang = getLang();
+        const color = TAG_COLORS[p.tags[0]] || '#888';
+        const title = lang === 'en' ? (p.en || p.ja) : (p.ja || p.en);
+        const detail = lang === 'en' ? (p.detailEn || p.detailJa) : (p.detailJa || p.detailEn);
+
+        /* ── header + body ── */
+        let head = '<div class="tip-head">';
+        head += `<span class="tip-num" style="background:${color}">${p.num}</span>`;
+        head += `<span class="tip-year">${p.year}</span>`;
+        if (p.isBook) {
+          const typeLabel = lang === 'en' ? (p.typeEn || p.typeJa) : (p.typeJa || p.typeEn);
+          if (typeLabel) head += `<span class="tip-year" style="margin-left:4px">[${typeLabel}]</span>`;
+        }
+        head += '</div>';
+
+        let body = `<div class="tip-title">${title}</div>`;
+        if (p.tags.length) {
+          body += '<div class="tip-tags">';
+          p.tags.forEach(t => {
+            const tc = TAG_COLORS[t] || '#888';
+            body += `<span class="tip-tag" style="color:${tc};border-color:${tc}">${t}</span>`;
+          });
+          body += '</div>';
+        }
+        if (detail) body += `<div class="tip-grant">${detail}</div>`;
+        if (p.isBook && p.link) {
+          const linkLabel = lang === 'en' ? 'Link to publisher \u2192' : '\u51FA\u7248\u793E\u3078\u306E\u30EA\u30F3\u30AF\u306F\u3053\u3061\u3089 \u2192';
+          body += `<div class="tip-pub-link"><a href="${p.link}" target="_blank" rel="noopener noreferrer">${linkLabel}</a></div>`;
+        }
+
+        /* ── wrap with cover image for books ── */
+        if (p.isBook && p.coverImg) {
+          let h = head;
+          h += '<div class="tip-book-row">';
+          h += `<div class="tip-book-cover"><img src="${p.coverImg}" alt="" /></div>`;
+          h += `<div class="tip-book-body">${body}</div>`;
+          h += '</div>';
+          return h;
+        }
+        return head + body;
+      }
+
+      /* ── rich tooltip: tag ── */
+      function buildTagTip(label) {
+        const lang = getLang();
+        const color = TAG_COLORS[label] || '#888';
+        const info = TAG_DESCS[label];
+        if (!info) return `<span style="color:${color}">${label}</span>`;
+        const jaName = info.ja || '';
+        const desc = lang === 'en' ? (info.descEn || info.descJa) : (info.descJa || info.descEn);
+
+        let h = '<div class="tip-tag-head">';
+        h += `<span class="tip-tag-dot" style="background:${color}"></span>`;
+        h += `<span class="tip-tag-name" style="color:${color}">${label}`;
+        if (jaName) h += `<span class="tip-tag-name-ja">（${jaName}）</span>`;
+        h += '</span></div>';
+        if (desc) h += `<div class="tip-desc">${desc}</div>`;
+        return h;
+      }
+
+      function findPub(id) {
+        return pubs.find(p => p.id === id);
+      }
+
+      /* ── hover ── */
+      let activeFilter = null;
+      let tipHideTimer = null;
+
+      function showTooltip(d, event) {
+        if (tipHideTimer) { clearTimeout(tipHideTimer); tipHideTimer = null; }
+        const neighbors = getNeighbors(d.id);
+        svgEl.classList.add('has-hover');
+        node.classed('node-active', n => neighbors.has(n.id));
+        link.classed('edge-active', l => isLinkConnected(l, d.id));
+
+        if (d.type === 'tag') {
+          tooltip.innerHTML = buildTagTip(d.label);
+          tooltip.classList.remove('tip-interactive');
+        } else {
+          const pub = findPub(d.id);
+          if (pub) tooltip.innerHTML = buildPubTip(pub);
+          if (pub && pub.isBook) {
+            tooltip.classList.add('tip-interactive');
+          } else {
+            tooltip.classList.remove('tip-interactive');
+          }
+        }
+        tooltip.classList.add('visible');
+      }
+
+      function hideTooltip() {
+        svgEl.classList.remove('has-hover');
+        node.classed('node-active', false);
+        link.classed('edge-active', false);
+        tooltip.classList.remove('visible', 'tip-interactive');
+      }
+
+      function scheduleHide(delay) {
+        if (tipHideTimer) clearTimeout(tipHideTimer);
+        tipHideTimer = setTimeout(() => { tipHideTimer = null; hideTooltip(); }, delay || 300);
+      }
+
+      /* tooltip mouseenter/leave for interactive book tooltips */
+      tooltip.addEventListener('mouseenter', function() {
+        if (tipHideTimer) { clearTimeout(tipHideTimer); tipHideTimer = null; }
+      });
+      tooltip.addEventListener('mouseleave', function() {
+        scheduleHide(200);
+      });
+
+      node.on('mouseenter', function(event, d) {
+        if (activeFilter) return;
+        showTooltip(d, event);
+      })
+      .on('mousemove', function(event) {
+        const wrapRect = container.parentElement.getBoundingClientRect();
+        const tipW = tooltip.offsetWidth || 200;
+        const tipH = tooltip.offsetHeight || 40;
+        let x = event.clientX - wrapRect.left + 16;
+        let y = event.clientY - wrapRect.top - tipH - 8;
+        if (x + tipW > wrapRect.width) x = event.clientX - wrapRect.left - tipW - 8;
+        if (y < 0) y = event.clientY - wrapRect.top + 16;
+        tooltip.style.left = x + 'px';
+        tooltip.style.top = y + 'px';
+      })
+      .on('mouseleave', function(event, d) {
+        if (activeFilter) return;
+        const pub = findPub(d.id);
+        if (pub && pub.isBook) {
+          scheduleHide(300);
+        } else {
+          hideTooltip();
+        }
+      });
+
+      /* ── click: tag → filter, publication → scroll+flash ── */
+      node.on('click', function(event, d) {
+        event.stopPropagation();
+        if (d.type === 'tag') {
+          if (activeFilter === d.id) {
+            clearFilter();
+          } else {
+            activeFilter = d.id;
+            applyFilter(d.id);
+          }
+        } else if (d.type === 'project') {
+          const tlWrap = document.getElementById('pub-timeline-wrap');
+          if (tlWrap) tlWrap.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          if (pubTlBars) {
+            pubTlBars.filter(b => b.id === d.id).each(function() {
+              this.classList.remove('tl-flash');
+              void this.offsetWidth;
+              this.classList.add('tl-flash');
+              setTimeout(() => this.classList.remove('tl-flash'), 1500);
+            });
+          }
+          if (pubTlBarLabels) {
+            pubTlBarLabels.filter(b => b.id === d.id).each(function() {
+              this.classList.remove('tl-flash');
+              void this.offsetWidth;
+              this.classList.add('tl-flash');
+              setTimeout(() => this.classList.remove('tl-flash'), 1500);
+            });
+          }
+        }
+      });
+
+      svg.on('click', function() {
+        if (activeFilter) clearFilter();
+      });
+
+      function applyFilter(tagId) {
+        const neighbors = getNeighbors(tagId);
+        svgEl.classList.remove('has-hover');
+        svgEl.classList.add('has-filter');
+        node.classed('node-active', n => neighbors.has(n.id));
+        link.classed('edge-active', l => isLinkConnected(l, tagId));
+        legendEl.querySelectorAll('.legend-item').forEach(li => {
+          li.classList.toggle('legend-active', ('tag-' + li.dataset.tag) === tagId);
+        });
+        const connectedPubs = new Set();
+        links.forEach(l => {
+          const sId = typeof l.source === 'object' ? l.source.id : l.source;
+          const tId = typeof l.target === 'object' ? l.target.id : l.target;
+          if (sId === tagId) connectedPubs.add(tId);
+          if (tId === tagId) connectedPubs.add(sId);
+        });
+        pubs.forEach(p => {
+          if (connectedPubs.has(p.id)) {
+            p.el.classList.remove('net-dimmed');
+            p.el.classList.add('net-highlight');
+          } else {
+            p.el.classList.add('net-dimmed');
+            p.el.classList.remove('net-highlight');
+          }
+        });
+        // timeline bars
+        if (pubTlBars) {
+          pubTlBars.classed('tl-dimmed', d => !connectedPubs.has(d.id))
+                   .classed('tl-highlight', d => connectedPubs.has(d.id));
+        }
+        if (pubTlBarLabels) {
+          pubTlBarLabels.attr('opacity', d => connectedPubs.has(d.id) ? 1 : 0.12);
+        }
+      }
+
+      function clearFilter() {
+        activeFilter = null;
+        svgEl.classList.remove('has-filter');
+        node.classed('node-active', false);
+        link.classed('edge-active', false);
+        legendEl.querySelectorAll('.legend-item').forEach(li => li.classList.remove('legend-active'));
+        pubs.forEach(p => {
+          p.el.classList.remove('net-dimmed', 'net-highlight');
+        });
+        // timeline bars
+        if (pubTlBars) {
+          pubTlBars.classed('tl-dimmed', false).classed('tl-highlight', false);
+        }
+        if (pubTlBarLabels) {
+          pubTlBarLabels.attr('opacity', 1);
+        }
+      }
+
+      /* ── zoom ── */
+      const zoom = d3.zoom()
+        .scaleExtent([0.4, 3])
+        .on('zoom', (event) => {
+          g.attr('transform', event.transform);
+        });
+      svg.call(zoom);
+      svg.on('dblclick.zoom', () => {
+        svg.transition().duration(500).call(zoom.transform, d3.zoomIdentity);
+      });
+
+      /* ── drag ── */
+      const drag = d3.drag()
+        .on('start', (event, d) => {
+          if (!event.active) simulation.alphaTarget(0.3).restart();
+          d.fx = d.x; d.fy = d.y;
+        })
+        .on('drag', (event, d) => {
+          d.fx = event.x; d.fy = event.y;
+        })
+        .on('end', (event, d) => {
+          if (!event.active) simulation.alphaTarget(0);
+          d.fx = null; d.fy = null;
+        });
+      node.call(drag);
+
+      /* ── tick ── */
+      simulation.on('tick', () => {
+        link
+          .attr('x1', d => d.source.x)
+          .attr('y1', d => d.source.y)
+          .attr('x2', d => d.target.x)
+          .attr('y2', d => d.target.y);
+        node.attr('transform', d => `translate(${d.x},${d.y})`);
+      });
+
+      /* ── legend ── */
+      const tagOrder = [
+        'Digital STS', 'Digital Philosophy of Science', 'Digital Anthropology',
+        'STS', 'Philosophy of Science', 'Anthropology',
+        'Digital Humanities', 'Digital Technology',
+        'Humanities', 'Technology',
+        'Neuroscience', 'Research Ethics'
+      ];
+      tagOrder.forEach(tag => {
+        if (!tagSet.has(tag)) return;
+        const item = document.createElement('span');
+        item.className = 'legend-item';
+        item.dataset.tag = tag;
+        const dot = document.createElement('span');
+        dot.className = 'legend-dot';
+        dot.style.background = TAG_COLORS[tag] || '#888';
+        item.appendChild(dot);
+        item.appendChild(document.createTextNode(tag));
+        item.addEventListener('click', () => {
+          const tagId = 'tag-' + tag;
+          if (activeFilter === tagId) {
+            clearFilter();
+          } else {
+            activeFilter = tagId;
+            applyFilter(tagId);
+          }
+        });
+        legendEl.appendChild(item);
+      });
+
+      /* ── bilingual: update labels on lang change ── */
+      const langObserver = new MutationObserver(() => {});
+      langObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+      /* ── lazy start with IntersectionObserver ── */
+      let started = false;
+      const pubNetObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !started) {
+            started = true;
+            simulation.restart();
+            pubNetObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      pubNetObserver.observe(container);
+
+      /* also observe for scroll reveal */
+      const pubNetWrap = document.getElementById('pub-network');
+      if (pubNetWrap) revealObserver.observe(pubNetWrap);
+
+      /* ── responsive resize ── */
+      window.addEventListener('resize', () => {
+        W = container.clientWidth;
+        H = container.clientHeight;
+        svg.attr('viewBox', [0, 0, W, H].join(' '));
+        simulation.force('center', d3.forceCenter(W / 2, H / 2));
+        simulation.force('x', d3.forceX(W / 2).strength(0.04));
+        simulation.force('y', d3.forceY(H / 2).strength(0.04));
+        simulation.alpha(0.3).restart();
+      }, { passive: true });
+
+      /* ══════════════════════════════════════════════
+         PUBLICATION TIMELINE
+         ══════════════════════════════════════════════ */
+      (function drawPubTimeline() {
+        const ptSvgEl = document.getElementById('pub-timeline-svg');
+        const ptContainer = document.getElementById('pub-timeline');
+        const ptTooltip = document.getElementById('pub-timeline-tooltip');
+        const ptWrap = document.getElementById('pub-timeline-wrap');
+        if (!ptSvgEl || !ptContainer) return;
+
+        /* ── parse date to fractional year ── */
+        function toFrac(yearText) {
+          const m = yearText.match(/(\d{4})\.(\d{2})/);
+          if (m) return parseInt(m[1]) + (parseInt(m[2]) - 1) / 12;
+          const ym = yearText.match(/\b((?:19|20)\d{2})\b/);
+          if (ym) return parseInt(ym[1]) + 0.5;
+          return 2020;
+        }
+
+        /* ── add dateFrac to pubs ── */
+        pubs.forEach(p => { p.dateFrac = toFrac(p.year); });
+
+        /* ── layout constants ── */
+        const margin = { top: 50, right: 24, bottom: 30, left: 100 };
+        const barHeight = 22;
+        const barGap = 6;
+        const groupGap = 28;
+        const barWidth = 0.4; // years
+        const xMin = 2012;
+        const xMax = 2027;
+
+        /* ── split into papers / books groups ── */
+        const paperPubs = pubs.filter(p => !p.isBook).sort((a, b) => a.dateFrac - b.dateFrac);
+        const bookPubs = pubs.filter(p => p.isBook).sort((a, b) => a.dateFrac - b.dateFrac);
+
+        const paperCount = paperPubs.length;
+        const bookCount = bookPubs.length;
+        const totalBars = paperCount + bookCount;
+        const innerHeight = totalBars * (barHeight + barGap) + groupGap + 10;
+        const totalHeight = margin.top + innerHeight + margin.bottom;
+        const totalWidth = ptContainer.clientWidth || 700;
+
+        const ptSvg = d3.select(ptSvgEl)
+          .attr('width', totalWidth)
+          .attr('height', totalHeight);
+
+        /* ── X scale ── */
+        let xScale = d3.scaleLinear()
+          .domain([xMin, xMax])
+          .range([margin.left, totalWidth - margin.right]);
+
+        function getBarWidthPx() {
+          return Math.max(xScale(xMin + barWidth) - xScale(xMin), 20);
+        }
+
+        /* ── grid lines ── */
+        const gridG = ptSvg.append('g').attr('class', 'tl-grid');
+        function drawGrid() {
+          gridG.selectAll('line').remove();
+          for (let yr = xMin; yr <= xMax; yr++) {
+            gridG.append('line')
+              .attr('x1', xScale(yr))
+              .attr('x2', xScale(yr))
+              .attr('y1', margin.top)
+              .attr('y2', totalHeight - margin.bottom);
+          }
+        }
+        drawGrid();
+
+        /* ── X axis ── */
+        const axisG = ptSvg.append('g')
+          .attr('class', 'tl-axis')
+          .attr('transform', `translate(0,${totalHeight - margin.bottom})`);
+
+        function drawAxis() {
+          const ticks = [];
+          for (let yr = xMin; yr <= xMax; yr++) ticks.push(yr);
+          axisG.call(
+            d3.axisBottom(xScale)
+              .tickValues(ticks)
+              .tickFormat(d => String(d))
+              .tickSize(-innerHeight - 4)
+          );
+          axisG.select('.domain').remove();
+          axisG.selectAll('.tick line').attr('stroke-opacity', 0);
+        }
+        drawAxis();
+
+        /* ── "NOW" marker ── */
+        const now = new Date();
+        const nowFrac = now.getFullYear() + (now.getMonth() / 12);
+        const nowG = ptSvg.append('g');
+
+        function drawNow() {
+          nowG.selectAll('*').remove();
+          const nx = xScale(nowFrac);
+          nowG.append('line')
+            .attr('class', 'tl-today-line')
+            .attr('x1', nx).attr('x2', nx)
+            .attr('y1', margin.top - 8)
+            .attr('y2', totalHeight - margin.bottom);
+          nowG.append('text')
+            .attr('x', nx)
+            .attr('y', margin.top - 14)
+            .attr('text-anchor', 'middle')
+            .attr('fill', 'var(--accent)')
+            .attr('font-size', '9px')
+            .attr('letter-spacing', '0.1em')
+            .text('NOW');
+        }
+        drawNow();
+
+        /* ── group labels ── */
+        function getPaperLabel() {
+          return getLang() === 'ja' ? '論文' : 'Papers';
+        }
+        function getBookLabel() {
+          return getLang() === 'ja' ? '著書・翻訳' : 'Books';
+        }
+
+        const dividerY = margin.top + paperCount * (barHeight + barGap) + groupGap / 2;
+        const paperLabelY = margin.top + (barHeight + barGap) * paperCount / 2;
+        const bookLabelY = margin.top + (barHeight + barGap) * paperCount + groupGap + (barHeight + barGap) * bookCount / 2;
+
+        /* ── group divider line ── */
+        const dividerG = ptSvg.append('g');
+        function drawDivider() {
+          dividerG.selectAll('*').remove();
+          dividerG.append('line')
+            .attr('class', 'tl-divider')
+            .attr('x1', margin.left)
+            .attr('x2', xScale(xMax))
+            .attr('y1', dividerY)
+            .attr('y2', dividerY);
+        }
+        drawDivider();
+
+        const paperLabel = ptSvg.append('text')
+          .attr('class', 'tl-group-label')
+          .attr('x', 12)
+          .attr('y', paperLabelY)
+          .attr('dominant-baseline', 'central')
+          .text(getPaperLabel());
+
+        const bookLabel = ptSvg.append('text')
+          .attr('class', 'tl-group-label')
+          .attr('x', 12)
+          .attr('y', bookLabelY)
+          .attr('dominant-baseline', 'central')
+          .text(getBookLabel());
+
+        /* ── MutationObserver for language switch ── */
+        const ptLangObs = new MutationObserver(() => {
+          paperLabel.text(getPaperLabel());
+          bookLabel.text(getBookLabel());
+        });
+        ptLangObs.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+        /* ── bar y positions ── */
+        function barY(d) {
+          if (!d.isBook) {
+            const idx = paperPubs.indexOf(d);
+            return margin.top + idx * (barHeight + barGap);
+          } else {
+            const idx = bookPubs.indexOf(d);
+            return margin.top + paperCount * (barHeight + barGap) + groupGap + idx * (barHeight + barGap);
+          }
+        }
+
+        /* ── all pubs sorted for animation ── */
+        const allSorted = [...paperPubs, ...bookPubs];
+
+        /* ── draw bars ── */
+        const barsG = ptSvg.append('g');
+
+        pubTlBars = barsG.selectAll('rect')
+          .data(allSorted)
+          .join('rect')
+          .attr('class', 'tl-bar')
+          .attr('x', d => xScale(d.dateFrac))
+          .attr('y', d => barY(d))
+          .attr('height', barHeight)
+          .attr('width', 0)
+          .attr('rx', 2)
+          .attr('fill', d => TAG_COLORS[d.tags[0]] || '#888')
+          .attr('fill-opacity', 0.65);
+
+        /* ── number labels ── */
+        pubTlBarLabels = barsG.selectAll('text.tl-bar-num')
+          .data(allSorted)
+          .join('text')
+          .attr('class', 'tl-bar-num')
+          .attr('x', d => xScale(d.dateFrac) + 8)
+          .attr('y', d => barY(d) + barHeight / 2)
+          .attr('dominant-baseline', 'central')
+          .attr('opacity', 0)
+          .text(d => '#' + d.num);
+
+        /* ── entry animation via IntersectionObserver ── */
+        let ptAnimated = false;
+        const ptObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting && !ptAnimated) {
+              ptAnimated = true;
+              pubTlBars.transition()
+                .delay((d, i) => i * 60)
+                .duration(800)
+                .ease(d3.easeCubicOut)
+                .attr('width', getBarWidthPx());
+
+              pubTlBarLabels.transition()
+                .delay((d, i) => i * 60 + 500)
+                .duration(400)
+                .attr('opacity', 1);
+
+              ptObserver.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.15 });
+        ptObserver.observe(ptContainer);
+
+        /* ── hover tooltip ── */
+        let ptTipHideTimer = null;
+
+        function hidePtTip() {
+          ptTooltip.classList.remove('visible', 'tip-interactive');
+        }
+        function schedulePtHide(delay) {
+          if (ptTipHideTimer) clearTimeout(ptTipHideTimer);
+          ptTipHideTimer = setTimeout(() => { ptTipHideTimer = null; hidePtTip(); }, delay || 300);
+        }
+
+        ptTooltip.addEventListener('mouseenter', function() {
+          if (ptTipHideTimer) { clearTimeout(ptTipHideTimer); ptTipHideTimer = null; }
+        });
+        ptTooltip.addEventListener('mouseleave', function() {
+          schedulePtHide(200);
+        });
+
+        pubTlBars.on('mouseenter', function(event, d) {
+          if (ptTipHideTimer) { clearTimeout(ptTipHideTimer); ptTipHideTimer = null; }
+          ptTooltip.innerHTML = buildPubTip(d);
+          if (d.isBook) {
+            ptTooltip.classList.add('tip-interactive');
+          } else {
+            ptTooltip.classList.remove('tip-interactive');
+          }
+          ptTooltip.classList.add('visible');
+        })
+        .on('mousemove', function(event) {
+          const rect = ptContainer.getBoundingClientRect();
+          const tipW = ptTooltip.offsetWidth || 200;
+          const tipH = ptTooltip.offsetHeight || 40;
+          let x = event.clientX - rect.left + 16;
+          let y = event.clientY - rect.top - tipH - 8;
+          if (x + tipW > rect.width) x = event.clientX - rect.left - tipW - 8;
+          if (y < 0) y = event.clientY - rect.top + 16;
+          ptTooltip.style.left = x + 'px';
+          ptTooltip.style.top = y + 'px';
+        })
+        .on('mouseleave', function(event, d) {
+          if (d.isBook) {
+            schedulePtHide(300);
+          } else {
+            hidePtTip();
+          }
+        });
+
+        /* ── click → highlight network node ── */
+        pubTlBars.on('click', function(event, d) {
+          event.stopPropagation();
+          const neighbors = getNeighbors(d.id);
+          svgEl.classList.remove('has-hover');
+          svgEl.classList.add('has-filter');
+          node.classed('node-active', n => neighbors.has(n.id));
+          link.classed('edge-active', l => isLinkConnected(l, d.id));
+          activeFilter = '__ptl_' + d.id;
+
+          // scroll to network
+          const netEl = document.getElementById('pub-network');
+          if (netEl) netEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+          // auto-clear after 3s
+          setTimeout(() => {
+            if (activeFilter === '__ptl_' + d.id) {
+              clearFilter();
+            }
+          }, 3000);
+        });
+
+        /* ── responsive resize ── */
+        window.addEventListener('resize', () => {
+          const newW = ptContainer.clientWidth || 700;
+          ptSvg.attr('width', newW);
+          xScale.range([margin.left, newW - margin.right]);
+
+          const bw = getBarWidthPx();
+          pubTlBars
+            .attr('x', d => xScale(d.dateFrac))
+            .attr('width', ptAnimated ? bw : 0);
+
+          pubTlBarLabels
+            .attr('x', d => xScale(d.dateFrac) + 8);
+
+          drawGrid();
+          drawAxis();
+          drawNow();
+          drawDivider();
+        }, { passive: true });
+
+        /* ── observe for scroll reveal ── */
+        if (ptWrap) revealObserver.observe(ptWrap);
 
       })();
 
