@@ -2947,7 +2947,7 @@
       <div class="pub-item">
         <span class="pub-year">2021.04—2024.07</span>
         <div>
-          <div class="pub-title">Future Organisms: Synthetic Genomics and Responsible Innovation in the UK, the USA and Japan</div>
+          <a href="https://rri.ed.ac.uk/project/future-organisms/" target="_blank" rel="noopener noreferrer" class="pub-title-link"><div class="pub-title">Future Organisms: Synthetic Genomics and Responsible Innovation in the UK, the USA and Japan</div></a>
           <div style="margin-top:6px;"><span class="topic-tag" data-tag="STS">STS</span></div>
           <div class="grant-info" style="margin-top:6px; display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
             <span class="grant-tag">UKRI / Economic and Social Research Council (ESRC) — International Research Grant</span>
@@ -3767,6 +3767,23 @@
         }
       };
 
+      /* ── project summaries ── */
+      /* Key = jaTitle, or "jaTitle||grantJa" for disambiguation */
+      const PROJ_SUMMARIES = {
+        '神経科学の哲学の基盤構築||サントリー文化財団 チャレンジ研究助成': {
+          ja: '物理学をモデルとした従来の科学哲学に対し、私は神経科学の実践に即した新たな基盤の構築を目指しました。神経科学は普遍的な法則ではなく「メカニズム」の記述によって現象を説明します。本プロジェクトでは、科学者の実際の認識論的規範である「メカニズム的スタンス」に着目し、極端な脳の局在論を排した多元的・非還元的な理解を提示しました。専門家のみならず社会全体が神経科学の成果を正しく理解するための野心的な研究プロジェクトです。',
+          en: 'In contrast to traditional philosophy of science modeled on physics, I aimed to build a new foundation grounded in the actual practices of neuroscience. Rather than relying on universal laws, neuroscience explains phenomena by describing "mechanisms". In this project, by focusing on the "mechanistic stance" as a practical norm among scientists, I proposed a pluralistic and non-reductive understanding of the brain, rejecting extreme localization. I believe this ambitious research bridges the gap between specialists and the public, enabling society to accurately comprehend the implications of neuroscientific discoveries.'
+        },
+        '神経科学の哲学の基盤構築||日本学術振興会 特別研究員奨励費（DC2）': {
+          ja: '物理学を前提とした従来の科学哲学を見直し、私は神経科学の実践に即した新たな説明モデルの構築に取り組みました。神経科学で重視される「メカニズム」による説明は理論的な限界を抱えていますが、これを「モデル」の一種と捉え直すことで文脈依存的な理解が可能になります。本プロジェクトでは、脳のネットワーク構造を重視する「トポロジカルな説明」を提示し、神経科学における説明の多様性と多元性を明らかにすることを目指しました。',
+          en: 'Reevaluating traditional philosophy of science modeled on physics, I worked on constructing a new explanatory framework tailored to actual neuroscientific practices. While the widely accepted "mechanistic explanations" face certain theoretical limitations, reframing them as a type of "model" enables a more flexible, context-dependent understanding. In this project, I proposed "topological explanations" that emphasize the brain\'s network structures, successfully revealing the profound diversity and plurality of scientific explanations in neuroscience.'
+        },
+        'Future Organisms: Synthetic Genomics and Responsible Innovation in the UK, the USA and Japan': {
+          ja: '合成ゲノミクスは、全ゲノム規模でDNAを設計・構築し、未知の生命体を世界にもたらす可能性を秘めた新興分野です。本プロジェクトは、英国、米国、日本の3カ国を舞台に、この先端科学に対する社会科学的調査を実施し、「責任ある研究・イノベーション（RRI）」の新たなアプローチを開発することを目的とします。科学者や政策立案者、アーティストなど多様なステークホルダーを巻き込んだ実験的ワークショップを通じ、未来の生命創造を巡る根源的な対話と議論を社会に開く野心的な試みです。',
+          en: 'Synthetic genomics is an emerging field capable of designing DNA at the whole-genome scale, potentially bringing unprecedented organisms into the world. This project conducts a social scientific investigation into this frontier science across the UK, the USA, and Japan to pioneer new approaches to Responsible Research and Innovation (RRI). By collaborating with diverse stakeholders—including scientists, policymakers, and artists—through experimental workshops, this ambitious initiative aims to actively foster and open up crucial public debates surrounding the creation of future life forms.'
+        }
+      };
+
       /* ── extract data from DOM ── */
       const section = container.closest('section');
       const pubItems = section.querySelectorAll('.pub-item');
@@ -3816,10 +3833,15 @@
           }
         }
         const linkEl = el.querySelector('a.pub-title-link');
+        const jaTitle = titleJa ? titleJa.textContent.trim() : (titleOnly ? titleOnly.textContent.trim() : '');
+        const enTitle = titleEn ? titleEn.textContent.trim() : (titleOnly ? titleOnly.textContent.trim() : '');
+        const grantJaStr = grantJaEl ? grantJaEl.textContent.trim() : (grantOnlyEl ? grantOnlyEl.textContent.trim() : '');
+        const grantEnStr = grantEnEl ? grantEnEl.textContent.trim() : (grantOnlyEl ? grantOnlyEl.textContent.trim() : '');
+        const summaryData = PROJ_SUMMARIES[jaTitle + '||' + grantJaStr] || PROJ_SUMMARIES[enTitle + '||' + grantEnStr] || PROJ_SUMMARIES[jaTitle] || PROJ_SUMMARIES[enTitle] || null;
         projects.push({
           id: 'proj-' + i,
-          ja: titleJa ? titleJa.textContent.trim() : (titleOnly ? titleOnly.textContent.trim() : ''),
-          en: titleEn ? titleEn.textContent.trim() : (titleOnly ? titleOnly.textContent.trim() : ''),
+          ja: jaTitle,
+          en: enTitle,
           year: yearText,
           startYear: startYear,
           endYear: endYear,
@@ -3830,6 +3852,8 @@
           memberJa: memberJaStr,
           memberEn: memberEnStr,
           link: linkEl ? linkEl.href : '',
+          summaryJa: summaryData ? summaryData.ja : '',
+          summaryEn: summaryData ? summaryData.en : '',
           el: el
         });
       });
@@ -3865,7 +3889,7 @@
       });
 
       projects.forEach(p => {
-        nodes.push({ id: p.id, type: 'project', num: p.num, ja: p.ja, en: p.en, year: p.year, tags: p.tags, el: p.el });
+        nodes.push({ id: p.id, type: 'project', num: p.num, ja: p.ja, en: p.en, year: p.year, tags: p.tags, el: p.el, summaryJa: p.summaryJa, summaryEn: p.summaryEn });
         p.tags.forEach(tag => {
           links.push({ source: tagNodes[tag], target: p.id });
         });
@@ -4035,6 +4059,8 @@
         }
         if (grant) h += `<div class="tip-grant">${grant}</div>`;
         if (members) h += `<div class="tip-members">${members}</div>`;
+        const summary = lang === 'en' ? (p.summaryEn || p.summaryJa) : (p.summaryJa || p.summaryEn);
+        if (summary) h += `<div class="tip-summary">${summary}</div>`;
         return h;
       }
 
@@ -5214,6 +5240,30 @@
 
       /* ── publication summaries ── */
       const PUB_SUMMARIES = {
+        "How 'empirical' is corpus linguistics?: A meta-analysis using formal concept analysis": {
+          ja: 'コーパス言語学は伝統的に、言語理論の仮説を検証する分野と見なされてきました。私たちはこの前提に疑問を投げかけ、同分野の科学性を問い直しました。本研究では学術誌の論文抄録に対し形式概念分析（FCA）を用いたメタ分析を実施しました。その結果、コーパス言語学の実態は仮説「検証」ではなく、仮説「生成」に重きを置く発見の科学であることを実証的に明らかにしました。本分野を記述科学として力強く再定義する論考と考えています。',
+          en: "Traditionally, corpus linguistics has been positioned as a field for verifying hypotheses derived from linguistic theories. We challenged this assumption to reexamine the scientificity of the field. By conducting a meta-analysis of journal abstracts using Formal Concept Analysis (FCA), we empirically demonstrated that corpus linguistics operates primarily as a science of hypothesis generation and discovery, rather than hypothesis testing. We believe this study effectively redefines corpus linguistics as a distinct descriptive science."
+        },
+        'What is New with the New Mechanistic Philosophy? Comments on In search of Mechanisms: Discoveries across the Life Sciences': {
+          ja: '本稿は、科学哲学における「メカニズム哲学」の代表的著作であるCraverとDardenの『In Search of Mechanisms』に対する書評論文です。同書は一般向けには極めて優れた内容ですが、私たちは専門的な哲学の視点から、その「新規性」に鋭い疑問を投げかけました。特に、「メカニズム」という概念が既存の「モデル」や「理論」といった枠組みとどう違うのか、その境界が曖昧であることを批判的に指摘しています。メカニズム哲学の枠組みをより厳密に問い直し、理論的洗練を促す建設的な論考であると考えています。',
+          en: 'In this review article, we critically evaluated Craver and Darden\'s prominent book on the new mechanistic philosophy. While we highly praised the book\'s informative value for non-philosophers, we questioned the actual novelty of its claims from a specialized philosophical perspective. Specifically, we pointed out the conceptual ambiguity between "mechanisms" and existing terms like "models," "hypotheses," or "theories," arguing that the authors failed to clearly distinguish them. We believe this constructive critique actively challenges the mechanistic framework to achieve greater theoretical rigor and conceptual clarity.'
+        },
+        'Causal Mechanisms in Neurosciences': {
+          ja: '脳の構造と機能の因果関係を記述することは神経科学の中心的な目的ですが、現在の測定手法でそれが可能かは不明確です。私は光遺伝学（オプトジェネティクス）とfMRIを用いた研究を比較し、光遺伝学は因果関係を記述できるものの、fMRI単独では困難であることを示しました。その上で、科学哲学における「メカニズム」の概念を基盤に両者を統合することで、fMRIの限界を克服できると論じました。この統合的アプローチは、科学的手法の妥当性を評価する強力な枠組みになると考えています。',
+          en: 'While a central aim of neuroscience is to describe the causal relationship between brain structure and function, it remains unclear whether current methods adequately achieve this. I analyzed optogenetics and fMRI studies, demonstrating that while optogenetics can successfully describe these causal mechanisms, fMRI alone falls short. To overcome these limitations, I argued for the methodological integration of both techniques, grounded in the philosophical conception of "mechanisms." I believe this mechanistic framework is highly useful for judging the scientific validity of such integrated methods and advancing our true understanding of the brain.'
+        },
+        'Mechanistic stance: An epistemic norm among scientists': {
+          ja: '科学的説明において「メカニズム」の記述を重視するメカニズム哲学（Mechanistic philosophy）は、その定義や適用範囲の曖昧さから多くの批判に晒されてきました。本稿ではこれらの批判に応答すべく、科学者が実践の中でメカニズム的なものを探求し記述しようとする態度を「メカニズム的スタンス（Mechanistic stance）」と名付け、新たな視点を提示しました。厳密な定義に縛られず、科学者の実際の認識論的規範を的確に捉え直す意欲的な論考と考えています。',
+          en: 'Mechanistic philosophy, which emphasizes the description of mechanisms in scientific explanations, has faced severe criticisms regarding its definitions, applications, and normativity. To defend against these criticisms, we proposed a novel perspective called the "mechanistic stance." We argued that even if strict definitions fail, scientists practically search for and attempt to describe mechanism-like systems as an epistemic norm. By shifting the focus from rigid definitions to the actual practices and norms of scientists, we believe this paper successfully reframes mechanistic philosophy and offers a highly productive direction for understanding scientific explanations.'
+        },
+        '誰をオーサーにするべきか？：「オリジナリティー」の分野特性を考慮した自律的オーサーシップの提案': {
+          ja: '現代科学の現場でしばしば議論となる「誰を論文の著者（オーサー）にするべきか」という問いに対し、私たちは新たな解決策を提示しました。多くの学術誌が採用するICMJE基準は、学術的貢献の公正な評価という点で課題を抱えています。本稿では、「オリジナリティー」の分野特性（人文系と自然科学系の違い）を再考し、トップダウンの画一的な規制ではなく、研究者自身の「自律性」と責任に基づく柔軟なオーサーシップの在り方を提案しました。研究の自由で健全な発展に向けた、新たな評価基盤を構築する論考と考えています。',
+          en: 'In this paper, we addressed the highly debated question in modern scientific practice: "Who should be an author?" While widely adopted, the ICMJE authorship standards face criticism for failing to evaluate academic contributions fairly. To overcome this, we re-examined the disciplinary differences in "originality" and proposed a flexible, "autonomy-based" authorship standard. By relying on the responsible autonomy of researchers rather than strict top-down regulations, we believe this proposal provides a robust conceptual foundation for recognizing fair contributions and fostering the sound development of science.'
+        },
+        '入門 科学技術と社会': {
+          ja: '科学技術と社会の健全な関係を築くための重要な枠組みである「ELSI（倫理的・法的・社会的課題）」と「RRI（責任ある研究・イノベーション）」について、その歴史的経緯と現在地を整理しました。先端技術が社会に与える影響を予見し、多様な利害関係者と対話する手法や、研究者自身の応答可能性が求められる背景を論じています。さらに、「ポストELSI」時代における人文・社会科学研究者の新たな役割や、取り組みが形骸化するといった実践的な課題を提示した論考です。',
+          en: 'To build a healthy relationship between science, technology, and society, I comprehensively outlined the historical context and current landscape of two critical frameworks: ELSI (Ethical, Legal, and Social Issues) and RRI (Responsible Research and Innovation). I discussed methodologies for anticipating the societal impacts of advanced science, fostering dialogue with diverse stakeholders, and the growing necessity for researchers to be responsive. I believe this piece effectively highlights practical challenges, such as the risk of these frameworks becoming mere formalities, and the evolving roles of humanities and social science researchers in the "post-ELSI" era.'
+        },
         '南三陸の復興に関するハイパーリンク・エスノグラフィ': {
           ja: '東日本大震災の被災地である宮城県南三陸町の復興プロセスにおいて、オンライン上の活動の実態を明らかにするため、私は「ハイパーリンク・エスノグラフィ」という手法を用いて調査を行いました。ウェブページ間のリンク構造をネットワークとして可視化し、地元住民・移住者・観光者といった質的な分類と組み合わせることで、多様なアクターが密接に結びついて形成する「デジタルパブリック」の様態を描き出しました。現場のフィールドワークを補完し、復興の全体像をマクロな視点から捉え直す意欲的な研究であると考えています。',
           en: 'To clarify the role of grassroots online activities in the reconstruction process of Minamisanriku after the Great East Japan Earthquake, I conducted research utilizing "hyperlink ethnography." By visualizing the link structures among web pages as a network and combining this with qualitative categorizations—such as original insiders, new-insiders, and outsiders—I empirically illustrated how a "digital public" is formed through the intricate connections of diverse actors. I believe this study effectively complements on-site fieldwork, providing a crucial macroscopic perspective to reexamine the overall picture of the reconstruction efforts.'
