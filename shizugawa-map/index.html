@@ -533,11 +533,11 @@
     }
 
     .pin-head {
-      width: 7px;
-      height: 7px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
-      border: 1px solid rgba(255,255,255,0.8);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.35);
+      border: 1.5px solid rgba(255,255,255,0.8);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.35);
       transition: transform 0.12s ease, box-shadow 0.12s ease;
     }
 
@@ -548,8 +548,8 @@
 
     /* ながめるモードではピンを小さく */
     #map.mode-simple .pin-head {
-      width: 6px;
-      height: 6px;
+      width: 8px;
+      height: 8px;
     }
     #map.mode-simple .pin-marker .pin-badge {
       transform: scale(0.9);
@@ -559,17 +559,17 @@
     /* 件数バッジ（2件以上） */
     .pin-marker .pin-badge {
       position: absolute;
-      top: -6px;
-      right: -7px;
-      min-width: 10px;
-      height: 10px;
+      top: -7px;
+      right: -8px;
+      min-width: 12px;
+      height: 12px;
       padding: 0 2px;
-      border-radius: 5px;
+      border-radius: 6px;
       background: #333;
       color: #fff;
-      font-size: 7px;
+      font-size: 8px;
       font-weight: 700;
-      line-height: 10px;
+      line-height: 12px;
       text-align: center;
       box-shadow: 0 1px 2px rgba(0,0,0,0.3);
       pointer-events: none;
@@ -1117,6 +1117,212 @@
       border-radius: 3px;
     }
     /* ==========================================
+       アルバムボタン（トグル直下）
+       ========================================== */
+    #btn-album {
+      position: absolute;
+      top: 46px;
+      right: 56px;
+      z-index: 1000;
+      border: none;
+      background: #fff;
+      color: #555;
+      font-size: 12px;
+      font-weight: bold;
+      padding: 6px 12px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      cursor: pointer;
+      line-height: 1;
+      white-space: nowrap;
+      user-select: none;
+      transition: background 0.2s, color 0.2s, transform 0.15s;
+    }
+    #btn-album:hover {
+      background: #f0ebe6;
+      transform: scale(1.04);
+    }
+    #btn-album.active {
+      background: #6D4C41;
+      color: #fff;
+    }
+
+    /* ==========================================
+       アルバムオーバーレイ（モード切替エフェクト付き）
+       ========================================== */
+    #album-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 7000;
+      background: #f5f5f0;
+      overflow-y: auto;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.45s ease, visibility 0.45s ease;
+    }
+    #album-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* マップ側のフェードアウト */
+    #app.album-active {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    #app {
+      transition: opacity 0.35s ease;
+    }
+
+    .album-header {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .album-header-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .album-header h2 {
+      margin: 0;
+      font-size: 18px;
+      color: #333;
+    }
+    #album-toggle {
+      display: flex;
+      background: #f0f0f0;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .album-toggle-btn {
+      border: none;
+      background: transparent;
+      color: #888;
+      font-size: 12px;
+      font-weight: bold;
+      padding: 5px 12px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    .album-toggle-btn:hover {
+      background: rgba(0,0,0,0.06);
+    }
+    .album-toggle-btn.active[data-album-map="old"] {
+      background: #e8724a;
+      color: #fff;
+    }
+    .album-toggle-btn.active[data-album-map="today"] {
+      background: #2979FF;
+      color: #fff;
+    }
+    .album-close {
+      border: none;
+      background: rgba(0,0,0,0.06);
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      font-size: 20px;
+      color: #888;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s, color 0.15s;
+    }
+    .album-close:hover {
+      background: rgba(0,0,0,0.12);
+      color: #333;
+    }
+    #album-body {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .album-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      opacity: 0;
+      transform: translateY(18px);
+      animation: album-card-in 0.4s ease forwards;
+    }
+    @keyframes album-card-in {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .album-card-place {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 15px;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+    .album-card-place .color-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .album-card-name {
+      font-size: 13px;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+    .album-card-era {
+      font-size: 12px;
+      color: #888;
+    }
+    .album-card-memory {
+      font-size: 13px;
+      color: #555;
+      white-space: pre-wrap;
+      word-break: break-word;
+      line-height: 1.6;
+    }
+    .album-card-photo {
+      width: 100%;
+      max-height: 240px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+    .album-card-date {
+      font-size: 11px;
+      color: #999;
+    }
+    .album-empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 60px 20px;
+      color: #999;
+      font-size: 15px;
+    }
+    @media (max-width: 640px) {
+      #album-body {
+        grid-template-columns: 1fr;
+        padding: 12px;
+        gap: 12px;
+      }
+    }
+
+    /* ==========================================
        ピン配置確認バー（上部中央フローティング）
        ========================================== */
     #pin-confirm-bar {
@@ -1520,6 +1726,20 @@
   </div>
 </div>
 
+<div id="album-overlay">
+  <div class="album-header">
+    <div class="album-header-left">
+      <h2>みんなの思い出</h2>
+      <div id="album-toggle">
+        <button class="album-toggle-btn active" data-album-map="old">なつかし</button>
+        <button class="album-toggle-btn" data-album-map="today">いま</button>
+      </div>
+    </div>
+    <button class="album-close" id="album-close-btn" title="マップに戻る">&times;</button>
+  </div>
+  <div id="album-body"></div>
+</div>
+
 <!-- マップとレイヤーパネルのラッパー -->
 <div id="app">
   <div id="map"></div>
@@ -1530,6 +1750,8 @@
     <button id="btn-map-old" class="map-toggle-btn active" data-map="old">なつかし</button>
     <button id="btn-map-today" class="map-toggle-btn" data-map="today">いま</button>
   </div>
+
+  <button id="btn-album" title="アルバム">&#x1f4d6; アルバム</button>
 
   <!-- ==================================================
        レイヤー切り替えパネル（マップ外に配置）
@@ -1586,7 +1808,7 @@
     <div id="help-body">
       <div class="help-title">使い方ガイド</div>
       <ul class="help-steps">
-        <li><span class="step-num">1</span>地図上をクリック、または<kbd>i</kbd>キーを押してピンを置く</li>
+        <li><span class="step-num">1</span>地図上をクリックしてピンを置く</li>
         <li><span class="step-num">2</span>ドラッグしてピンの位置を調整</li>
         <li><span class="step-num">3</span>「ここに決定」で場所を確定</li>
         <li><span class="step-num">4</span>思い出やお名前、写真を入力して保存</li>
@@ -1950,8 +2172,6 @@
   // ピン配置中フラグ（2段階配置）
   var isPinPlacing = false;
 
-  // マップ上のマウスカーソル位置（「i」キー用）
-  var lastMouseLatLng = null;
 
   // ==================================================
   // 投稿パスワード認証 & モード管理
@@ -2375,7 +2595,6 @@
 
   /**
    * 指定座標にドラッグ可能な仮ピンを配置し確認バーを表示する
-   * マップクリックと「i」キーの共通処理
    */
   function placeTempPin(latlng) {
     if (tempMarker) {
@@ -2413,40 +2632,6 @@
 
     showPinConfirmBar();
   }
-
-  // 「i」キーでカーソル位置にピンを配置
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'i' || e.key === 'I') {
-      // テキスト入力中は無視
-      var tag = (e.target.tagName || '').toLowerCase();
-      if (tag === 'input' || tag === 'textarea' || e.target.isContentEditable) return;
-
-      // かきこむモード以外、画像マップ以外、モーダル表示中、配置中、送信中は無視
-      if (!isWriteMode) return;
-      if (currentMode !== 'simple') return;
-      if (isPinPlacing) return;
-      if (isSubmitting) return;
-      if (memoryOverlay.classList.contains('active')) return;
-      if (!lastMouseLatLng) return;
-
-      // 画像範囲内かチェック
-      var imgBounds = L.latLngBounds(IMAGE_BOUNDS);
-      if (!imgBounds.contains(lastMouseLatLng)) return;
-
-      e.preventDefault();
-
-      // リップルエフェクト
-      var point = map.latLngToContainerPoint(lastMouseLatLng);
-      var ripple = document.createElement('div');
-      ripple.className = 'map-ripple';
-      ripple.style.left = point.x + 'px';
-      ripple.style.top  = point.y + 'px';
-      document.getElementById('map').appendChild(ripple);
-      ripple.addEventListener('animationend', function () { ripple.remove(); });
-
-      placeTempPin(lastMouseLatLng);
-    }
-  });
 
   /**
    * 配置中ピン用のアイコン（青・パルス付き）
@@ -2556,13 +2741,6 @@
       activeSpotId = null;
     });
 
-    // マウス位置を追跡（「i」キー用）
-    map.on('mousemove', function (e) {
-      lastMouseLatLng = e.latlng;
-    });
-    map.on('mouseout', function () {
-      lastMouseLatLng = null;
-    });
   }
 
   // ==================================================
@@ -2942,6 +3120,10 @@
   helpPanel.style.opacity    = '0';
   helpPanel.style.transition = 'opacity 0.6s ease';
 
+  var albumBtn = document.getElementById('btn-album');
+  albumBtn.style.opacity    = '0';
+  albumBtn.style.transition = 'opacity 0.6s ease';
+
   var modeToggle = document.getElementById('mode-toggle');
   modeToggle.style.opacity    = '0';
   modeToggle.style.transition = 'opacity 0.6s ease';
@@ -2959,6 +3141,7 @@
       layerPanel.style.opacity  = '1';
       helpPanel.style.opacity   = '1';
       modeToggle.style.opacity  = '1';
+      albumBtn.style.opacity    = '1';
       if (map && currentMode === 'simple') {
         map.invalidateSize();
         map.fitBounds(IMAGE_BOUNDS, { padding: [20, 20] });
@@ -3433,6 +3616,126 @@
       preview.classList.remove('show');
       preview.src = '';
     }
+  });
+
+  // ==================================================
+  // アルバム — 全思い出一覧表示
+  // ==================================================
+  var isAlbumMode = false;
+  var albumMapFilter = 'old'; // 'old' | 'today'
+
+  function renderAlbumCards(filterMapType) {
+    var allMemories = [];
+    Object.keys(spotsData).forEach(function (spotId) {
+      var entry = spotsData[spotId];
+      var mapType = entry.spotData.mapType || 'old';
+      if (mapType !== filterMapType) return;
+      entry.memories.forEach(function (m) {
+        allMemories.push({
+          spotId: spotId,
+          placeName: entry.spotData.placeName,
+          pinColor: entry.spotData.pinColor,
+          name: m.name,
+          era: m.era,
+          memory: m.memory,
+          photoURL: m.photoURL,
+          createdAt: m.createdAt
+        });
+      });
+    });
+
+    // 新しい順にソート
+    allMemories.sort(function (a, b) {
+      var ta = a.createdAt ? (a.createdAt.toDate ? a.createdAt.toDate().getTime() : new Date(a.createdAt).getTime()) : 0;
+      var tb = b.createdAt ? (b.createdAt.toDate ? b.createdAt.toDate().getTime() : new Date(b.createdAt).getTime()) : 0;
+      return tb - ta;
+    });
+
+    var body = document.getElementById('album-body');
+    var label = filterMapType === 'old' ? 'なつかし' : 'いま';
+    if (allMemories.length === 0) {
+      body.innerHTML = '<div class="album-empty">「' + label + '」の思い出はまだありません</div>';
+    } else {
+      var html = '';
+      allMemories.forEach(function (m, idx) {
+        var delay = Math.min(idx * 0.06, 1.5);
+        html += '<div class="album-card" style="animation-delay:' + delay + 's;">';
+        html += '<div class="album-card-place">';
+        html += '<span class="color-dot" style="background:' + escapeHtml(m.pinColor || '#e8724a') + ';"></span>';
+        html += escapeHtml(m.placeName || 'この場所');
+        html += '</div>';
+        if (m.name) {
+          html += '<div class="album-card-name">' + escapeHtml(m.name) + ' さん</div>';
+        }
+        if (m.era) {
+          html += '<div class="album-card-era">' + escapeHtml(m.era) + '</div>';
+        }
+        if (m.memory) {
+          html += '<div class="album-card-memory">' + escapeHtml(m.memory) + '</div>';
+        }
+        if (m.photoURL) {
+          html += '<img class="album-card-photo" src="' + escapeHtml(m.photoURL) + '" alt="写真">';
+        }
+        html += '<div class="album-card-date">' + escapeHtml(formatDate(m.createdAt)) + '</div>';
+        html += '</div>';
+      });
+      body.innerHTML = html;
+    }
+  }
+
+  function openAlbum() {
+    if (isAlbumMode) return;
+    isAlbumMode = true;
+
+    // 現在のマップタイプに合わせてトグルの初期状態をセット
+    albumMapFilter = currentMapType;
+    var btns = document.querySelectorAll('.album-toggle-btn');
+    btns.forEach(function (b) {
+      b.classList.toggle('active', b.getAttribute('data-album-map') === albumMapFilter);
+    });
+
+    renderAlbumCards(albumMapFilter);
+
+    document.getElementById('btn-album').classList.add('active');
+    document.getElementById('app').classList.add('album-active');
+    var overlay = document.getElementById('album-overlay');
+    overlay.scrollTop = 0;
+    overlay.classList.add('active');
+  }
+
+  function closeAlbum() {
+    if (!isAlbumMode) return;
+    isAlbumMode = false;
+
+    document.getElementById('btn-album').classList.remove('active');
+    document.getElementById('album-overlay').classList.remove('active');
+    document.getElementById('app').classList.remove('album-active');
+  }
+
+  document.getElementById('btn-album').addEventListener('click', function () {
+    if (isAlbumMode) {
+      closeAlbum();
+    } else {
+      openAlbum();
+    }
+  });
+  document.getElementById('album-close-btn').addEventListener('click', closeAlbum);
+
+  // アルバム内の なつかし/いま トグル
+  document.getElementById('album-toggle').addEventListener('click', function (e) {
+    var btn = e.target.closest('.album-toggle-btn');
+    if (!btn) return;
+    var mapType = btn.getAttribute('data-album-map');
+    if (mapType === albumMapFilter) return;
+
+    albumMapFilter = mapType;
+    var btns = document.querySelectorAll('.album-toggle-btn');
+    btns.forEach(function (b) {
+      b.classList.toggle('active', b.getAttribute('data-album-map') === mapType);
+    });
+
+    document.getElementById('album-overlay').scrollTop = 0;
+    renderAlbumCards(mapType);
   });
 
 </script>
